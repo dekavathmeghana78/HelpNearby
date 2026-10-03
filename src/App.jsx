@@ -650,7 +650,7 @@ function App() {
           style={{ cursor: "pointer" }}
         >
           <span>✚</span>
-          HelpNearby
+          HelpNearby***
         </div>
 
         <div className="location">
