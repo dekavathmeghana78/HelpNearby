@@ -180,13 +180,15 @@ function App() {
                 <div
                   className="service-card"
                   key={service.title}
-                  onClick={() =>
-                    service.title === "Blood Assistance"
-                      ? setPage("blood")
-                      : alert(
-                          `${service.title} module coming next!`
-                        )
-                  }
+                  onClick={() => {
+                    if (service.title === "Blood Assistance") {
+                      setPage("blood");
+                    } else if (service.title === "Medicine") {
+                      setPage("medicine");
+                    } else {
+                      alert(`${service.title} module coming next!`);
+                    }
+                  }}
                 >
 
                   <div className="service-icon">
