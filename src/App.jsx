@@ -428,6 +428,135 @@ function App() {
       </div>
     );
   } 
+    // MEDICINE ASSISTANCE PAGE
+  if (page === "medicine") {
+    return (
+      <div className="app">
+
+        <header className="navbar">
+
+          <div
+            className="logo"
+            onClick={() => setPage("home")}
+            style={{ cursor: "pointer" }}
+          >
+            <span>✚</span>
+            HelpNearby
+          </div>
+
+          <div className="location">
+            📍 Your Location
+          </div>
+
+        </header>
+
+        <main className="request-page">
+
+          <button
+            className="back-button"
+            onClick={() => setPage("home")}
+          >
+            ← Back
+          </button>
+
+          <div className="request-container">
+
+            <div className="request-header">
+
+              <div className="large-icon">
+                💊
+              </div>
+
+              <h1>
+                Medicine Assistance
+              </h1>
+
+              <p>
+                Enter the medicine you need and we will help
+                you find nearby availability.
+              </p>
+
+            </div>
+
+            <form
+              className="request-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+
+                if (!medicineName || !medicineLocation) {
+                  alert("Please enter medicine name and location.");
+                  return;
+                }
+
+                setPage("medicine-results");
+              }}
+            >
+
+              <label>
+                Medicine Name
+              </label>
+
+              <input
+                type="text"
+                value={medicineName}
+                onChange={(e) =>
+                  setMedicineName(e.target.value)
+                }
+                placeholder="Enter medicine name"
+              />
+
+              <label>
+                Quantity Required
+              </label>
+
+              <input
+                type="number"
+                min="1"
+                value={medicineQuantity}
+                onChange={(e) =>
+                  setMedicineQuantity(e.target.value)
+                }
+                placeholder="Enter quantity"
+              />
+
+              <label>
+                Location
+              </label>
+
+              <input
+                type="text"
+                value={medicineLocation}
+                onChange={(e) =>
+                  setMedicineLocation(e.target.value)
+                }
+                placeholder="Enter hospital or location"
+              />
+
+              <label>
+                Prescription (Optional)
+              </label>
+
+              <input
+                type="file"
+                accept=".jpg,.jpeg,.png,.pdf"
+              />
+
+              <button
+                type="submit"
+                className="find-button"
+              >
+                Find Nearby Medicine
+              </button>
+
+            </form>
+
+          </div>
+
+        </main>
+
+      </div>
+    );
+  }
     // BLOOD BANK DASHBOARD
   if (page === "dashboard") {
     return (
