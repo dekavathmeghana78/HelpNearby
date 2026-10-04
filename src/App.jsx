@@ -3,6 +3,10 @@ import "./App.css";
 
 function App() {
   const [page, setPage] = useState("home");
+    // Medicine request details
+  const [medicineName, setMedicineName] = useState("");
+  const [medicineQuantity, setMedicineQuantity] = useState("");
+  const [medicineLocation, setMedicineLocation] = useState("");
 
   // Blood request details
   const [bloodGroup, setBloodGroup] = useState("");
