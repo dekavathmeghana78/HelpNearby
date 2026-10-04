@@ -563,134 +563,315 @@ function App() {
     );
   }
     // MEDICINE RESULTS PAGE
-  if (page === "medicine-results") {
-    return (
-      <div className="app">
+  // MEDICINE RESULTS PAGE
+if (page === "medicine-results") {
+  return (
+    <div className="app">
 
-        <header className="navbar">
+      <header className="navbar">
 
-          <div
-            className="logo"
-            onClick={() => setPage("home")}
-            style={{ cursor: "pointer" }}
-          >
-            <span>✚</span>
-            HelpNearby
-          </div>
+        <div
+          className="logo"
+          onClick={() => setPage("home")}
+          style={{ cursor: "pointer" }}
+        >
+          <span>✚</span>
+          HelpNearby
+        </div>
 
-          <div className="location">
-            📍 {medicineLocation}
-          </div>
+        <div className="location">
+          📍 {medicineLocation}
+        </div>
 
-        </header>
+      </header>
 
-        <main className="results-page">
+      <main className="results-page">
 
-          <button
-            className="back-button"
-            onClick={() => setPage("medicine")}
-          >
-            ← Back
-          </button>
+        <button
+          className="back-button"
+          onClick={() => setPage("medicine")}
+        >
+          ← Back
+        </button>
 
-          <div className="results-header">
-            <h1>Medicine Availability</h1>
-            <p>
-              Showing nearby medicine providers for your request.
-            </p>
-          </div>
+        <div className="results-header">
+          <h1>Medicine Availability</h1>
 
-          <div className="request-summary">
-            <p>
-              <strong>Medicine:</strong> {medicineName}
-            </p>
+          <p>
+            Showing nearby medicine providers for your request.
+          </p>
+        </div>
 
-            <p>
-              <strong>Quantity:</strong>{" "}
-              {medicineQuantity || "Not specified"}
-            </p>
+        <div className="request-summary">
 
-            <p>
-              <strong>Location:</strong> {medicineLocation}
-            </p>
-          </div>
+          <p>
+            <strong>Medicine:</strong> {medicineName}
+          </p>
 
-          <div className="results-list">
+          <p>
+            <strong>Quantity:</strong>{" "}
+            {medicineQuantity || "Not specified"}
+          </p>
 
-            <div className="result-card">
+          <p>
+            <strong>Location:</strong> {medicineLocation}
+          </p>
 
-              <div className="result-info">
+        </div>
 
-                <h3>Demo Pharmacy 1</h3>
+        <div className="results-list">
 
-                <div className="result-details">
-                  📍 Near your requested location
-                </div>
+          {/* PHARMACY 1 */}
 
-                <div className="available">
-                  ✓ Medicine available
-                </div>
+          <div className="result-card">
 
-                <div className="verified">
-                  ✓ Verified provider
-                </div>
+            <div className="result-info">
 
+              <h3>Demo Pharmacy 1</h3>
+
+              <div className="result-details">
+                📍 Near your requested location
               </div>
 
-              <button
-                className="connect-button"
-                onClick={() => {
-  setSelectedResource({ name: medicineName });
-  setRequestType("medicine");
-  setRequestSent(false);
-  setRequestStatus("");
-}}
-              >
-                Connect
-              </button>
+              <div className="available">
+                ✓ Medicine available
+              </div>
+
+              <div className="verified">
+                ✓ Verified provider
+              </div>
 
             </div>
 
-            <div className="result-card">
+            <button
+              className="connect-button"
+              onClick={() => {
+                setSelectedResource("Demo Pharmacy 1");
+                setRequestSent(false);
+                setRequestStatus("");
+              }}
+            >
+              Connect
+            </button>
 
-              <div className="result-info">
+          </div>
 
-                <h3>Demo Pharmacy 2</h3>
 
-                <div className="result-details">
-                  📍 Nearby medicine provider
-                </div>
+          {/* PHARMACY 2 */}
 
-                <div className="available">
-                  ✓ Medicine available
-                </div>
+          <div className="result-card">
 
-                <div className="verified">
-                  ✓ Verified provider
-                </div>
+            <div className="result-info">
 
+              <h3>Demo Pharmacy 2</h3>
+
+              <div className="result-details">
+                📍 Nearby medicine provider
               </div>
 
+              <div className="available">
+                ✓ Medicine available
+              </div>
+
+              <div className="verified">
+                ✓ Verified provider
+              </div>
+
+            </div>
+
+            <button
+              className="connect-button"
+              onClick={() => {
+                setSelectedResource("Demo Pharmacy 2");
+                setRequestSent(false);
+                setRequestStatus("");
+              }}
+            >
+              Connect
+            </button>
+
+          </div>
+
+        </div>
+
+
+        {/* MEDICINE REQUEST POPUP */}
+
+        {selectedResource && (
+
+          <div className="request-overlay">
+
+            <div className="request-modal">
+
               <button
-                className="connect-button"
+                className="close-modal"
                 onClick={() => {
-                  setSelectedResource(medicineName);
+                  setSelectedResource(null);
                   setRequestSent(false);
-                  setRequestStatus("");
                 }}
               >
-                Connect
+                ✕
               </button>
+
+
+              {!requestSent ? (
+
+                <>
+
+                  <div className="modal-icon">
+                    💊
+                  </div>
+
+                  <h2>
+                    Request Medicine Assistance
+                  </h2>
+
+                  <p>
+                    Send an assistance request to{" "}
+                    <strong>
+                      {selectedResource}
+                    </strong>
+                  </p>
+
+
+                  <label>
+                    Patient Name
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter patient name"
+                    value={patientName}
+                    onChange={(e) =>
+                      setPatientName(e.target.value)
+                    }
+                  />
+
+
+                  <label>
+                    Contact Number
+                  </label>
+
+                  <input
+                    type="tel"
+                    placeholder="Enter contact number"
+                    value={contactNumber}
+                    onChange={(e) =>
+                      setContactNumber(e.target.value)
+                    }
+                  />
+
+
+                  <div className="modal-summary">
+
+                    <p>
+                      💊 Medicine:{" "}
+                      <strong>
+                        {medicineName}
+                      </strong>
+                    </p>
+
+                    <p>
+                      📦 Quantity Required:{" "}
+                      <strong>
+                        {medicineQuantity || "Not specified"}
+                      </strong>
+                    </p>
+
+                    <p>
+                      📍 Location:{" "}
+                      <strong>
+                        {medicineLocation}
+                      </strong>
+                    </p>
+
+                  </div>
+
+
+                  <button
+                    className="send-request-button"
+                    onClick={() => {
+
+                      if (!patientName || !contactNumber) {
+
+                        alert(
+                          "Please enter patient name and contact number."
+                        );
+
+                        return;
+                      }
+
+                      setRequestSent(true);
+
+                    }}
+                  >
+                    Send Assistance Request
+                  </button>
+
+                </>
+
+              ) : (
+
+                <div className="success-message">
+
+                  <div className="success-icon">
+                    ✅
+                  </div>
+
+                  <h2>
+                    Request Sent Successfully!
+                  </h2>
+
+                  <p>
+                    Your medicine assistance request has
+                    been sent to:
+                  </p>
+
+                  <strong>
+                    {selectedResource}
+                  </strong>
+
+                  <div className="status-box">
+
+                    🟡{" "}
+                    <strong>
+                      Waiting for Response
+                    </strong>
+
+                    <br />
+
+                    <small>
+                      The medicine provider can now
+                      review your request.
+                    </small>
+
+                  </div>
+
+                  <button
+                    className="send-request-button"
+                    onClick={() => {
+                      setSelectedResource(null);
+                      setRequestSent(false);
+                    }}
+                  >
+                    Back to Medicine Results
+                  </button>
+
+                </div>
+
+              )}
 
             </div>
 
           </div>
 
-        </main>
+        )}
 
-      </div>
-    );
-  }
+      </main>
+
+    </div>
+  );
+}
     // BLOOD BANK DASHBOARD
   if (page === "dashboard") {
     return (
