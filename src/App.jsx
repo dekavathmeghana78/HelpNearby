@@ -640,7 +640,7 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  setSelectedResource(medicineName);
+                  setSelectedResource({ name: medicineName });
                   setRequestSent(false);
                   setRequestStatus("");
                 }}
