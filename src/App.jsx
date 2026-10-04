@@ -627,7 +627,7 @@ if (page === "medicine-results") {
 
             <div className="result-info">
 
-              <h3>Demo Pharmacy 1</h3>
+              <h3>Apollo Pharmacy</h3>
 
               <div className="result-details">
                 📍 Near your requested location
@@ -646,7 +646,7 @@ if (page === "medicine-results") {
             <button
               className="connect-button"
               onClick={() => {
-                setSelectedResource("Demo Pharmacy 1");
+                setSelectedResource("Apollo Pharmacy");
                 setRequestSent(false);
                 setRequestStatus("");
               }}
@@ -663,7 +663,7 @@ if (page === "medicine-results") {
 
             <div className="result-info">
 
-              <h3>Demo Pharmacy 2</h3>
+              <h3>MedPlus</h3>
 
               <div className="result-details">
                 📍 Nearby medicine provider
@@ -682,7 +682,7 @@ if (page === "medicine-results") {
             <button
               className="connect-button"
               onClick={() => {
-                setSelectedResource("Demo Pharmacy 2");
+                setSelectedResource("MedPlus");
                 setRequestSent(false);
                 setRequestStatus("");
               }}
