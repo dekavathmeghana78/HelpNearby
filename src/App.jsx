@@ -639,7 +639,7 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  alert('Request sent for ${medicineName}');
+                  alert(`Request sent for ${medicineName}`);
                 }}
               >
                 Connect
@@ -670,7 +670,7 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  alert('Request sent for ${medicineName}');
+                  alert(`Request sent for ${medicineName}`);
                 }}
               >
                 Connect
