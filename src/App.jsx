@@ -1131,27 +1131,50 @@ function App() {
 
                   <div className="modal-summary">
 
-                    <p>
-                      🩸 Blood Group:{" "}
-                      <strong>{bloodGroup}</strong>
-                    </p>
+  {requestType === "medicine" ? (
+    <>
+      <p>
+        💊 Medicine:{" "}
+        <strong>{medicineName}</strong>
+      </p>
 
-                    <p>
-                      💉 Units Required:{" "}
-                      <strong>{units}</strong>
-                    </p>
+      <p>
+        📦 Quantity Required:{" "}
+        <strong>
+          {medicineQuantity || "Not specified"}
+        </strong>
+      </p>
 
-                    <p>
-                      ⚠️ Urgency:{" "}
-                      <strong>{urgency}</strong>
-                    </p>
+      <p>
+        📍 Location:{" "}
+        <strong>{medicineLocation}</strong>
+      </p>
+    </>
+  ) : (
+    <>
+      <p>
+        🩸 Blood Group:{" "}
+        <strong>{bloodGroup}</strong>
+      </p>
 
-                    <p>
-                      📍 Location:{" "}
-                      <strong>{location}</strong>
-                    </p>
+      <p>
+        💉 Units Required:{" "}
+        <strong>{units}</strong>
+      </p>
 
-                  </div>
+      <p>
+        ⚠️ Urgency:{" "}
+        <strong>{urgency}</strong>
+      </p>
+
+      <p>
+        📍 Location:{" "}
+        <strong>{location}</strong>
+      </p>
+    </>
+  )}
+
+</div>
 
                   <button
                     className="send-request-button"
@@ -1197,28 +1220,36 @@ function App() {
 
                   <div className="status-box">
 
-                    🟡{" "}
-                    <strong>
-                      Waiting for Response
-                    </strong>
+  🟡{" "}
+  <strong>
+    Waiting for Response
+  </strong>
 
-                    <br />
+  <br />
 
-                    <small>
-                      The blood bank/resource can now
-                      review your request.
-                    </small>
+  <small>
+    {requestType === "medicine"
+      ? "The medicine provider can now review your request."
+      : "The blood bank/resource can now review your request."}
+  </small>
 
-                  </div>
+</div>
 
                   <button
                     className="send-request-button"
-                    onClick={() =>{
-                      setSelectedResource(null);
-                      setPage("dashboard");
-                    }}
+                    onClick={() => {
+  setSelectedResource(null);
+
+  if (requestType === "medicine") {
+    setPage("medicine-results");
+  } else {
+    setPage("dashboard");
+  }
+}}
                   >
-                    Open Blood Bank Dashboard
+                    {requestType === "medicine"
+  ? "Back to Medicine Results"
+  : "Open Blood Bank Dashboard"}
                   </button>
 
                 </div>
