@@ -641,7 +641,6 @@ function App() {
                 className="connect-button"
                 onClick={() => {
                   setSelectedResource(medicineName);
-                  setRequestType("medicine");
                   setRequestSent(false);
                   setRequestStatus("");
                 }}
@@ -675,7 +674,6 @@ function App() {
                 className="connect-button"
                 onClick={() => {
                   setSelectedResource(medicineName);
-                  setRequestType("medicine");
                   setRequestSent(false);
                   setRequestStatus("");
                 }}
