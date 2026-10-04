@@ -19,6 +19,7 @@ function App() {
 
   // Assistance request
   const [selectedResource, setSelectedResource] = useState(null);
+  const [requestType, setRequestType] = useState("");
   const [patientName, setPatientName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [requestSent, setRequestSent] = useState(false);
@@ -639,7 +640,10 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  alert(`Request sent for ${medicineName}`);
+                  setSelectedResource(medicineName);
+                  setRequestType("medicine");
+                  setRequestSent(false);
+                  setRequestStatus("");
                 }}
               >
                 Connect
@@ -670,7 +674,10 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  alert(`Request sent for ${medicineName}`);
+                  setSelectedResource(medicineName);
+                  setRequestType("medicine");
+                  setRequestSent(false);
+                  setRequestStatus("");
                 }}
               >
                 Connect
@@ -1076,18 +1083,24 @@ function App() {
                 <>
 
                   <div className="modal-icon">
-                    🩸
+                    {requestType === "medicine" ? "💊" : "🩸"}
                   </div>
 
                   <h2>
-                    Request Blood Assistance
-                  </h2>
+                    {requestType === "medicine"
+                    ? "Request Medicine Assistance"
+                    : "Request Blood Assistance"}
+                    </h2>
 
                   <p>
-                    Send an assistance request to{" "}
-                    <strong>
-                      {selectedResource.name}
-                    </strong>
+                    {requestType === "medicine"
+                      ? "Send an assistance request for "
+                      : "Send an assistance request to "}
+                      <strong>
+                        {requestType === "medicine"
+                        ? selectedResource
+                        : selectedResource.name}
+                      </strong>
                   </p>
 
                   <label>
