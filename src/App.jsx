@@ -642,7 +642,7 @@ function App() {
                   alert("Connect button is working!");
                 }}
               >
-                Connect
+                TEST CONNECT
               </button>
 
             </div>
