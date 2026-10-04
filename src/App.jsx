@@ -638,11 +638,11 @@ function App() {
 
               <button
                 className="connect-button"
-                onClick={() =>
-                  alert(
-                    "This is a prototype. The pharmacy connection feature will be added next."
-                  )
-                }
+                onClick={() => {
+                  setSelectedResource(medicineName);
+                  setRequestSent(false);
+                  setRequestStatus("");
+                }}
               >
                 Connect
               </button>
@@ -671,11 +671,11 @@ function App() {
 
               <button
                 className="connect-button"
-                onClick={() =>
-                  alert(
-                    "This is a prototype. The pharmacy connection feature will be added next."
-                  )
-                }
+                onClick={() => {
+                  setSelectedResource(medicineName);
+                  setRequestSent(false);
+                  setRequestStatus("");
+                }}
               >
                 Connect
               </button>
