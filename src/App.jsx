@@ -561,6 +561,134 @@ function App() {
       </div>
     );
   }
+    // MEDICINE RESULTS PAGE
+  if (page === "medicine-results") {
+    return (
+      <div className="app">
+
+        <header className="navbar">
+
+          <div
+            className="logo"
+            onClick={() => setPage("home")}
+            style={{ cursor: "pointer" }}
+          >
+            <span>✚</span>
+            HelpNearby
+          </div>
+
+          <div className="location">
+            📍 {medicineLocation}
+          </div>
+
+        </header>
+
+        <main className="results-page">
+
+          <button
+            className="back-button"
+            onClick={() => setPage("medicine")}
+          >
+            ← Back
+          </button>
+
+          <div className="results-header">
+            <h1>Medicine Availability</h1>
+            <p>
+              Showing nearby medicine providers for your request.
+            </p>
+          </div>
+
+          <div className="request-summary">
+            <p>
+              <strong>Medicine:</strong> {medicineName}
+            </p>
+
+            <p>
+              <strong>Quantity:</strong>{" "}
+              {medicineQuantity || "Not specified"}
+            </p>
+
+            <p>
+              <strong>Location:</strong> {medicineLocation}
+            </p>
+          </div>
+
+          <div className="results-list">
+
+            <div className="result-card">
+
+              <div className="result-info">
+
+                <h3>Demo Pharmacy 1</h3>
+
+                <div className="result-details">
+                  📍 Near your requested location
+                </div>
+
+                <div className="available">
+                  ✓ Medicine available
+                </div>
+
+                <div className="verified">
+                  ✓ Verified provider
+                </div>
+
+              </div>
+
+              <button
+                className="connect-button"
+                onClick={() =>
+                  alert(
+                    "This is a prototype. The pharmacy connection feature will be added next."
+                  )
+                }
+              >
+                Connect
+              </button>
+
+            </div>
+
+            <div className="result-card">
+
+              <div className="result-info">
+
+                <h3>Demo Pharmacy 2</h3>
+
+                <div className="result-details">
+                  📍 Nearby medicine provider
+                </div>
+
+                <div className="available">
+                  ✓ Medicine available
+                </div>
+
+                <div className="verified">
+                  ✓ Verified provider
+                </div>
+
+              </div>
+
+              <button
+                className="connect-button"
+                onClick={() =>
+                  alert(
+                    "This is a prototype. The pharmacy connection feature will be added next."
+                  )
+                }
+              >
+                Connect
+              </button>
+
+            </div>
+
+          </div>
+
+        </main>
+
+      </div>
+    );
+  }
     // BLOOD BANK DASHBOARD
   if (page === "dashboard") {
     return (
