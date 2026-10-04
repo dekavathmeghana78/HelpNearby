@@ -639,10 +639,10 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  alert("Connect button is working!");
+                  alert('Request sent for ${medicineName}');
                 }}
               >
-                TEST CONNECT
+                Connect
               </button>
 
             </div>
@@ -670,9 +670,7 @@ function App() {
               <button
                 className="connect-button"
                 onClick={() => {
-                  setSelectedResource(medicineName);
-                  setRequestSent(false);
-                  setRequestStatus("");
+                  alert('Request sent for ${medicineName}');
                 }}
               >
                 Connect
