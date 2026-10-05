@@ -491,324 +491,922 @@ function App() {
 
   // BLOOD BANK DASHBOARD
   if (page === "dashboard") {
-    return (
-      <div className="app">
-        <nav className="navbar">
-          <div className="logo">HelpNearby</div>
+  return (
+    <div className="app">
+      <nav className="navbar">
+        <div className="logo">
+          HelpNearby
+        </div>
 
-          <button
-            className="back-button"
-            onClick={() => setPage("home")}
-          >
-            ← Home
-          </button>
-        </nav>
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </nav>
 
-        <main
+      <main
+        style={{
+          maxWidth: "1100px",
+          margin: "40px auto",
+          padding: "20px",
+        }}
+      >
+
+        <div
           style={{
-            maxWidth: "1100px",
-            margin: "40px auto",
-            padding: "20px",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "25px",
+            flexWrap: "wrap",
+            gap: "15px",
           }}
         >
-          <h1>Blood Bank Dashboard</h1>
-
-          <p style={{ color: "#666" }}>
-            Manage incoming blood assistance requests.
-          </p>
-
-          {/* REQUEST EXISTS */}
-          {requestData ? (
-            <div
+          <div>
+            <p
               style={{
-                background: "white",
-                borderRadius: "18px",
-                padding: "30px",
-                marginTop: "30px",
-                boxShadow:
-                  "0 8px 30px rgba(0,0,0,0.08)",
+                color: "#22c55e",
+                fontWeight: "bold",
+                marginBottom: "5px",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: "10px",
-                }}
-              >
-                <div>
-                  <span
-                    style={{
-                      background:
-                        requestData.urgency ===
-                        "Emergency"
-                          ? "#ffe1e1"
-                          : "#fff2cc",
-                      color:
-                        requestData.urgency ===
-                        "Emergency"
-                          ? "#c62828"
-                          : "#8a6500",
-                      padding: "7px 14px",
-                      borderRadius: "20px",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {requestData.urgency}
-                  </span>
+              RESOURCE DASHBOARD
+            </p>
 
-                  <h2 style={{ marginTop: "15px" }}>
-                    🩸 Blood Assistance Request
-                  </h2>
+            <h1 style={{ margin: 0 }}>
+              🏥 Blood Bank Dashboard
+            </h1>
 
-                  <p>
-                    Request received from a
-                    patient in{" "}
-                    {requestData.location}
-                  </p>
-                </div>
+            <p style={{ color: "#666" }}>
+              Manage incoming medical assistance requests.
+            </p>
+          </div>
 
-                <strong>
-                  {requestData.requestId}
-                </strong>
+          <div
+            style={{
+              background: "#e8f8ed",
+              color: "#16803c",
+              padding: "10px 18px",
+              borderRadius: "20px",
+              fontWeight: "bold",
+            }}
+          >
+            🟢 Online
+          </div>
+        </div>
+
+        {requestData ? (
+          <div
+            style={{
+              background: "white",
+              borderRadius: "18px",
+              padding: "30px",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
+            }}
+          >
+
+            {/* REQUEST HEADER */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                gap: "20px",
+                flexWrap: "wrap",
+              }}
+            >
+
+              <div>
+
+                <span
+                  style={{
+                    display: "inline-block",
+                    background:
+                      requestData.urgency === "Emergency"
+                        ? "#ffe1e1"
+                        : "#fff2cc",
+                    color:
+                      requestData.urgency === "Emergency"
+                        ? "#c62828"
+                        : "#8a6500",
+                    padding: "7px 14px",
+                    borderRadius: "20px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  🚨 {requestData.urgency}
+                </span>
+
+                <h2 style={{ marginTop: "15px" }}>
+                  🩸 Blood Assistance Request
+                </h2>
+
+                <p style={{ color: "#666" }}>
+                  Request received from a patient in{" "}
+                  {requestData.location}
+                </p>
+
               </div>
 
-              {/* DETAILS */}
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns:
-                    "repeat(2, minmax(0, 1fr))",
-                  gap: "18px",
-                  marginTop: "25px",
+                  background: "#f1f5f9",
+                  padding: "10px 15px",
+                  borderRadius: "10px",
+                  fontWeight: "bold",
                 }}
               >
-                <Detail
-                  title="Patient"
-                  value={requestData.patientName}
-                />
-
-                <Detail
-                  title="Blood Group"
-                  value={`🩸 ${requestData.bloodGroup}`}
-                />
-
-                <Detail
-                  title="Units Required"
-                  value={`${requestData.units} Unit(s)`}
-                />
-
-                <Detail
-                  title="Contact"
-                  value={requestData.contactNumber}
-                />
-
-                <Detail
-                  title="Location"
-                  value={`📍 ${requestData.location}`}
-                />
-
-                <Detail
-                  title="Resource"
-                  value={requestData.resourceName}
-                />
+                {requestData.requestId || "#HN-001"}
               </div>
 
-              {/* STATUS */}
+            </div>
+
+
+            {/* REQUEST DETAILS */}
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns:
+                  "repeat(2, minmax(0, 1fr))",
+                gap: "18px",
+                marginTop: "25px",
+              }}
+            >
+
               <div
                 style={{
-                  marginTop: "25px",
+                  background: "#f7f9fa",
                   padding: "18px",
                   borderRadius: "12px",
-                  background:
-                    requestStatus === "Accepted"
-                      ? "#e8f8ed"
-                      : requestStatus === "Rejected"
-                      ? "#ffe9e9"
-                      : "#fff8df",
-                  display: "flex",
-                  justifyContent:
-                    "space-between",
-                  alignItems: "center",
-                  flexWrap: "wrap",
-                  gap: "10px",
                 }}
               >
-                <span>Current Status</span>
-
-                <strong
-                  style={{ fontSize: "18px" }}
+                <span
+                  style={{
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
+                  }}
                 >
-                  {requestStatus === "Accepted"
-                    ? "🟢 Request Accepted"
-                    : requestStatus === "Rejected"
-                    ? "🔴 Request Rejected"
-                    : "🟡 Waiting for Response"}
+                  Patient
+                </span>
+
+                <strong style={{ fontSize: "17px" }}>
+                  {requestData.patientName}
                 </strong>
               </div>
 
-              {/* ACTION BUTTONS */}
-              {requestStatus ===
-                "Waiting for Response" && (
-                <div
+
+              <div
+                style={{
+                  background: "#f7f9fa",
+                  padding: "18px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
                   style={{
-                    display: "flex",
-                    gap: "15px",
-                    marginTop: "25px",
-                    width: "100%",
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
                   }}
                 >
-                  <button
-                    onClick={handleAccept}
-                    style={{
-                      flex: 1,
-                      padding: "15px",
-                      border: "none",
-                      borderRadius: "10px",
-                      background: "#22c55e",
-                      color: "white",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                    }}
-                  >
-                    ✓ Accept Request
-                  </button>
+                  Blood Group
+                </span>
 
-                  <button
-                    onClick={handleReject}
-                    style={{
-                      flex: 1,
-                      padding: "15px",
-                      border: "none",
-                      borderRadius: "10px",
-                      background: "#ef4444",
-                      color: "white",
-                      fontSize: "16px",
-                      fontWeight: "bold",
-                      cursor: "pointer",
-                    }}
-                  >
-                    ✕ Reject Request
-                  </button>
-                </div>
-              )}
+                <strong style={{ fontSize: "17px" }}>
+                  🩸 {requestData.bloodGroup}
+                </strong>
+              </div>
 
-              {/* ACCEPTED */}
-              {requestStatus === "Accepted" && (
-                <div
+
+              <div
+                style={{
+                  background: "#f7f9fa",
+                  padding: "18px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
                   style={{
-                    marginTop: "20px",
-                    padding: "18px",
-                    borderRadius: "12px",
-                    background: "#e8f8ed",
-                    color: "#176b35",
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
                   }}
                 >
-                  <h3>
-                    ✅ Request Accepted
-                  </h3>
+                  Units Required
+                </span>
 
-                  <p>
-                    The blood bank has accepted
-                    the assistance request.
-                  </p>
+                <strong style={{ fontSize: "17px" }}>
+                  {requestData.units} Unit(s)
+                </strong>
+              </div>
 
-                  <p>
-                    The patient can now be
-                    contacted using the provided
-                    contact number.
-                  </p>
-                </div>
-              )}
 
-              {/* REJECTED */}
-              {requestStatus === "Rejected" && (
-                <div
+              <div
+                style={{
+                  background: "#f7f9fa",
+                  padding: "18px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
                   style={{
-                    marginTop: "20px",
-                    padding: "18px",
-                    borderRadius: "12px",
-                    background: "#ffe9e9",
-                    color: "#a51d1d",
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
                   }}
                 >
-                  <h3>
-                    ❌ Request Rejected
-                  </h3>
+                  Contact
+                </span>
 
-                  <p>
-                    This request was rejected by
-                    the blood bank.
-                  </p>
-                </div>
-              )}
+                <strong style={{ fontSize: "17px" }}>
+                  {requestData.contactNumber}
+                </strong>
+              </div>
+
+
+              <div
+                style={{
+                  background: "#f7f9fa",
+                  padding: "18px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
+                  }}
+                >
+                  Location
+                </span>
+
+                <strong style={{ fontSize: "17px" }}>
+                  📍 {requestData.location}
+                </strong>
+              </div>
+
+
+              <div
+                style={{
+                  background: "#f7f9fa",
+                  padding: "18px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    color: "#777",
+                    fontSize: "14px",
+                    marginBottom: "7px",
+                  }}
+                >
+                  Requested Resource
+                </span>
+
+                <strong style={{ fontSize: "17px" }}>
+                  🏥 {requestData.resourceName}
+                </strong>
+              </div>
+
             </div>
-          ) : (
+
+
+            {/* CURRENT STATUS */}
             <div
               style={{
-                marginTop: "30px",
-                padding: "40px",
-                background: "white",
-                borderRadius: "18px",
-                textAlign: "center",
+                marginTop: "25px",
+                padding: "18px 20px",
+                borderRadius: "12px",
+                background:
+                  requestStatus === "Accepted"
+                    ? "#e8f8ed"
+                    : requestStatus === "Rejected"
+                    ? "#ffe9e9"
+                    : "#fff8df",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: "15px",
+                flexWrap: "wrap",
               }}
             >
-              <h2>No Active Requests</h2>
 
-              <p>
-                Submit a blood assistance request
-                to see it here.
-              </p>
-
-              <button
-                className="primary-button"
-                onClick={() => setPage("blood")}
+              <span
+                style={{
+                  color: "#777",
+                  fontSize: "15px",
+                }}
               >
-                Create Blood Request
-              </button>
+                Current Status
+              </span>
+
+              <strong style={{ fontSize: "18px" }}>
+                {requestStatus === "Accepted"
+                  ? "🟢 Request Accepted"
+                  : requestStatus === "Rejected"
+                  ? "🔴 Request Rejected"
+                  : "🟡 Waiting for Response"}
+              </strong>
+
             </div>
-          )}
-        </main>
-      </div>
-    );
-  }
-
-  return null;
-}
 
 
-// Reusable detail box
-function Detail({ title, value }) {
-  return (
-    <div
-      style={{
-        background: "#f7f9fa",
-        padding: "18px",
-        borderRadius: "12px",
-      }}
-    >
-      <div
-        style={{
-          color: "#777",
-          fontSize: "14px",
-          marginBottom: "7px",
-        }}
-      >
-        {title}
-      </div>
+            {/* ACCEPT / REJECT BUTTONS */}
+            {requestStatus === "Waiting for Response" && (
+              <div
+                style={{
+                  display: "flex",
+                  gap: "15px",
+                  marginTop: "25px",
+                  width: "100%",
+                }}
+              >
 
-      <strong
-        style={{
-          fontSize: "17px",
-        }}
-      >
-        {value}
-      </strong>
+                <button
+                  onClick={() =>
+                    setRequestStatus("Accepted")
+                  }
+                  style={{
+                    flex: 1,
+                    padding: "16px",
+                    background: "#22c55e",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
+                >
+                  ✓ Accept Request
+                </button>
+
+
+                <button
+                  onClick={() =>
+                    setRequestStatus("Rejected")
+                  }
+                  style={{
+                    flex: 1,
+                    padding: "16px",
+                    background: "#ef4444",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "10px",
+                    fontSize: "16px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
+                >
+                  ✕ Reject Request
+                </button>
+
+              </div>
+            )}
+
+
+            {/* ACCEPTED MESSAGE */}
+            {requestStatus === "Accepted" && (
+              <div
+                style={{
+                  marginTop: "20px",
+                  padding: "20px",
+                  background: "#e8f8ed",
+                  borderRadius: "12px",
+                  color: "#176b35",
+                }}
+              >
+
+                <h3>
+                  ✅ Request Accepted
+                </h3>
+
+                <p>
+                  The blood bank has accepted the
+                  assistance request.
+                </p>
+
+                <p>
+                  The patient can now be contacted
+                  using the provided contact number.
+                </p>
+
+              </div>
+            )}
+
+
+            {/* REJECTED MESSAGE */}
+            {requestStatus === "Rejected" && (
+              <div
+                style={{
+                  marginTop: "20px",
+                  padding: "20px",
+                  background: "#ffe9e9",
+                  borderRadius: "12px",
+                  color: "#a51d1d",
+                }}
+              >
+
+                <h3>
+                  ❌ Request Rejected
+                </h3>
+
+                <p>
+                  This resource cannot fulfil the
+                  request.
+                </p>
+
+                <button
+                  onClick={() => {
+                    setRequestStatus(
+                      "Waiting for Response"
+                    );
+                    setPage("results");
+                  }}
+                  style={{
+                    marginTop: "10px",
+                    padding: "12px 20px",
+                    background: "#2563eb",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "8px",
+                    fontWeight: "bold",
+                    cursor: "pointer",
+                  }}
+                >
+                  Find Another Resource
+                </button>
+
+              </div>
+            )}
+
+          </div>
+        ) : (
+
+          /* NO REQUEST */
+          <div
+            style={{
+              background: "white",
+              padding: "50px",
+              borderRadius: "18px",
+              textAlign: "center",
+              boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
+            }}
+          >
+
+            <div style={{ fontSize: "50px" }}>
+              📭
+            </div>
+
+            <h2>
+              No Active Requests
+            </h2>
+
+            <p style={{ color: "#777" }}>
+              There are currently no blood assistance
+              requests.
+            </p>
+
+            <button
+              onClick={() => setPage("blood")}
+              style={{
+                padding: "13px 24px",
+                background: "#2563eb",
+                color: "white",
+                border: "none",
+                borderRadius: "9px",
+                fontWeight: "bold",
+                cursor: "pointer",
+              }}
+            >
+              Create Blood Request
+            </button>
+
+          </div>
+
+        )}
+
+      </main>
+
     </div>
   );
 }
+  // RESULTS PAGE
+if (page === "results") {
+  return (
+    <div className="app">
 
-export default App;
+      <header className="navbar">
+
+        <div
+          className="logo"
+          onClick={() => setPage("home")}
+          style={{ cursor: "pointer" }}
+        >
+          <span>✚</span>
+          HelpNearby
+        </div>
+
+        <div className="location">
+          📍 {location}
+        </div>
+
+      </header>
+
+      <main className="results-page">
+
+        <button
+          className="back-button"
+          onClick={() => setPage("blood")}
+        >
+          ← Modify Request
+        </button>
+
+        {/* RESULTS HEADER */}
+        <div className="results-header">
+
+          <div>
+            <p className="tagline">
+              SMART RESOURCE MATCHING
+            </p>
+
+            <h1>
+              Nearby Matches
+            </h1>
+
+            <p>
+              Showing resources matching{" "}
+              <strong>{bloodGroup}</strong> blood
+              requirement near{" "}
+              <strong>{location}</strong>.
+            </p>
+          </div>
+
+          <div className="match-count">
+            {matches.length} Matches
+          </div>
+
+        </div>
+
+
+        {/* REQUEST SUMMARY */}
+        <div className="request-summary">
+
+          <span>
+            🩸 {bloodGroup}
+          </span>
+
+          <span>
+            Units: {units}
+          </span>
+
+          <span>
+            ⚠️ {urgency}
+          </span>
+
+          <span>
+            📍 {location}
+          </span>
+
+        </div>
+
+
+        {/* SMART EMERGENCY ANALYSIS */}
+        <div
+          style={{
+            background: "#eef8ff",
+            border: "1px solid #8dd3ff",
+            borderRadius: "14px",
+            padding: "20px",
+            margin: "25px 0",
+          }}
+        >
+
+          <h2>
+            🤖 Smart Emergency Analysis
+          </h2>
+
+          <p>
+            <strong>Requirement:</strong>{" "}
+            Blood Assistance
+          </p>
+
+          <p>
+            <strong>Blood Group:</strong>{" "}
+            {bloodGroup}
+          </p>
+
+          <p>
+            <strong>Units:</strong>{" "}
+            {units}
+          </p>
+
+          <p>
+            <strong>Location:</strong>{" "}
+            {location}
+          </p>
+
+          <p>
+            <strong>Priority:</strong>{" "}
+            {urgency === "Emergency"
+              ? "HIGH"
+              : urgency === "Urgent"
+              ? "MEDIUM"
+              : "NORMAL"}
+          </p>
+
+          <p>
+            <strong>Recommended Action:</strong>{" "}
+            {urgency === "Emergency"
+              ? "Contact nearby verified blood resources immediately."
+              : "Find and connect with suitable nearby healthcare resources."}
+          </p>
+
+        </div>
+
+
+        {/* MATCHING RESOURCES */}
+        <div className="results-list">
+
+          {matches.length > 0 ? (
+
+            matches.map((resource, index) => (
+
+              <div
+                className="result-card"
+                key={resource.name}
+              >
+
+                <div className="result-rank">
+                  #{index + 1}
+                </div>
+
+                <div className="result-icon">
+                  🩸
+                </div>
+
+                <div className="result-info">
+
+                  <h2>
+                    {resource.name}
+                  </h2>
+
+                  <p>
+                    {resource.type}
+                  </p>
+
+                  <div className="result-details">
+
+                    <span>
+                      📍 {resource.distance} km
+                    </span>
+
+                    <span className="available">
+                      🟢 {resource.availability}
+                    </span>
+
+                    {resource.verified && (
+                      <span className="verified">
+                        ✓ Verified
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    setSelectedResource(resource);
+                    setRequestSent(false);
+                  }}
+                >
+                  Connect
+                </button>
+
+              </div>
+
+            ))
+
+          ) : (
+
+            <div className="no-results">
+
+              <h2>
+                No matching resources found
+              </h2>
+
+              <p>
+                Try changing the blood group,
+                location or requirement.
+              </p>
+
+            </div>
+
+          )}
+
+        </div>
+
+
+        {/* ASSISTANCE REQUEST POPUP */}
+        {selectedResource && (
+
+          <div className="request-overlay">
+
+            <div className="request-modal">
+
+              <button
+                className="close-modal"
+                onClick={() =>
+                  setSelectedResource(null)
+                }
+              >
+                ✕
+              </button>
+
+
+              {!requestSent ? (
+
+                <>
+
+                  <div className="modal-icon">
+                    🩸
+                  </div>
+
+                  <h2>
+                    Request Blood Assistance
+                  </h2>
+
+                  <p>
+                    Send an assistance request to{" "}
+                    <strong>
+                      {selectedResource.name}
+                    </strong>
+                  </p>
+
+
+                  <label>
+                    Patient Name
+                  </label>
+
+                  <input
+                    type="text"
+                    placeholder="Enter patient name"
+                    value={patientName}
+                    onChange={(e) =>
+                      setPatientName(e.target.value)
+                    }
+                  />
+
+
+                  <label>
+                    Contact Number
+                  </label>
+
+                  <input
+                    type="tel"
+                    placeholder="Enter contact number"
+                    value={contactNumber}
+                    onChange={(e) =>
+                      setContactNumber(e.target.value)
+                    }
+                  />
+
+
+                  <div className="modal-summary">
+
+                    <p>
+                      🩸 Blood Group:{" "}
+                      <strong>{bloodGroup}</strong>
+                    </p>
+
+                    <p>
+                      💉 Units Required:{" "}
+                      <strong>{units}</strong>
+                    </p>
+
+                    <p>
+                      ⚠️ Urgency:{" "}
+                      <strong>{urgency}</strong>
+                    </p>
+
+                    <p>
+                      📍 Location:{" "}
+                      <strong>{location}</strong>
+                    </p>
+
+                  </div>
+
+
+                  <button
+                    className="send-request-button"
+                    onClick={() => {
+
+                      if (!patientName || !contactNumber) {
+                        alert(
+                          "Please enter patient name and contact number."
+                        );
+                        return;
+                      }
+
+                      setRequestData({
+                        requestId: "#HN-001",
+                        patientName,
+                        contactNumber,
+                        bloodGroup,
+                        units,
+                        urgency,
+                        location,
+                        resourceName:
+                          selectedResource.name,
+                      });
+
+                      setRequestStatus(
+                        "Waiting for Response"
+                      );
+
+                      setRequestSent(true);
+
+                    }}
+                  >
+                    Send Assistance Request
+                  </button>
+
+                </>
+
+              ) : (
+
+                <div className="success-message">
+
+                  <div className="success-icon">
+                    ✅
+                  </div>
+
+                  <h2>
+                    Request Sent Successfully!
+                  </h2>
+
+                  <p>
+                    Your assistance request has been
+                    sent to:
+                  </p>
+
+                  <strong>
+                    {selectedResource.name}
+                  </strong>
+
+                  <div className="status-box">
+
+                    🟡{" "}
+                    <strong>
+                      Waiting for Response
+                    </strong>
+
+                    <br />
+
+                    <small>
+                      The blood bank/resource can now
+                      review your request.
+                    </small>
+
+                  </div>
+
+
+                  <button
+                    className="send-request-button"
+                    onClick={() => {
+                      setSelectedResource(null);
+                      setPage("dashboard");
+                    }}
+                  >
+                    Open Blood Bank Dashboard
+                  </button>
+
+                </div>
+
+              )}
+
+            </div>
+
+          </div>
+
+        )}
+
+      </main>
+
+    </div>
+  );
+}
+  export default App;
