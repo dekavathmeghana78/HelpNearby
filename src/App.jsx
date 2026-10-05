@@ -369,7 +369,7 @@ function App() {
 
                       : alert(
 
-                          `${service.title} module coming next!
+                          service.title + " module coming next!"
 
                         )
 
