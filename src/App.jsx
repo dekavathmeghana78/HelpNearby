@@ -9,7 +9,6 @@ function App() {
   const [page, setPage] = useState("home");
 
 
-
   // Blood request details
 
   const [bloodGroup, setBloodGroup] = useState("");
