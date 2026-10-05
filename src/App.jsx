@@ -113,7 +113,38 @@ const [medicineLocation, setMedicineLocation] = useState("");
 
   // Prototype/demo medicine resources
   const bloodResources = [
-  ...
+    {
+    name: "Indian Red Cross Society Blood Bank",
+    type: "Blood Bank",
+    blood: ["O+", "A+", "B+"],
+    distance: 2.1,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "Institute of Preventive Medicine Blood Bank",
+    type: "Blood Bank",
+    blood: ["O+", "O-", "A+"],
+    distance: 3.4,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "TSRTC Hospital Blood Bank",
+    type: "Blood Bank",
+    blood: ["O+", "B+"],
+    distance: 4.2,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "Thalassemia & Sickle Cell Society Blood Bank",
+    type: "Blood Bank",
+    blood: ["A+", "O+"],
+    distance: 6.8,
+    availability: "Check Availability",
+    verified: true,
+  },
 ];
 const medicineResources = [
   {
