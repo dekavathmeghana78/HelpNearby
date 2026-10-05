@@ -24,6 +24,23 @@ function App() {
   const [contactNumber, setContactNumber] = useState("");
   const [requestSent, setRequestSent] = useState(false);
   const [requestStatus, setRequestStatus] = useState("Waiting for Respons");
+  // AI Smart Emergency Analysis
+const emergencyAnalysis = {
+  requirement: "Blood Assistance",
+  bloodGroup: bloodGroup || "Not specified",
+  units: units || "Not specified",
+  location: location || "Not specified",
+  priority:
+    urgency === "Emergency"
+      ? "HIGH"
+      : urgency === "Urgent"
+      ? "MEDIUM"
+      : "NORMAL",
+  recommendedAction:
+    urgency === "Emergency"
+      ? "Contact nearby verified blood resources immediately."
+      : "Find and connect with suitable nearby healthcare resources.",
+};
 
   // Services
   const services = [
@@ -1130,12 +1147,49 @@ if (page === "medicine-results") {
             </p>
 
           </div>
+          <div
+  style={{
+    background: "#eef8ff",
+    border: "1px solid #8dd3ff",
+    borderRadius: "12px",
+    padding: "18px",
+    margin: "20px 0",
+  }}
+>
+  <h3>🤖 Smart Emergency Analysis</h3>
+
+  <p>
+    <strong>Requirement:</strong> {emergencyAnalysis.requirement}
+  </p>
+
+  <p>
+    <strong>Blood Group:</strong> {emergencyAnalysis.bloodGroup}
+  </p>
+
+  <p>
+    <strong>Units:</strong> {emergencyAnalysis.units}
+  </p>
+
+  <p>
+    <strong>Location:</strong> {emergencyAnalysis.location}
+  </p>
+
+  <p>
+    <strong>Priority:</strong> {emergencyAnalysis.priority}
+  </p>
+
+  <p>
+    <strong>Recommended Action:</strong>{" "}
+    {emergencyAnalysis.recommendedAction}
+  </p>
+</div>
 
           <div className="match-count">
             {matches.length} Matches
           </div>
 
         </div>
+        
 
         <div className="request-summary">
 
