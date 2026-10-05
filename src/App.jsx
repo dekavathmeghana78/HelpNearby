@@ -23,7 +23,7 @@ function App() {
   const [patientName, setPatientName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
   const [requestSent, setRequestSent] = useState(false);
-  const [requestStatus, setRequestStatus] = useState("Waiting for Respons");
+  const [requestStatus, setReqestStatus] = useState("Waiting for Respons");
   // AI Smart Emergency Analysis
 const emergencyAnalysis = {
   requirement: "Blood Assistance",
@@ -1023,10 +1023,30 @@ if (page === "medicine-results") {
 
             {requestStatus === "Waiting for Response" && (
 
-              <div className="dashboard-actions">
+              <div 
+                className="dashboard-actions">
+                style={{
+    display: "flex",
+    gap: "15px",
+    marginTop: "25px",
+    justifyContent: "center",
+    visibility: "visible",
+    opacity: 1
+  }}
+>
 
                 <button
                   className="accept-button"
+  style={{
+    display: "block",
+    padding: "14px 28px",
+    background: "#22c55e",
+    color: "white",
+    border: "none",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: "bold"
+  }}
                   onClick={() =>
                     setRequestStatus("Accepted")
                   }
@@ -1036,6 +1056,16 @@ if (page === "medicine-results") {
 
                 <button
                   className="reject-button"
+  style={{
+    display: "block",
+    padding: "14px 28px",
+    background: "#ef4444",
+    color: "white",
+    border: "none",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: "bold"
+  }}
                   onClick={() =>
                     setRequestStatus("Rejected")
                   }
