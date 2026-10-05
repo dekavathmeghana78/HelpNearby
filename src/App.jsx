@@ -1021,7 +1021,18 @@ if (page === "medicine-results") {
 
             </div>
 
-            {requestStatus === "Waiting for Response" && (
+            {true && (
+  <div
+    className="dashboard-actions"
+    style={{
+      display: "flex",
+      gap: "15px",
+      marginTop: "25px",
+      justifyContent: "center",
+      visibility: "visible",
+      opacity: 1
+    }}
+  >
 
               <div 
                 className="dashboard-actions">
