@@ -375,7 +375,7 @@ const findMedicine = () => {
                   onClick={() =>
 service.title === "Blood Assistance"
   ? setPage("blood")
-  : service.title === "Medicine Assistance"
+  : service.title === "Medicine"
   ? setPage("medicine")
   : alert(
       service.title + " module coming next!"
