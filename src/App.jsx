@@ -3,87 +3,32 @@ import "./App.css";
 
 function App() {
   const [page, setPage] = useState("home");
-    // Medicine request details
-  const [medicineName, setMedicineName] = useState("");
-  const [medicineQuantity, setMedicineQuantity] = useState("");
-  const [medicineLocation, setMedicineLocation] = useState("");
 
-  // Blood request details
+  // Blood request
   const [bloodGroup, setBloodGroup] = useState("");
   const [units, setUnits] = useState("");
   const [urgency, setUrgency] = useState("");
   const [location, setLocation] = useState("");
 
-  // Matching resources
-  const [matches, setMatches] = useState([]);
-
-  // Assistance request
-  const [selectedResource, setSelectedResource] = useState(null);
-  const [requestType, setRequestType] = useState("");
+  // Patient details
   const [patientName, setPatientName] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [requestSent, setRequestSent] = useState(false);
-  const [requestStatus, setReqestStatus] = useState("Waiting for Respons");
-  // AI Smart Emergency Analysis
-const emergencyAnalysis = {
-  requirement: "Blood Assistance",
-  bloodGroup: bloodGroup || "Not specified",
-  units: units || "Not specified",
-  location: location || "Not specified",
-  priority:
-    urgency === "Emergency"
-      ? "HIGH"
-      : urgency === "Urgent"
-      ? "MEDIUM"
-      : "NORMAL",
-  recommendedAction:
-    urgency === "Emergency"
-      ? "Contact nearby verified blood resources immediately."
-      : "Find and connect with suitable nearby healthcare resources.",
-};
 
-  // Services
-  const services = [
-    {
-      icon: "🩸",
-      title: "Blood Assistance",
-      text: "Find blood banks and donor support",
-    },
-    {
-      icon: "💊",
-      title: "Medicine",
-      text: "Find nearby medicine availability",
-    },
-    {
-      icon: "🦽",
-      title: "Medical Equipment",
-      text: "Find or request equipment",
-    },
-    {
-      icon: "🏥",
-      title: "Hospitals & Clinics",
-      text: "Find nearby healthcare facilities",
-    },
-    {
-      icon: "🔬",
-      title: "Diagnostics",
-      text: "Find nearby diagnostic services",
-    },
-    {
-      icon: "🤝",
-      title: "Volunteers",
-      text: "Connect with people willing to help",
-    },
-  ];
+  // Request
+  const [requestData, setRequestData] = useState(null);
+  const [requestStatus, setRequestStatus] =
+    useState("Waiting for Response");
 
-  // Prototype/demo resources
+  // Selected blood resource
+  const [selectedResource, setSelectedResource] = useState(null);
+
+  // Demo blood resources
   const bloodResources = [
     {
       name: "Indian Red Cross Society Blood Bank",
       type: "Blood Bank",
       blood: ["O+", "A+", "B+"],
       distance: 2.1,
-      availability: "Check Availability",
       verified: true,
     },
     {
@@ -91,7 +36,6 @@ const emergencyAnalysis = {
       type: "Blood Bank",
       blood: ["O+", "O-", "A+"],
       distance: 3.4,
-      availability: "Check Availability",
       verified: true,
     },
     {
@@ -99,7 +43,6 @@ const emergencyAnalysis = {
       type: "Blood Bank",
       blood: ["O+", "B+"],
       distance: 4.2,
-      availability: "Check Availability",
       verified: true,
     },
     {
@@ -107,171 +50,168 @@ const emergencyAnalysis = {
       type: "Blood Bank",
       blood: ["A+", "O+"],
       distance: 6.8,
-      availability: "Check Availability",
       verified: true,
     },
   ];
 
-  // Find nearby matching resources
-  function findMatches() {
-    if (!bloodGroup || !units || !urgency || !location) {
-      alert("Please fill all the required details.");
+  // Find matching resources
+  const matches = bloodResources.filter((resource) =>
+    resource.blood.includes(bloodGroup)
+  );
+
+  // Smart emergency analysis
+  const priority =
+    urgency === "Emergency"
+      ? "HIGH"
+      : urgency === "Urgent"
+      ? "MEDIUM"
+      : "NORMAL";
+
+  const recommendedAction =
+    urgency === "Emergency"
+      ? "Contact nearby verified blood resources immediately."
+      : "Find and connect with suitable nearby healthcare resources.";
+
+  // Submit blood request
+  const handleBloodRequest = (e) => {
+    e.preventDefault();
+
+    if (
+      !bloodGroup ||
+      !units ||
+      !urgency ||
+      !location
+    ) {
+      alert("Please fill all blood request details.");
       return;
     }
 
-    const filtered = bloodResources
-      .filter((resource) => resource.blood.includes(bloodGroup))
-      .sort((a, b) => a.distance - b.distance);
-
-    setMatches(filtered);
     setPage("results");
-  }
+  };
+
+  // Send assistance request
+  const handleSendRequest = () => {
+    if (!selectedResource) {
+      alert("Please select a blood bank first.");
+      return;
+    }
+
+    if (!patientName || !contactNumber) {
+      alert("Please enter patient name and contact number.");
+      return;
+    }
+
+    const newRequest = {
+      requestId: "#HN-001",
+      patientName: patientName,
+      contactNumber: contactNumber,
+      bloodGroup: bloodGroup,
+      units: units,
+      location: location,
+      urgency: urgency,
+      resourceName: selectedResource.name,
+    };
+
+    // IMPORTANT:
+    // Store the actual submitted request
+    setRequestData(newRequest);
+
+    // Reset status for new request
+    setRequestStatus("Waiting for Response");
+
+    // Close popup
+    setSelectedResource(null);
+
+    // Open dashboard
+    setPage("dashboard");
+  };
+
+  // Accept request
+  const handleAccept = () => {
+    setRequestStatus("Accepted");
+  };
+
+  // Reject request
+  const handleReject = () => {
+    setRequestStatus("Rejected");
+  };
 
   // HOME PAGE
   if (page === "home") {
     return (
       <div className="app">
+        <nav className="navbar">
+          <div className="logo">HelpNearby</div>
 
-        <header className="navbar">
-
-          <div className="logo">
-            <span>✚</span>
-            HelpNearby
-          </div>
-
-          <div className="location">
-            📍 Your Location
-          </div>
-
-        </header>
-
-        <main>
-
-          <section className="hero">
-
-            <p className="tagline">
-              MEDICAL ASSISTANCE, NEARBY
-            </p>
-
-            <h1>
-              Find the right help,
-              <br />
-              <span>when you need it.</span>
-            </h1>
-
-            <p className="description">
-              HelpNearby connects you with nearby verified medical
-              resources, healthcare services and willing volunteers.
-            </p>
-
-            <div className="search-box">
-
-              🔍
-
-              <input
-                type="text"
-                placeholder="What medical help do you need?"
-              />
-
-              <button>
-                Find Help
-              </button>
-
-            </div>
-
-          </section>
-
-          <section className="services">
-
-            <div className="section-heading">
-
-              <h2>
-                What do you need help with?
-              </h2>
-
-              <p>
-                Select a service to get started
-              </p>
-
-            </div>
-
-            <div className="service-grid">
-
-              {services.map((service) => (
-
-                <div
-                  className="service-card"
-                  key={service.title}
-                  onClick={() => {
-                    if (service.title === "Blood Assistance") {
-                      setPage("blood");
-                    } else if (service.title === "Medicine") {
-                      setPage("medicine");
-                    } else {
-                      alert(`${service.title} module coming next!`);
-                    }
-                  }}
-                >
-
-                  <div className="service-icon">
-                    {service.icon}
-                  </div>
-
-                  <h3>
-                    {service.title}
-                  </h3>
-
-                  <p>
-                    {service.text}
-                  </p>
-
-                  <button className="view-button">
-                    Find Help →
-                  </button>
-
-                </div>
-
-              ))}
-
-            </div>
-
-          </section>
-
-          <section className="emergency">
-
-            <div>
-
-              <h2>
-                🚨 Need urgent assistance?
-              </h2>
-
-              <p>
-                Create an urgent request and find relevant
-                nearby support.
-              </p>
-
-            </div>
-
-            <button>
-              Request Urgent Help
+          <div className="nav-links">
+            <button onClick={() => setPage("home")}>
+              Home
             </button>
 
-          </section>
+            <button onClick={() => setPage("dashboard")}>
+              Blood Bank Dashboard
+            </button>
+          </div>
+        </nav>
 
+        <main className="hero">
+          <div className="hero-content">
+            <h1>
+              Hyperlocal Medical
+              <br />
+              <span>Assistance Platform</span>
+            </h1>
+
+            <p>
+              Find nearby medical assistance, blood,
+              medicines and healthcare resources when
+              you need them most.
+            </p>
+
+            <button
+              className="primary-button"
+              onClick={() => setPage("blood")}
+            >
+              🩸 Request Blood Assistance
+            </button>
+          </div>
+
+          <div className="hero-card">
+            <h2>How HelpNearby Works</h2>
+
+            <div className="step">
+              <span>1</span>
+              <div>
+                <strong>Create Request</strong>
+                <p>Tell us what medical help you need.</p>
+              </div>
+            </div>
+
+            <div className="step">
+              <span>2</span>
+              <div>
+                <strong>Smart Matching</strong>
+                <p>Find suitable nearby resources.</p>
+              </div>
+            </div>
+
+            <div className="step">
+              <span>3</span>
+              <div>
+                <strong>Connect</strong>
+                <p>Connect with the available resource.</p>
+              </div>
+            </div>
+
+            <div className="step">
+              <span>4</span>
+              <div>
+                <strong>Get Assistance</strong>
+                <p>Track your request until resolved.</p>
+              </div>
+            </div>
+          </div>
         </main>
-
-        <footer>
-
-          <p>
-            HelpNearby © 2026
-          </p>
-
-          <p>
-            Connecting people with nearby medical assistance.
-          </p>
-
-        </footer>
-
       </div>
     );
   }
@@ -280,57 +220,28 @@ const emergencyAnalysis = {
   if (page === "blood") {
     return (
       <div className="app">
-
-        <header className="navbar">
-
-          <div
-            className="logo"
-            onClick={() => setPage("home")}
-            style={{ cursor: "pointer" }}
-          >
-            <span>✚</span>
-            HelpNearby
-          </div>
-
-          <div className="location">
-            📍 Your Location
-          </div>
-
-        </header>
-
-        <main className="request-page">
+        <nav className="navbar">
+          <div className="logo">HelpNearby</div>
 
           <button
             className="back-button"
             onClick={() => setPage("home")}
           >
-            ← Back
+            ← Home
           </button>
+        </nav>
 
-          <div className="request-container">
+        <main className="form-page">
+          <div className="form-card">
+            <h1>🩸 Blood Assistance Request</h1>
 
-            <div className="request-header">
+            <p className="form-subtitle">
+              Enter the details below to find nearby
+              blood assistance.
+            </p>
 
-              <div className="large-icon">
-                🩸
-              </div>
-
-              <h1>
-                Blood Assistance
-              </h1>
-
-              <p>
-                Enter the requirement and we will find relevant
-                nearby resources.
-              </p>
-
-            </div>
-
-            <form className="request-form">
-
-              <label>
-                Blood Group
-              </label>
+            <form onSubmit={handleBloodRequest}>
+              <label>Blood Group</label>
 
               <select
                 value={bloodGroup}
@@ -338,62 +249,30 @@ const emergencyAnalysis = {
                   setBloodGroup(e.target.value)
                 }
               >
-
-                <option value="">
-                  Select blood group
-                </option>
-
-                <option value="A+">
-                  A+
-                </option>
-
-                <option value="A-">
-                  A-
-                </option>
-
-                <option value="B+">
-                  B+
-                </option>
-
-                <option value="B-">
-                  B-
-                </option>
-
-                <option value="AB+">
-                  AB+
-                </option>
-
-                <option value="AB-">
-                  AB-
-                </option>
-
-                <option value="O+">
-                  O+
-                </option>
-
-                <option value="O-">
-                  O-
-                </option>
-
+                <option value="">Select Blood Group</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
               </select>
 
-              <label>
-                Units Required
-              </label>
+              <label>Units Required</label>
 
               <input
                 type="number"
                 min="1"
+                placeholder="Example: 2"
                 value={units}
                 onChange={(e) =>
                   setUnits(e.target.value)
                 }
-                placeholder="Enter number of units"
               />
 
-              <label>
-                Urgency
-              </label>
+              <label>Urgency</label>
 
               <select
                 value={urgency}
@@ -401,1144 +280,533 @@ const emergencyAnalysis = {
                   setUrgency(e.target.value)
                 }
               >
-
                 <option value="">
-                  Select urgency
+                  Select Urgency
                 </option>
-
-                <option value="Normal">
-                  Normal
-                </option>
-
-                <option value="Urgent">
-                  Urgent
-                </option>
-
                 <option value="Emergency">
                   Emergency
                 </option>
-
+                <option value="Urgent">
+                  Urgent
+                </option>
+                <option value="Normal">
+                  Normal
+                </option>
               </select>
 
-              <label>
-                Location
-              </label>
+              <label>Location</label>
 
               <input
                 type="text"
+                placeholder="Example: Hyderabad"
                 value={location}
                 onChange={(e) =>
                   setLocation(e.target.value)
                 }
-                placeholder="Enter hospital or location"
-              />
-
-              <button
-                type="button"
-                className="find-button"
-                onClick={findMatches}
-              >
-                Find Nearby Help
-              </button>
-
-            </form>
-
-          </div>
-
-        </main>
-
-      </div>
-    );
-  } 
-    // MEDICINE ASSISTANCE PAGE
-  if (page === "medicine") {
-    return (
-      <div className="app">
-
-        <header className="navbar">
-
-          <div
-            className="logo"
-            onClick={() => setPage("home")}
-            style={{ cursor: "pointer" }}
-          >
-            <span>✚</span>
-            HelpNearby
-          </div>
-
-          <div className="location">
-            📍 Your Location
-          </div>
-
-        </header>
-
-        <main className="request-page">
-
-          <button
-            className="back-button"
-            onClick={() => setPage("home")}
-          >
-            ← Back
-          </button>
-
-          <div className="request-container">
-
-            <div className="request-header">
-
-              <div className="large-icon">
-                💊
-              </div>
-
-              <h1>
-                Medicine Assistance
-              </h1>
-
-              <p>
-                Enter the medicine you need and we will help
-                you find nearby availability.
-              </p>
-
-            </div>
-
-            <form
-              className="request-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-
-                if (!medicineName || !medicineLocation) {
-                  alert("Please enter medicine name and location.");
-                  return;
-                }
-
-                setPage("medicine-results");
-              }}
-            >
-
-              <label>
-                Medicine Name
-              </label>
-
-              <input
-                type="text"
-                value={medicineName}
-                onChange={(e) =>
-                  setMedicineName(e.target.value)
-                }
-                placeholder="Enter medicine name"
-              />
-
-              <label>
-                Quantity Required
-              </label>
-
-              <input
-                type="number"
-                min="1"
-                value={medicineQuantity}
-                onChange={(e) =>
-                  setMedicineQuantity(e.target.value)
-                }
-                placeholder="Enter quantity"
-              />
-
-              <label>
-                Location
-              </label>
-
-              <input
-                type="text"
-                value={medicineLocation}
-                onChange={(e) =>
-                  setMedicineLocation(e.target.value)
-                }
-                placeholder="Enter hospital or location"
-              />
-
-              <label>
-                Prescription (Optional)
-              </label>
-
-              <input
-                type="file"
-                accept=".jpg,.jpeg,.png,.pdf"
               />
 
               <button
                 type="submit"
-                className="find-button"
+                className="primary-button full"
               >
-                Find Nearby Medicine
+                Find Nearby Assistance
               </button>
-
             </form>
-
           </div>
-
         </main>
-
       </div>
     );
   }
-    // MEDICINE RESULTS PAGE
-  // MEDICINE RESULTS PAGE
-if (page === "medicine-results") {
-  return (
-    <div className="app">
 
-      <header className="navbar">
-
-        <div
-          className="logo"
-          onClick={() => setPage("home")}
-          style={{ cursor: "pointer" }}
-        >
-          <span>✚</span>
-          HelpNearby
-        </div>
-
-        <div className="location">
-          📍 {medicineLocation}
-        </div>
-
-      </header>
-
-      <main className="results-page">
-
-        <button
-          className="back-button"
-          onClick={() => setPage("medicine")}
-        >
-          ← Back
-        </button>
-
-        <div className="results-header">
-          <h1>Medicine Availability</h1>
-
-          <p>
-            Showing nearby medicine providers for your request.
-          </p>
-        </div>
-
-        <div className="request-summary">
-
-          <p>
-            <strong>Medicine:</strong> {medicineName}
-          </p>
-
-          <p>
-            <strong>Quantity:</strong>{" "}
-            {medicineQuantity || "Not specified"}
-          </p>
-
-          <p>
-            <strong>Location:</strong> {medicineLocation}
-          </p>
-
-        </div>
-
-        <div className="results-list">
-
-          {/* PHARMACY 1 */}
-
-          <div className="result-card">
-
-            <div className="result-info">
-
-              <h3>Apollo Pharmacy</h3>
-
-              <div className="result-details">
-                📍 Near your requested location
-              </div>
-
-              <div className="available">
-                ✓ Medicine available
-              </div>
-
-              <div className="verified">
-                ✓ Verified provider
-              </div>
-
-            </div>
-
-            <button
-              className="connect-button"
-              onClick={() => {
-                setSelectedResource("Apollo Pharmacy");
-                setRequestSent(false);
-                setRequestStatus("");
-              }}
-            >
-              Connect
-            </button>
-
-          </div>
-
-
-          {/* PHARMACY 2 */}
-
-          <div className="result-card">
-
-            <div className="result-info">
-
-              <h3>MedPlus</h3>
-
-              <div className="result-details">
-                📍 Nearby medicine provider
-              </div>
-
-              <div className="available">
-                ✓ Medicine available
-              </div>
-
-              <div className="verified">
-                ✓ Verified provider
-              </div>
-
-            </div>
-
-            <button
-              className="connect-button"
-              onClick={() => {
-                setSelectedResource("MedPlus");
-                setRequestSent(false);
-                setRequestStatus("");
-              }}
-            >
-              Connect
-            </button>
-
-          </div>
-
-        </div>
-
-
-        {/* MEDICINE REQUEST POPUP */}
-
-        {selectedResource && (
-
-          <div className="request-overlay">
-
-            <div className="request-modal">
-
-              <button
-                className="close-modal"
-                onClick={() => {
-                  setSelectedResource(null);
-                  setRequestSent(false);
-                }}
-              >
-                ✕
-              </button>
-
-
-              {!requestSent ? (
-
-                <>
-
-                  <div className="modal-icon">
-                    💊
-                  </div>
-
-                  <h2>
-                    Request Medicine Assistance
-                  </h2>
-
-                  <p>
-                    Send an assistance request to{" "}
-                    <strong>
-                      {selectedResource}
-                    </strong>
-                  </p>
-
-
-                  <label>
-                    Patient Name
-                  </label>
-
-                  <input
-                    type="text"
-                    placeholder="Enter patient name"
-                    value={patientName}
-                    onChange={(e) =>
-                      setPatientName(e.target.value)
-                    }
-                  />
-
-
-                  <label>
-                    Contact Number
-                  </label>
-
-                  <input
-                    type="tel"
-                    placeholder="Enter contact number"
-                    value={contactNumber}
-                    onChange={(e) =>
-                      setContactNumber(e.target.value)
-                    }
-                  />
-
-
-                  <div className="modal-summary">
-
-                    <p>
-                      💊 Medicine:{" "}
-                      <strong>
-                        {medicineName}
-                      </strong>
-                    </p>
-
-                    <p>
-                      📦 Quantity Required:{" "}
-                      <strong>
-                        {medicineQuantity || "Not specified"}
-                      </strong>
-                    </p>
-
-                    <p>
-                      📍 Location:{" "}
-                      <strong>
-                        {medicineLocation}
-                      </strong>
-                    </p>
-
-                  </div>
-
-
-                  <button
-                    className="send-request-button"
-                    onClick={() => {
-
-                      if (!patientName || !contactNumber) {
-
-                        alert(
-                          "Please enter patient name and contact number."
-                        );
-
-                        return;
-                      }
-
-                      setRequestSent(true);
-
-                    }}
-                  >
-                    Send Assistance Request
-                  </button>
-
-                </>
-
-              ) : (
-
-                <div className="success-message">
-
-                  <div className="success-icon">
-                    ✅
-                  </div>
-
-                  <h2>
-                    Request Sent Successfully!
-                  </h2>
-
-                  <p>
-                    Your medicine assistance request has
-                    been sent to:
-                  </p>
-
-                  <strong>
-                    {selectedResource}
-                  </strong>
-
-                  <div className="status-box">
-
-                    🟡{" "}
-                    <strong>
-                      Waiting for Response
-                    </strong>
-
-                    <br />
-
-                    <small>
-                      The medicine provider can now
-                      review your request.
-                    </small>
-
-                  </div>
-
-                  <button
-                    className="send-request-button"
-                    onClick={() => {
-                      setSelectedResource(null);
-                      setRequestSent(false);
-                    }}
-                  >
-                    Back to Medicine Results
-                  </button>
-
-                </div>
-
-              )}
-
-            </div>
-
-          </div>
-
-        )}
-
-      </main>
-
-    </div>
-  );
-}
-    // BLOOD BANK DASHBOARD
-  if (page === "dashboard") {
+  // RESULTS PAGE
+  if (page === "results") {
     return (
       <div className="app">
-
-        <header className="navbar">
-
-          <div
-            className="logo"
-            onClick={() => setPage("home")}
-            style={{ cursor: "pointer" }}
-          >
-            <span>✚</span>
-            HelpNearby
-          </div>
-
-          <div className="location">
-            🏥 Blood Bank Dashboard
-          </div>
-
-        </header>
-
-        <main className="dashboard-page">
+        <nav className="navbar">
+          <div className="logo">HelpNearby</div>
 
           <button
             className="back-button"
-            onClick={() => setPage("results")}
+            onClick={() => setPage("blood")}
           >
-            ← Back to Requests
+            ← Back
           </button>
+        </nav>
 
-          <div className="dashboard-header">
+        <main className="results-page">
+          <h1>Nearby Matches</h1>
 
-            <div>
-              <p className="tagline">
-                RESOURCE DASHBOARD
-              </p>
+          <p>
+            Showing resources matching{" "}
+            <strong>{bloodGroup}</strong> blood
+            requirement near{" "}
+            <strong>{location}</strong>.
+          </p>
 
-              <h1>
-                Blood Bank Dashboard
-              </h1>
+          {/* SMART ANALYSIS */}
+          <div className="smart-analysis">
+            <h2>🤖 Smart Emergency Analysis</h2>
 
-              <p>
-                Manage incoming medical assistance requests.
-              </p>
-            </div>
+            <p>
+              <strong>Requirement:</strong>{" "}
+              Blood Assistance
+            </p>
 
-            <div className="dashboard-status">
-              🟢 Online
-            </div>
+            <p>
+              <strong>Blood Group:</strong>{" "}
+              {bloodGroup}
+            </p>
 
+            <p>
+              <strong>Units:</strong> {units}
+            </p>
+
+            <p>
+              <strong>Location:</strong>{" "}
+              {location}
+            </p>
+
+            <p>
+              <strong>Priority:</strong>{" "}
+              {priority}
+            </p>
+
+            <p>
+              <strong>Recommended Action:</strong>{" "}
+              {recommendedAction}
+            </p>
           </div>
 
-          <div className="dashboard-card">
+          <h2>
+            {matches.length} Nearby Matches
+          </h2>
 
-            <div className="request-top">
-
-              <div>
-                <span className="emergency-badge">
-                  🚨 {urgency}
-                </span>
-
-                <h2>
-                  Blood Assistance Request
-                </h2>
-
-                <p>
-                  Request received from a patient in Hyderabad
-                </p>
-              </div>
-
-              <div className="request-number">
-                #HN-001
-              </div>
-
+          {matches.length === 0 ? (
+            <div className="empty-box">
+              No matching resources found.
             </div>
+          ) : (
+            <div className="matches">
+              {matches.map((resource, index) => (
+                <div
+                  className="match-card"
+                  key={index}
+                >
+                  <div>
+                    <h2>{resource.name}</h2>
 
-            <div className="dashboard-details">
+                    <p>{resource.type}</p>
 
-              <div>
-                <span>Patient</span>
-                <strong>
-                  {patientName || "Patient"}
-                </strong>
-              </div>
+                    <p>
+                      🩸 Available Groups:{" "}
+                      {resource.blood.join(", ")}
+                    </p>
 
-              <div>
-                <span>Blood Group</span>
-                <strong>
-                  🩸 {bloodGroup}
-                </strong>
-              </div>
+                    <p>
+                      📍 {resource.distance} km away
+                    </p>
 
-              <div>
-                <span>Units Required</span>
-                <strong>
-                  {units} Unit(s)
-                </strong>
-              </div>
+                    {resource.verified && (
+                      <span className="verified">
+                        ✓ Verified Resource
+                      </span>
+                    )}
+                  </div>
 
-              <div>
-                <span>Contact</span>
-                <strong>
-                  {contactNumber || "Not provided"}
-                </strong>
-              </div>
-
-              <div>
-                <span>Location</span>
-                <strong>
-                  📍 {location}
-                </strong>
-              </div>
-
+                  <button
+                    className="primary-button"
+                    onClick={() =>
+                      setSelectedResource(resource)
+                    }
+                  >
+                    Connect
+                  </button>
+                </div>
+              ))}
             </div>
-
-            <div className="dashboard-request-status">
-
-              <span>
-                Current Status
-              </span>
-
-              <strong>
-                {requestStatus === "Accepted"
-                  ? "🟢 Request Accepted"
-                  : requestStatus === "Rejected"
-                  ? "🔴 Request Rejected"
-                  : "🟡 Waiting for Response"}
-              </strong>
-
-            </div>
-
-            {true && (
-  <div
-    className="dashboard-actions"
-    style={{
-      display: "flex",
-      gap: "15px",
-      marginTop: "25px",
-      justifyContent: "center",
-      visibility: "visible",
-      opacity: 1
-    }}
-  >
-
-              <div 
-                className="dashboard-actions">
-                style={{
-    display: "flex",
-    gap: "15px",
-    marginTop: "25px",
-    justifyContent: "center",
-    visibility: "visible",
-    opacity: 1
-  }}
->
-
-                <button
-                  className="accept-button"
-  style={{
-    display: "block",
-    padding: "14px 28px",
-    background: "#22c55e",
-    color: "white",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontWeight: "bold"
-  }}
-                  onClick={() =>
-                    setRequestStatus("Accepted")
-                  }
-                >
-                  ✓ Accept Request
-                </button>
-
-                <button
-                  className="reject-button"
-  style={{
-    display: "block",
-    padding: "14px 28px",
-    background: "#ef4444",
-    color: "white",
-    border: "none",
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontWeight: "bold"
-  }}
-                  onClick={() =>
-                    setRequestStatus("Rejected")
-                  }
-                >
-                  ✕ Reject Request
-                </button>
-
-              </div>
-
-            )}
-
-            {requestStatus === "Accepted" && (
-
-              <div className="accepted-message">
-
-                <h3>
-                  ✅ Request Accepted
-                </h3>
-
-                <p>
-                  The blood bank has accepted the assistance
-                  request. The patient can now be contacted.
-                </p>
-
-              </div>
-
-            )}
-
-            {requestStatus === "Rejected" && (
-
-              <div className="rejected-message">
-
-                <h3>
-                  ❌ Request Rejected
-                </h3>
-
-                <p>
-                  This resource cannot fulfil the request.
-                  The system can search for another nearby
-                  resource.
-                </p>
-
-                <button
-                  className="send-request-button"
-                  onClick={() => {
-                    setRequestStatus("Waiting for Response");
-                    setPage("results");
-                  }}
-                >
-                  Find Another Resource
-                </button>
-
-              </div>
-
-            )}
-
-          </div>
-
+          )}
         </main>
 
+        {/* CONNECT MODAL */}
+        {selectedResource && (
+          <div className="modal-overlay">
+            <div className="modal">
+              <h2>
+                Send Assistance Request
+              </h2>
+
+              <p>
+                Request assistance from:
+              </p>
+
+              <strong>
+                {selectedResource.name}
+              </strong>
+
+              <label>Patient Name</label>
+
+              <input
+                type="text"
+                placeholder="Enter patient name"
+                value={patientName}
+                onChange={(e) =>
+                  setPatientName(e.target.value)
+                }
+              />
+
+              <label>Contact Number</label>
+
+              <input
+                type="text"
+                placeholder="Enter contact number"
+                value={contactNumber}
+                onChange={(e) =>
+                  setContactNumber(e.target.value)
+                }
+              />
+
+              <div className="modal-buttons">
+                <button
+                  className="secondary-button"
+                  onClick={() =>
+                    setSelectedResource(null)
+                  }
+                >
+                  Cancel
+                </button>
+
+                <button
+                  className="primary-button"
+                  onClick={handleSendRequest}
+                >
+                  Send Assistance Request
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     );
   }
 
+  // BLOOD BANK DASHBOARD
+  if (page === "dashboard") {
+    return (
+      <div className="app">
+        <nav className="navbar">
+          <div className="logo">HelpNearby</div>
 
-  // RESULTS PAGE
-  return (
-    <div className="app">
+          <button
+            className="back-button"
+            onClick={() => setPage("home")}
+          >
+            ← Home
+          </button>
+        </nav>
 
-      <header className="navbar">
-
-        <div
-          className="logo"
-          onClick={() => setPage("home")}
-          style={{ cursor: "pointer" }}
+        <main
+          style={{
+            maxWidth: "1100px",
+            margin: "40px auto",
+            padding: "20px",
+          }}
         >
-          <span>✚</span>
-          HelpNearby***
-        </div>
+          <h1>Blood Bank Dashboard</h1>
 
-        <div className="location">
-          📍 {location}
-        </div>
+          <p style={{ color: "#666" }}>
+            Manage incoming blood assistance requests.
+          </p>
 
-      </header>
-
-      <main className="results-page">
-
-        <button
-          className="back-button"
-          onClick={() => setPage("blood")}
-        >
-          ← Modify Request
-        </button>
-
-        <div className="results-header">
-
-          <div>
-
-            <h1>
-              Nearby Matches
-            </h1>
-
-            <p>
-              Showing resources matching{" "}
-              <strong>{bloodGroup}</strong> blood
-              requirement near{" "}
-              <strong>{location}</strong>.
-            </p>
-
-          </div>
-          <div
-  style={{
-    background: "#eef8ff",
-    border: "1px solid #8dd3ff",
-    borderRadius: "12px",
-    padding: "18px",
-    margin: "20px 0",
-  }}
->
-  <h3>🤖 Smart Emergency Analysis</h3>
-
-  <p>
-    <strong>Requirement:</strong> {emergencyAnalysis.requirement}
-  </p>
-
-  <p>
-    <strong>Blood Group:</strong> {emergencyAnalysis.bloodGroup}
-  </p>
-
-  <p>
-    <strong>Units:</strong> {emergencyAnalysis.units}
-  </p>
-
-  <p>
-    <strong>Location:</strong> {emergencyAnalysis.location}
-  </p>
-
-  <p>
-    <strong>Priority:</strong> {emergencyAnalysis.priority}
-  </p>
-
-  <p>
-    <strong>Recommended Action:</strong>{" "}
-    {emergencyAnalysis.recommendedAction}
-  </p>
-</div>
-
-          <div className="match-count">
-            {matches.length} Matches
-          </div>
-
-        </div>
-        
-
-        <div className="request-summary">
-
-          <span>
-            🩸 {bloodGroup}
-          </span>
-
-          <span>
-            Units: {units}
-          </span>
-
-          <span>
-            ⚠️ {urgency}
-          </span>
-
-          <span>
-            📍 {location}
-          </span>
-
-        </div>
-
-        <div className="results-list">
-
-          {matches.length > 0 ? (
-
-            matches.map((resource, index) => (
-
+          {/* REQUEST EXISTS */}
+          {requestData ? (
+            <div
+              style={{
+                background: "white",
+                borderRadius: "18px",
+                padding: "30px",
+                marginTop: "30px",
+                boxShadow:
+                  "0 8px 30px rgba(0,0,0,0.08)",
+              }}
+            >
               <div
-                className="result-card"
-                key={resource.name}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
               >
-
-                <div className="result-rank">
-                  #{index + 1}
-                </div>
-
-                <div className="result-icon">
-                  {resource.type === "Blood Bank"
-                    ? "🩸"
-                    : "🤝"}
-                </div>
-
-                <div className="result-info">
-
-                  <h2>
-                    {resource.name}
-                  </h2>
-
-                  <p>
-                    {resource.type}
-                  </p>
-
-                  <div className="result-details">
-
-                    <span>
-                      📍 {resource.distance} km
-                    </span>
-
-                    <span className="available">
-                      🟢 {resource.availability}
-                    </span>
-
-                    {resource.verified && (
-                      <span className="verified">
-                        ✓ Verified
-                      </span>
-                    )}
-
-                  </div>
-
-                </div>
-
-                <button
-                  className="connect-button"
-                  onClick={() => {
-                    setSelectedResource(resource);
-                    setRequestSent(false);
-                  }}
-                >
-                  Connect
-                </button>
-
-              </div>
-
-            ))
-
-          ) : (
-
-            <div className="no-results">
-
-              <h2>
-                No matching resources found
-              </h2>
-
-              <p>
-                Try expanding the search radius or changing
-                the requirement.
-              </p>
-
-            </div>
-
-          )}
-
-        </div>
-
-        {/* ASSISTANCE REQUEST POPUP */}
-
-        {selectedResource && (
-
-          <div className="request-overlay">
-
-            <div className="request-modal">
-
-              <button
-                className="close-modal"
-                onClick={() =>
-                  setSelectedResource(null)
-                }
-              >
-                ✕
-              </button>
-
-              {!requestSent ? (
-
-                <>
-
-                  <div className="modal-icon">
-                    {requestType === "medicine" ? "💊" : "🩸"}
-                  </div>
-
-                  <h2>
-                    {requestType === "medicine"
-                    ? "Request Medicine Assistance"
-                    : "Request Blood Assistance"}
-                    </h2>
-
-                  <p>
-                    {requestType === "medicine"
-                      ? "Send an assistance request for "
-                      : "Send an assistance request to "}
-                      <strong>
-                        {requestType === "medicine"
-                        ? selectedResource
-                        : selectedResource.name}
-                      </strong>
-                  </p>
-
-                  <label>
-                    Patient Name
-                  </label>
-
-                  <input
-                    type="text"
-                    placeholder="Enter patient name"
-                    value={patientName}
-                    onChange={(e) =>
-                      setPatientName(e.target.value)
-                    }
-                  />
-
-                  <label>
-                    Contact Number
-                  </label>
-
-                  <input
-                    type="tel"
-                    placeholder="Enter contact number"
-                    value={contactNumber}
-                    onChange={(e) =>
-                      setContactNumber(e.target.value)
-                    }
-                  />
-
-                  <div className="modal-summary">
-
-  {requestType === "medicine" ? (
-    <>
-      <p>
-        💊 Medicine:{" "}
-        <strong>{medicineName}</strong>
-      </p>
-
-      <p>
-        📦 Quantity Required:{" "}
-        <strong>
-          {medicineQuantity || "Not specified"}
-        </strong>
-      </p>
-
-      <p>
-        📍 Location:{" "}
-        <strong>{medicineLocation}</strong>
-      </p>
-    </>
-  ) : (
-    <>
-      <p>
-        🩸 Blood Group:{" "}
-        <strong>{bloodGroup}</strong>
-      </p>
-
-      <p>
-        💉 Units Required:{" "}
-        <strong>{units}</strong>
-      </p>
-
-      <p>
-        ⚠️ Urgency:{" "}
-        <strong>{urgency}</strong>
-      </p>
-
-      <p>
-        📍 Location:{" "}
-        <strong>{location}</strong>
-      </p>
-    </>
-  )}
-
-</div>
-
-                  <button
-                    className="send-request-button"
-                    onClick={() => {
-
-                      if (!patientName || !contactNumber) {
-
-                        alert(
-                          "Please enter patient name and contact number."
-                        );
-
-                        return;
-                      }
-
-                      setRequestSent(true);
-
+                <div>
+                  <span
+                    style={{
+                      background:
+                        requestData.urgency ===
+                        "Emergency"
+                          ? "#ffe1e1"
+                          : "#fff2cc",
+                      color:
+                        requestData.urgency ===
+                        "Emergency"
+                          ? "#c62828"
+                          : "#8a6500",
+                      padding: "7px 14px",
+                      borderRadius: "20px",
+                      fontWeight: "bold",
                     }}
                   >
-                    Send Assistance Request
-                  </button>
+                    {requestData.urgency}
+                  </span>
 
-                </>
-
-              ) : (
-
-                <div className="success-message">
-
-                  <div className="success-icon">
-                    ✅
-                  </div>
-
-                  <h2>
-                    Request Sent Successfully!
+                  <h2 style={{ marginTop: "15px" }}>
+                    🩸 Blood Assistance Request
                   </h2>
 
                   <p>
-                    Your assistance request has been sent to:
+                    Request received from a
+                    patient in{" "}
+                    {requestData.location}
                   </p>
-
-                  <strong>
-                    {selectedResource.name}
-                  </strong>
-
-                  <div className="status-box">
-
-  🟡{" "}
-  <strong>
-    Waiting for Response
-  </strong>
-
-  <br />
-
-  <small>
-    {requestType === "medicine"
-      ? "The medicine provider can now review your request."
-      : "The blood bank/resource can now review your request."}
-  </small>
-
-</div>
-
-                  <button
-                    className="send-request-button"
-                    onClick={() => {
-  setSelectedResource(null);
-
-  if (requestType === "medicine") {
-    setPage("medicine-results");
-  } else {
-    setPage("dashboard");
-  }
-}}
-                  >
-                    {requestType === "medicine"
-  ? "Back to Medicine Results"
-  : "Open Blood Bank Dashboard"}
-                  </button>
-
                 </div>
 
+                <strong>
+                  {requestData.requestId}
+                </strong>
+              </div>
+
+              {/* DETAILS */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns:
+                    "repeat(2, minmax(0, 1fr))",
+                  gap: "18px",
+                  marginTop: "25px",
+                }}
+              >
+                <Detail
+                  title="Patient"
+                  value={requestData.patientName}
+                />
+
+                <Detail
+                  title="Blood Group"
+                  value={`🩸 ${requestData.bloodGroup}`}
+                />
+
+                <Detail
+                  title="Units Required"
+                  value={`${requestData.units} Unit(s)`}
+                />
+
+                <Detail
+                  title="Contact"
+                  value={requestData.contactNumber}
+                />
+
+                <Detail
+                  title="Location"
+                  value={`📍 ${requestData.location}`}
+                />
+
+                <Detail
+                  title="Resource"
+                  value={requestData.resourceName}
+                />
+              </div>
+
+              {/* STATUS */}
+              <div
+                style={{
+                  marginTop: "25px",
+                  padding: "18px",
+                  borderRadius: "12px",
+                  background:
+                    requestStatus === "Accepted"
+                      ? "#e8f8ed"
+                      : requestStatus === "Rejected"
+                      ? "#ffe9e9"
+                      : "#fff8df",
+                  display: "flex",
+                  justifyContent:
+                    "space-between",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                }}
+              >
+                <span>Current Status</span>
+
+                <strong
+                  style={{ fontSize: "18px" }}
+                >
+                  {requestStatus === "Accepted"
+                    ? "🟢 Request Accepted"
+                    : requestStatus === "Rejected"
+                    ? "🔴 Request Rejected"
+                    : "🟡 Waiting for Response"}
+                </strong>
+              </div>
+
+              {/* ACTION BUTTONS */}
+              {requestStatus ===
+                "Waiting for Response" && (
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "15px",
+                    marginTop: "25px",
+                    width: "100%",
+                  }}
+                >
+                  <button
+                    onClick={handleAccept}
+                    style={{
+                      flex: 1,
+                      padding: "15px",
+                      border: "none",
+                      borderRadius: "10px",
+                      background: "#22c55e",
+                      color: "white",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ✓ Accept Request
+                  </button>
+
+                  <button
+                    onClick={handleReject}
+                    style={{
+                      flex: 1,
+                      padding: "15px",
+                      border: "none",
+                      borderRadius: "10px",
+                      background: "#ef4444",
+                      color: "white",
+                      fontSize: "16px",
+                      fontWeight: "bold",
+                      cursor: "pointer",
+                    }}
+                  >
+                    ✕ Reject Request
+                  </button>
+                </div>
               )}
 
+              {/* ACCEPTED */}
+              {requestStatus === "Accepted" && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    padding: "18px",
+                    borderRadius: "12px",
+                    background: "#e8f8ed",
+                    color: "#176b35",
+                  }}
+                >
+                  <h3>
+                    ✅ Request Accepted
+                  </h3>
+
+                  <p>
+                    The blood bank has accepted
+                    the assistance request.
+                  </p>
+
+                  <p>
+                    The patient can now be
+                    contacted using the provided
+                    contact number.
+                  </p>
+                </div>
+              )}
+
+              {/* REJECTED */}
+              {requestStatus === "Rejected" && (
+                <div
+                  style={{
+                    marginTop: "20px",
+                    padding: "18px",
+                    borderRadius: "12px",
+                    background: "#ffe9e9",
+                    color: "#a51d1d",
+                  }}
+                >
+                  <h3>
+                    ❌ Request Rejected
+                  </h3>
+
+                  <p>
+                    This request was rejected by
+                    the blood bank.
+                  </p>
+                </div>
+              )}
             </div>
+          ) : (
+            <div
+              style={{
+                marginTop: "30px",
+                padding: "40px",
+                background: "white",
+                borderRadius: "18px",
+                textAlign: "center",
+              }}
+            >
+              <h2>No Active Requests</h2>
 
-          </div>
+              <p>
+                Submit a blood assistance request
+                to see it here.
+              </p>
 
-        )}
+              <button
+                className="primary-button"
+                onClick={() => setPage("blood")}
+              >
+                Create Blood Request
+              </button>
+            </div>
+          )}
+        </main>
+      </div>
+    );
+  }
 
-      </main>
+  return null;
+}
 
+
+// Reusable detail box
+function Detail({ title, value }) {
+  return (
+    <div
+      style={{
+        background: "#f7f9fa",
+        padding: "18px",
+        borderRadius: "12px",
+      }}
+    >
+      <div
+        style={{
+          color: "#777",
+          fontSize: "14px",
+          marginBottom: "7px",
+        }}
+      >
+        {title}
+      </div>
+
+      <strong
+        style={{
+          fontSize: "17px",
+        }}
+      >
+        {value}
+      </strong>
     </div>
   );
 }
