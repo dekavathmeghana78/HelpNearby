@@ -852,7 +852,7 @@ function App() {
 
     );
 
-  }&#x20;
+  }
 
     // BLOOD BANK DASHBOARD
 
@@ -1108,7 +1108,7 @@ function App() {
 
                   ? "🔴 Request Rejected"
 
-                  : "🟡 Waiting for Responsee"}
+                  : "🟡 Waiting for Response"}
 
               </strong>
 
@@ -1118,7 +1118,7 @@ function App() {
 
 
 
-            {requestStatus === "Waiting for Responsee" && (
+            {requestStatus === "Waiting for Response" && (
 
 
 
@@ -1238,7 +1238,7 @@ function App() {
 
                   onClick={() => {
 
-                    setRequestStatus("Waiting for Responsee");
+                    setRequestStatus("Waiting for Response");
 
                     setPage("results");
 
@@ -1856,7 +1856,7 @@ function App() {
 
                     <strong>
 
-                      Waiting for Responsee
+                      Waiting for Response
 
                     </strong>
 
