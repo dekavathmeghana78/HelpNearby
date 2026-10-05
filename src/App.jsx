@@ -18,11 +18,11 @@ function App() {
   const [urgency, setUrgency] = useState("");
 
   const [location, setLocation] = useState("");
-
-
-
-  // Matching resources
-
+  // Medicine request details
+const [medicineName, setMedicineName] = useState("");
+const [medicineQuantity, setMedicineQuantity] = useState("");
+const [medicineLocation, setMedicineLocation] = useState("");
+// Matching resources
   const [matches, setMatches] = useState([]);
 
 
@@ -111,7 +111,44 @@ function App() {
 
   // Prototype/demo resources
 
-  const bloodResources = [
+  // Prototype/demo medicine resources
+  const bloodResources = [
+  ...
+];
+const medicineResources = [
+  {
+    name: "Apollo Pharmacy",
+    type: "Pharmacy",
+    medicines: ["Paracetamol", "Amoxicillin", "Cetirizine", "Azithromycin"],
+    distance: 1.8,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "MedPlus",
+    type: "Pharmacy",
+    medicines: ["Paracetamol", "Cetirizine", "Pantoprazole", "Azithromycin"],
+    distance: 2.6,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "Vijaya Medical & General Store",
+    type: "Pharmacy",
+    medicines: ["Paracetamol", "Ibuprofen", "Cetirizine"],
+    distance: 3.2,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "LocalCare Pharmacy",
+    type: "Pharmacy",
+    medicines: ["Paracetamol", "Amoxicillin", "Ibuprofen"],
+    distance: 4.5,
+    availability: "Available",
+    verified: true,
+  },
+];
 
     {
 
@@ -208,6 +245,18 @@ function App() {
     setPage("results");
 
   }
+        // MEDICINE MATCHING
+const findMedicine = () => {
+  const filtered = medicineResources.filter((resource) =>
+    resource.medicines.some(
+      (medicine) =>
+        medicine.toLowerCase() === medicineName.toLowerCase()
+    )
+  );
+
+  setMatches(filtered);
+  setPage("medicine-results");
+};
 
 
 
@@ -362,17 +411,13 @@ function App() {
                   key={service.title}
 
                   onClick={() =>
-
-                    service.title === "Blood Assistance"
-
-                      ? setPage("blood")
-
-                      : alert(
-
-                          service.title + " module coming next!"
-
-                        )
-
+service.title === "Blood Assistance"
+  ? setPage("blood")
+  : service.title === "Medicine Assistance"
+  ? setPage("medicine")
+  : alert(
+      service.title + " module coming next!"
+    )
                   }
 
                 >
@@ -502,7 +547,404 @@ function App() {
     );
 
   }
+      // MEDICINE REQUEST PAGE
+if (page === "medicine") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
 
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>💊 Medicine Assistance</h1>
+          <p>
+            Find nearby pharmacies and medical stores that may have
+            the medicine you need.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>Request Medicine</h2>
+
+          <label>Medicine Name</label>
+          <input
+            type="text"
+            placeholder="Example: Paracetamol"
+            value={medicineName}
+            onChange={(e) => setMedicineName(e.target.value)}
+          />
+
+          <label>Quantity Required</label>
+          <input
+            type="number"
+            placeholder="Example: 10"
+            value={medicineQuantity}
+            onChange={(e) => setMedicineQuantity(e.target.value)}
+          />
+
+          <label>Your Location</label>
+          <input
+            type="text"
+            placeholder="Example: Hyderabad"
+            value={medicineLocation}
+            onChange={(e) => setMedicineLocation(e.target.value)}
+          />
+
+          <button
+            className="primary-button"
+            onClick={findMedicine}
+            disabled={!medicineName || !medicineQuantity || !medicineLocation}
+          >
+            🔎 Find Nearby Medicine
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
+      // MEDICINE RESULTS PAGE
+if (page === "medicine-results") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("medicine")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>💊 Nearby Medicine Matches</h1>
+
+          <p>
+            Showing pharmacies matching{" "}
+            <strong>{medicineName}</strong> near{" "}
+            <strong>{medicineLocation}</strong>.
+          </p>
+        </div>
+
+        <div className="match-count">
+          {matches.length} Matches
+        </div>
+
+        {matches.length === 0 ? (
+          <div className="no-results">
+            <h2>😔 No Nearby Matches Found</h2>
+            <p>
+              We couldn't find this medicine in the
+              available prototype resources.
+            </p>
+
+            <button
+              className="primary-button"
+              onClick={() => setPage("medicine")}
+            >
+              ← Try Another Medicine
+            </button>
+          </div>
+        ) : (
+          <div className="matches-list">
+            {matches.map((resource) => (
+              <div
+                className="match-card"
+                key={resource.name}
+              >
+                <div className="match-card-header">
+                  <div>
+                    <h2>{resource.name}</h2>
+
+                    <p>{resource.type}</p>
+                  </div>
+
+                  {resource.verified && (
+                    <span className="verified-badge">
+                      ✓ Verified
+                    </span>
+                  )}
+                </div>
+
+                <div className="match-details">
+                  <span>
+                    💊 {medicineName}
+                  </span>
+
+                  <span>
+                    📍 {resource.distance} km away
+                  </span>
+
+                  <span>
+                    🟢 {resource.availability}
+                  </span>
+                </div>
+
+                <button
+                  className="connect-button"
+                  onClick={() => {
+  setSelectedResource(resource);
+  setRequestSent(false);
+}}
+                  
+                >
+                  🤝 Connect
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {/* MEDICINE REQUEST POPUP */}
+{selectedResource && (
+  <div className="request-overlay">
+
+    <div className="request-modal">
+
+      <button
+        className="close-modal"
+        onClick={() => setSelectedResource(null)}
+      >
+        ✕
+      </button>
+
+      {!requestSent ? (
+        <>
+          <div className="modal-icon">
+            💊
+          </div>
+
+          <h2>
+            Request Medicine Assistance
+          </h2>
+
+          <p>
+            Send a medicine request to{" "}
+            <strong>
+              {selectedResource.name}
+            </strong>
+          </p>
+
+          <label>
+            Patient Name
+          </label>
+
+          <input
+            type="text"
+            placeholder="Enter patient name"
+            value={patientName}
+            onChange={(e) =>
+              setPatientName(e.target.value)
+            }
+          />
+
+          <label>
+            Contact Number
+          </label>
+
+          <input
+            type="tel"
+            placeholder="Enter contact number"
+            value={contactNumber}
+            onChange={(e) =>
+              setContactNumber(e.target.value)
+            }
+          />
+
+          <div className="modal-summary">
+
+            <p>
+              💊 Medicine:{" "}
+              <strong>{medicineName}</strong>
+            </p>
+
+            <p>
+              🔢 Quantity:{" "}
+              <strong>{medicineQuantity}</strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{medicineLocation}</strong>
+            </p>
+
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!patientName || !contactNumber) {
+                alert(
+                  "Please enter patient name and contact number."
+                );
+                return;
+              }
+
+              setRequestSent(true);
+            }}
+          >
+            Send Medicine Request
+          </button>
+        </>
+      ) : (
+        <div className="success-message">
+
+          <div className="success-icon">
+            ✅
+          </div>
+
+          <h2>
+            Request Sent Successfully!
+          </h2>
+
+          <p>
+            Your medicine request has been sent to:
+          </p>
+
+          <strong>
+            {selectedResource.name}
+          </strong>
+
+          <div className="status-box">
+
+            🟡{" "}
+            <strong>
+              Waiting for Response
+            </strong>
+
+            <br />
+
+            <small>
+              The pharmacy/resource can now review
+              your medicine request.
+            </small>
+
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setRequestSent(false);
+              setPage("medicine-dashboard");
+            }}
+          >
+            Continue
+          </button>
+
+        </div>
+      )}
+
+    </div>
+
+  </div>
+)}
+      </main>
+    </div>
+  );
+}
+// MEDICINE RESOURCE DASHBOARD
+if (page === "medicine-dashboard") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("medicine-results")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>💊 Medicine Request Dashboard</h1>
+          <p>
+            Manage incoming medicine assistance requests.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>📋 Current Request</h2>
+
+          <div className="modal-summary">
+            <p>
+              👤 Patient:{" "}
+              <strong>{patientName || "Not provided"}</strong>
+            </p>
+
+            <p>
+              📞 Contact:{" "}
+              <strong>{contactNumber || "Not provided"}</strong>
+            </p>
+
+            <p>
+              💊 Medicine:{" "}
+              <strong>{medicineName}</strong>
+            </p>
+
+            <p>
+              🔢 Quantity:{" "}
+              <strong>{medicineQuantity}</strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{medicineLocation}</strong>
+            </p>
+
+            <p>
+              🏪 Resource:{" "}
+              <strong>
+                {selectedResource?.name || "Medicine Resource"}
+              </strong>
+            </p>
+          </div>
+
+          <div className="status-box">
+            🟡 <strong>Request Received</strong>
+            <br />
+            <small>
+              Review the request and choose an action.
+            </small>
+          </div>
+
+          <div className="button-group">
+            <button
+              className="primary-button"
+              onClick={() => {
+                alert("Medicine request accepted successfully!");
+                setPage("medicine-results");
+              }}
+            >
+              ✅ Accept Request
+            </button>
+
+            <button
+              className="back-button"
+              onClick={() => {
+                alert("Medicine request rejected.");
+                setPage("medicine-results");
+              }}
+            >
+              ❌ Reject Request
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
 
 
   // BLOOD REQUEST PAGE
