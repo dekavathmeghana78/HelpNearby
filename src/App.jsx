@@ -220,7 +220,7 @@ const equipmentResources = [
     verified: true,
   },
 ];
-  ];
+  
 
 // MEDICAL EQUIPMENT MATCHING
 const findEquipment = () => {
