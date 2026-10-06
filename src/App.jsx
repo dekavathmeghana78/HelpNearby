@@ -209,10 +209,17 @@ const medicineResources = [
   }
         // MEDICINE MATCHING
 const findMedicine = () => {
+  if (!medicineName || !medicineQuantity || !medicineLocation) {
+    alert("Please fill all the required details.");
+    return;
+  }
+
+  const searchMedicine = medicineName.trim().toLowerCase();
+
   const filtered = medicineResources.filter((resource) =>
     resource.medicines.some(
       (medicine) =>
-        medicine.toLowerCase() === medicineName.toLowerCase()
+        medicine.toLowerCase() === searchMedicine
     )
   );
 
