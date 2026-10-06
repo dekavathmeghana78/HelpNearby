@@ -1200,7 +1200,198 @@ if (page === "medicine-dashboard") {
     </div>
   );
 }
+// HOSPITAL & CLINICS PAGE
+if (page === "hospital") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
 
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🏥 Hospitals & Clinics</h1>
+          <p>
+            Find nearby hospitals and clinics based on your healthcare
+            requirement and urgency.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>Find Healthcare Assistance</h2>
+
+          <label>Healthcare Requirement</label>
+
+          <input
+            type="text"
+            placeholder="Example: Emergency Care"
+            value={hospitalRequirement}
+            onChange={(e) =>
+              setHospitalRequirement(e.target.value)
+            }
+          />
+
+          <label>Your Location</label>
+
+          <input
+            type="text"
+            placeholder="Example: Hyderabad"
+            value={hospitalLocation}
+            onChange={(e) =>
+              setHospitalLocation(e.target.value)
+            }
+          />
+
+          <label>Urgency</label>
+
+          <select
+            value={hospitalUrgency}
+            onChange={(e) =>
+              setHospitalUrgency(e.target.value)
+            }
+          >
+            <option value="">Select urgency</option>
+            <option value="Emergency">🚨 Emergency</option>
+            <option value="Urgent">🟠 Urgent</option>
+            <option value="Normal">🟢 Normal</option>
+          </select>
+
+          <button
+            className="primary-button"
+            onClick={findHospital}
+            disabled={
+              !hospitalRequirement ||
+              !hospitalLocation ||
+              !hospitalUrgency
+            }
+          >
+            🔎 Find Nearby Hospitals
+          </button>
+        </div>
+        {/* HOSPITAL REQUEST POPUP */}
+{selectedResource && (
+  <div className="request-overlay">
+    <div className="request-modal">
+
+      <button
+        className="close-modal"
+        onClick={() => setSelectedResource(null)}
+      >
+        ✕
+      </button>
+
+      {!requestSent ? (
+        <>
+          <div className="modal-icon">🏥</div>
+
+          <h2>Request Hospital Assistance</h2>
+
+          <p>
+            Send your request to{" "}
+            <strong>{selectedResource.name}</strong>
+          </p>
+
+          <label>Patient Name</label>
+
+          <input
+            type="text"
+            placeholder="Enter patient name"
+            value={patientName}
+            onChange={(e) => setPatientName(e.target.value)}
+          />
+
+          <label>Contact Number</label>
+
+          <input
+            type="tel"
+            placeholder="Enter contact number"
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
+          />
+
+          <div className="modal-summary">
+            <p>
+              🏥 Hospital:{" "}
+              <strong>{selectedResource.name}</strong>
+            </p>
+
+            <p>
+              🩺 Requirement:{" "}
+              <strong>{hospitalRequirement}</strong>
+            </p>
+
+            <p>
+              🚨 Urgency:{" "}
+              <strong>{hospitalUrgency}</strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{hospitalLocation}</strong>
+            </p>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!patientName || !contactNumber) {
+                alert(
+                  "Please enter patient name and contact number."
+                );
+                return;
+              }
+
+              setRequestSent(true);
+            }}
+          >
+            Send Hospital Request
+          </button>
+        </>
+      ) : (
+        <div className="success-message">
+          <div className="success-icon">✅</div>
+
+          <h2>Request Sent Successfully!</h2>
+
+          <p>Your hospital assistance request has been sent to:</p>
+
+          <strong>{selectedResource.name}</strong>
+
+          <div className="status-box">
+            🟡 <strong>Waiting for Response</strong>
+            <br />
+            <small>
+              The hospital can now review your request.
+            </small>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setSelectedResource(null);
+              setRequestSent(false);
+              setPage("hospital-results");
+            }}
+          >
+            Continue
+          </button>
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
+      </main>
+    </div>
+  );
+}
   // MEDICAL EQUIPMENT PAGE
 if (page === "equipment") {
   return (
