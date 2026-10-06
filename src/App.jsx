@@ -27,6 +27,10 @@ const [equipmentName, setEquipmentName] = useState("");
 const [equipmentQuantity, setEquipmentQuantity] = useState("");
 const [equipmentLocation, setEquipmentLocation] = useState("");
 const [equipmentMode, setEquipmentMode] = useState("");
+  // Hospital & Clinic request details
+const [hospitalRequirement, setHospitalRequirement] = useState("");
+const [hospitalLocation, setHospitalLocation] = useState("");
+const [hospitalUrgency, setHospitalUrgency] = useState("");
 // Matching resources
   const [matches, setMatches] = useState([]);
 
@@ -221,6 +225,53 @@ const equipmentResources = [
   },
 ];
   
+  // Prototype/demo hospital and clinic resources
+const hospitalResources = [
+  {
+    name: "Apollo Hospitals",
+    type: "Multi-Specialty Hospital",
+    services: ["Emergency Care", "General Medicine", "Cardiology", "Surgery"],
+    distance: 2.1,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "CARE Hospitals",
+    type: "Multi-Specialty Hospital",
+    services: ["Emergency Care", "General Medicine", "Orthopedics", "ICU"],
+    distance: 3.4,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "KIMS Hospitals",
+    type: "Multi-Specialty Hospital",
+    services: ["Emergency Care", "Cardiology", "Neurology", "Surgery"],
+    distance: 4.2,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "LocalCare Clinic",
+    type: "General Clinic",
+    services: ["General Medicine", "Consultation", "First Aid"],
+    distance: 1.7,
+    availability: "Available",
+    verified: true,
+  },
+];
+  // HOSPITAL & CLINIC MATCHING
+const findHospitals = () => {
+  const filtered = hospitalResources.filter((resource) =>
+    resource.services.some(
+      (service) =>
+        service.toLowerCase() === hospitalRequirement.toLowerCase()
+    )
+  );
+
+  setMatches(filtered);
+  setPage("hospital-results");
+};
 
 // MEDICAL EQUIPMENT MATCHING
 const findEquipment = () => {
@@ -440,6 +491,8 @@ const findMedicine = () => {
     ? setPage("medicine")
     : service.title === "Medical Equipment"
     ? setPage("equipment")
+    :service.title === "Hospitals & Clinics"
+    ? setPage("hospital")
     : alert(
         service.title + " module coming next!"
       )
@@ -727,7 +780,7 @@ if (page === "medicine-results") {
           </div>
         )}
         {/* MEDICINE REQUEST POPUP */}
-{selectedResource && (
+{selectedResource && page === "medicine-results"&& (
   <div className="request-overlay">
 
     <div className="request-modal">
@@ -873,6 +926,149 @@ if (page === "medicine-results") {
     </div>
   );
 }
+  {/* HOSPITAL REQUEST POPUP */}
+{selectedResource && page === "hospital-results" && (
+  <div className="request-overlay">
+
+    <div className="request-modal">
+
+      <button
+        className="close-modal"
+        onClick={() => setSelectedResource(null)}
+      >
+        ✕
+      </button>
+
+      {!requestSent ? (
+        <>
+          <div className="modal-icon">
+            🏥
+          </div>
+
+          <h2>
+            Request Hospital Assistance
+          </h2>
+
+          <p>
+            Send a hospital assistance request to{" "}
+            <strong>{selectedResource.name}</strong>
+          </p>
+
+          <label>
+            Patient Name
+          </label>
+
+          <input
+            type="text"
+            placeholder="Enter patient name"
+            value={patientName}
+            onChange={(e) =>
+              setPatientName(e.target.value)
+            }
+          />
+
+          <label>
+            Contact Number
+          </label>
+
+          <input
+            type="tel"
+            placeholder="Enter contact number"
+            value={contactNumber}
+            onChange={(e) =>
+              setContactNumber(e.target.value)
+            }
+          />
+
+          <div className="modal-summary">
+
+            <p>
+              🏥 Hospital:{" "}
+              <strong>{selectedResource.name}</strong>
+            </p>
+
+            <p>
+              🩺 Services:{" "}
+              <strong>
+                {selectedResource.services?.join(", ")}
+              </strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{location}</strong>
+            </p>
+
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!patientName || !contactNumber) {
+                alert(
+                  "Please enter patient name and contact number."
+                );
+                return;
+              }
+
+              setRequestSent(true);
+            }}
+          >
+            Send Hospital Request
+          </button>
+        </>
+      ) : (
+        <div className="success-message">
+
+          <div className="success-icon">
+            ✅
+          </div>
+
+          <h2>
+            Request Sent Successfully!
+          </h2>
+
+          <p>
+            Your hospital assistance request has been sent to:
+          </p>
+
+          <strong>
+            {selectedResource.name}
+          </strong>
+
+          <div className="status-box">
+
+            🟡{" "}
+            <strong>
+              Waiting for Response
+            </strong>
+
+            <br />
+
+            <small>
+              The hospital can now review your request.
+            </small>
+
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setSelectedResource(null);
+              setRequestSent(false);
+              setPage("hospital-results");
+            }}
+          >
+            Continue
+          </button>
+
+        </div>
+      )}
+
+    </div>
+
+  </div>
+)}
 // MEDICINE RESOURCE DASHBOARD
 if (page === "medicine-dashboard") {
   return (
@@ -1134,6 +1330,101 @@ if (page === "equipment-request") {
             🔎 Find Nearby Equipment
           </button>
         </div>
+      </main>
+    </div>
+  );
+}
+  // HOSPITAL & CLINIC RESULTS PAGE
+if (page === "hospital-results") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("hospital")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🏥 Nearby Hospitals & Clinics</h1>
+          <p>
+            Showing healthcare resources matching{" "}
+            <strong>{hospitalRequirement}</strong> near{" "}
+            <strong>{hospitalLocation}</strong>.
+          </p>
+        </div>
+
+        <div className="match-count">
+          {matches.length} Matches
+        </div>
+
+        {matches.length === 0 ? (
+          <div className="no-results">
+            <h2>😔 No Nearby Matches Found</h2>
+            <p>
+              We couldn't find a matching hospital or clinic in
+              the available prototype resources.
+            </p>
+
+            <button
+              className="primary-button"
+              onClick={() => setPage("hospital")}
+            >
+              ← Try Another Requirement
+            </button>
+          </div>
+        ) : (
+          <div className="matches-list">
+            {matches.map((resource) => (
+              <div
+                className="match-card"
+                key={resource.name}
+              >
+                <div className="match-card-header">
+                  <div>
+                    <h2>{resource.name}</h2>
+                    <p>{resource.type}</p>
+                  </div>
+
+                  {resource.verified && (
+                    <span className="verified-badge">
+                      ✓ Verified
+                    </span>
+                  )}
+                </div>
+
+                <div className="match-details">
+                  <span>
+                    🏥 {hospitalRequirement}
+                  </span>
+
+                  <span>
+                    📍 {resource.distance} km away
+                  </span>
+
+                  <span>
+                    🟢 {resource.availability}
+                  </span>
+                </div>
+
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    setSelectedResource(resource);
+                    setRequestSent(false);
+                  }}
+                >
+                  🤝 Connect
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </main>
     </div>
   );
