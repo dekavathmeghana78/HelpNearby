@@ -1266,7 +1266,7 @@ if (page === "hospital") {
 
           <button
             className="primary-button"
-            onClick={findHospital}
+            onClick={findHospitals}
             disabled={
               !hospitalRequirement ||
               !hospitalLocation ||
