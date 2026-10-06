@@ -907,27 +907,42 @@ if (page === "medicine-dashboard") {
       Review the request and choose an action.
     </div>
 
-    <div className="button-group">
+    {requestStatus === "" && (
+  <div className="button-group">
 
-      <button
-        className="primary-button"
-        onClick={() => {
-          setRequestStatus("Accepted");
-        }}
-      >
-        ✅ Accept Request
-      </button>
+    <button
+      className="primary-button"
+      onClick={() => {
+        setRequestStatus("Accepted");
+      }}
+    >
+      ✅ Accept Request
+    </button>
 
-      <button
-        className="primary-button"
-        onClick={() => {
-          setRequestStatus("Rejected");
-        }}
-      >
-        ❌ Reject Request
-      </button>
+    <button
+      className="primary-button"
+      onClick={() => {
+        setRequestStatus("Rejected");
+      }}
+    >
+      ❌ Reject Request
+    </button>
 
-    </div>
+  </div>
+)}
+    {requestStatus === "Accepted" && (
+  <div className="accepted-message">
+    🟢 <strong>Request Accepted</strong>
+    <p>The medicine request has been accepted successfully.</p>
+  </div>
+)}
+
+{requestStatus === "Rejected" && (
+  <div className="rejected-message">
+    🔴 <strong>Request Rejected</strong>
+    <p>The medicine request has been rejected.</p>
+  </div>
+)}
   </>
 
 )}
