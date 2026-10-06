@@ -37,7 +37,7 @@ const [medicineLocation, setMedicineLocation] = useState("");
 
   const [requestSent, setRequestSent] = useState(false);
 
-  const [requestStatus, setRequestStatus] = useState("Waiting for Response");
+  const [requestStatus, setRequestStatus] = useState("");
 
 
 
@@ -880,34 +880,57 @@ if (page === "medicine-dashboard") {
             </p>
           </div>
 
-          <div className="status-box">
-            🟡 <strong>Request Received</strong>
-            <br />
-            <small>
-              Review the request and choose an action.
-            </small>
-          </div>
+          {requestStatus === "Accepted" ? (
 
-          <div className="button-group">
-            <button
-              className="primary-button"
-              onClick={() => {
-  alert("Medicine request accepted successfully!");
-  setRequestStatus("Accepted");
-}}
-            >
-              ✅ Accept Request
-            </button>
+  <div className="accepted-message">
+    🟢 <strong>Request Accepted</strong>
+    <p>
+      The medicine request has been accepted successfully.
+    </p>
+  </div>
 
-            <button
-              className="back-button"
-              onClick={() => {
-                alert("Medicine request rejected.");
-                setPage("medicine-results");
-              }}
-            >
-              ❌ Reject Request
-            </button>
+) : requestStatus === "Rejected" ? (
+
+  <div className="rejected-message">
+    🔴 <strong>Request Rejected</strong>
+    <p>
+      The medicine request has been rejected.
+    </p>
+  </div>
+
+) : (
+
+  <>
+    <div className="status-box">
+      🟡 <strong>Request Received</strong>
+      <br />
+      Review the request and choose an action.
+    </div>
+
+    <div className="button-group">
+
+      <button
+        className="primary-button"
+        onClick={() => {
+          setRequestStatus("Accepted");
+        }}
+      >
+        ✅ Accept Request
+      </button>
+
+      <button
+        className="primary-button"
+        onClick={() => {
+          setRequestStatus("Rejected");
+        }}
+      >
+        ❌ Reject Request
+      </button>
+
+    </div>
+  </>
+
+)}
           </div>
         </div>
       </main>
