@@ -22,6 +22,11 @@ function App() {
 const [medicineName, setMedicineName] = useState("");
 const [medicineQuantity, setMedicineQuantity] = useState("");
 const [medicineLocation, setMedicineLocation] = useState("");
+// Medical Equipment request details
+const [equipmentName, setEquipmentName] = useState("");
+const [equipmentQuantity, setEquipmentQuantity] = useState("");
+const [equipmentLocation, setEquipmentLocation] = useState("");
+const [equipmentMode, setEquipmentMode] = useState("");
 // Matching resources
   const [matches, setMatches] = useState([]);
 
@@ -384,8 +389,11 @@ service.title === "Blood Assistance"
   ? setPage("blood")
   : service.title === "Medicine"
   ? setPage("medicine")
+  : service.title === "Medical Equipment"
+  ? setPage("equipment")
   : alert(
       service.title + " module coming next!"
+    )
     )
                   }
 
@@ -945,6 +953,52 @@ if (page === "medicine-dashboard") {
 
 )}
           </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+  // MEDICAL EQUIPMENT PAGE
+if (page === "equipment") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🦽 Medical Equipment</h1>
+          <p>
+            Find nearby medical equipment or request equipment
+            when you need assistance.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>What do you need?</h2>
+
+          <button
+            className="primary-button"
+            onClick={() => setPage("equipment-find")}
+          >
+            🔎 Find Equipment
+          </button>
+
+          <button
+            className="primary-button"
+            onClick={() => setPage("equipment-request")}
+          >
+            📋 Request Equipment
+          </button>
         </div>
       </main>
     </div>
