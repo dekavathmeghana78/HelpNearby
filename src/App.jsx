@@ -272,6 +272,7 @@ const findHospitals = () => {
   setMatches(filtered);
   setPage("hospital-results");
 };
+  
 
 // MEDICAL EQUIPMENT MATCHING
 const findEquipment = () => {
