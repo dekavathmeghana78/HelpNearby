@@ -633,7 +633,7 @@ if (page === "medicine-results") {
               >
                 <div className="match-card-header">
                   <div>
-                    <h2>{resource.name}</h2>
+                    <h2 style={{ color: "#172033" }}>{resource.name}</h2>
                   </div>
 
                   {resource.verified && (
