@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import "./App.css";
+import "./App.css;
 
 
 
@@ -1034,14 +1034,16 @@ if (page === "equipment") {
 
           <button
             className="primary-button"
-            onClick={() => setPage("equipment-find")}
+            onClick={() =>
+              setPage("equipment-find")}
           >
             🔎 Find Equipment
           </button>
 
           <button
             className="primary-button"
-            onClick={() => setPage("equipment-request")}
+            onClick={() => 
+              setPage("equipment-request")}
           >
             📋 Request Equipment
           </button>
@@ -1051,7 +1053,7 @@ if (page === "equipment") {
   );
 }
 // MEDICAL EQUIPMENT REQUEST PAGE
-if (page === "equipment") {
+if (page === "equipment-request") {
   return (
     <div className="app">
       <header className="navbar">
