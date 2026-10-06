@@ -634,8 +634,6 @@ if (page === "medicine-results") {
                 <div className="match-card-header">
                   <div>
                     <h2>{resource.name}</h2>
-
-                    <p>{resource.type}</p>
                   </div>
 
                   {resource.verified && (
