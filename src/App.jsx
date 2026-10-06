@@ -1035,7 +1035,7 @@ if (page === "equipment") {
           <button
             className="primary-button"
             onClick={() =>
-              setPage("equipment-find")}
+              setPage("equipment-request")}
           >
             🔎 Find Equipment
           </button>
