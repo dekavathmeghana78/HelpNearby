@@ -1000,7 +1000,6 @@ if (page === "medicine-dashboard") {
 
 )}
           </div>
-        </div>
       </main>
     </div>
   );
