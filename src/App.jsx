@@ -185,6 +185,55 @@ const medicineResources = [
     verified: true,
   },
 ];
+  // Prototype/demo medical equipment resources
+const equipmentResources = [
+  {
+    name: "Apollo Homecare",
+    type: "Medical Equipment Provider",
+    equipment: ["Wheelchair", "Oxygen Concentrator", "Hospital Bed"],
+    distance: 2.4,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "MedPlus Equipment Services",
+    type: "Medical Equipment Provider",
+    equipment: ["Wheelchair", "Walker", "Nebulizer"],
+    distance: 3.1,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "CarePlus Medical Equipment",
+    type: "Medical Equipment Provider",
+    equipment: ["Hospital Bed", "Wheelchair", "Crutches"],
+    distance: 4.3,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "HealthAid Equipment Store",
+    type: "Medical Equipment Provider",
+    equipment: ["Walker", "Crutches", "Nebulizer"],
+    distance: 5.2,
+    availability: "Available",
+    verified: true,
+  },
+];
+  ];
+
+// MEDICAL EQUIPMENT MATCHING
+const findEquipment = () => {
+  const filtered = equipmentResources.filter((resource) =>
+    resource.equipment.some(
+      (equipment) =>
+        equipment.toLowerCase() === equipmentName.toLowerCase()
+    )
+  );
+
+  setMatches(filtered);
+  setPage("equipment-results");
+};
   // Find nearby matching resources
 
   function findMatches() {
@@ -384,18 +433,17 @@ const findMedicine = () => {
 
                   key={service.title}
 
-                  onClick={() => {
-  if (service.title === "Blood Assistance") {
-    setPage("blood");
-  } else if (service.title === "Medicine") {
-    setPage("medicine");
-  } else if (service.title === "Medical Equipment") {
-    setPage("equipment");
-  } else {
-    alert(service.title + " module coming next!");
-  }
-}}
-
+                 onClick={() =>
+  service.title === "Blood Assistance"
+    ? setPage("blood")
+    : service.title === "Medicine"
+    ? setPage("medicine")
+    : service.title === "Medical Equipment"
+    ? setPage("equipment")
+    : alert(
+        service.title + " module coming next!"
+      )
+}
                 >
 
 
@@ -1003,7 +1051,415 @@ if (page === "equipment") {
     </div>
   );
 }
+// MEDICAL EQUIPMENT REQUEST PAGE
+if (page === "equipment") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
 
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🦽 Medical Equipment Assistance</h1>
+          <p>
+            Find nearby medical equipment providers for your needs.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>Request Medical Equipment</h2>
+
+          <label>Equipment Name</label>
+          <input
+            type="text"
+            placeholder="Example: Wheelchair"
+            value={equipmentName}
+            onChange={(e) =>
+              setEquipmentName(e.target.value)
+            }
+          />
+
+          <label>Quantity Required</label>
+          <input
+            type="number"
+            placeholder="Example: 1"
+            value={equipmentQuantity}
+            onChange={(e) =>
+              setEquipmentQuantity(e.target.value)
+            }
+          />
+
+          <label>Request Type</label>
+          <select
+            value={equipmentMode}
+            onChange={(e) =>
+              setEquipmentMode(e.target.value)
+            }
+          >
+            <option value="">Select request type</option>
+            <option value="Request">Request</option>
+            <option value="Rent">Rent</option>
+            <option value="Borrow">Borrow</option>
+          </select>
+
+          <label>Your Location</label>
+          <input
+            type="text"
+            placeholder="Example: Hyderabad"
+            value={equipmentLocation}
+            onChange={(e) =>
+              setEquipmentLocation(e.target.value)
+            }
+          />
+
+          <button
+            className="primary-button"
+            onClick={findEquipment}
+            disabled={
+              !equipmentName ||
+              !equipmentQuantity ||
+              !equipmentMode ||
+              !equipmentLocation
+            }
+          >
+            🔎 Find Nearby Equipment
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
+  // MEDICAL EQUIPMENT RESULTS PAGE
+if (page === "equipment-results") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("equipment")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🦽 Nearby Equipment Matches</h1>
+
+          <p>
+            Showing equipment matching{" "}
+            <strong>{equipmentName}</strong> near{" "}
+            <strong>{equipmentLocation}</strong>.
+          </p>
+        </div>
+
+        <div className="match-count">
+          {matches.length} Matches
+        </div>
+
+        {matches.length === 0 ? (
+          <div className="no-results">
+            <h2>😔 No Nearby Equipment Found</h2>
+
+            <p>
+              We couldn't find this equipment in the
+              available prototype resources.
+            </p>
+
+            <button
+              className="primary-button"
+              onClick={() => setPage("equipment")}
+            >
+              ← Try Another Equipment
+            </button>
+          </div>
+        ) : (
+          <div className="matches-list">
+            {matches.map((resource) => (
+              <div
+                className="match-card"
+                key={resource.name}
+              >
+                <div className="match-card-header">
+                  <div>
+                    <h2>{resource.name}</h2>
+                    <p>{resource.type}</p>
+                  </div>
+
+                  {resource.verified && (
+                    <span className="verified-badge">
+                      ✓ Verified
+                    </span>
+                  )}
+                </div>
+
+                <div className="match-details">
+                  <span>
+                    🦽 {equipmentName}
+                  </span>
+
+                  <span>
+                    📍 {resource.distance} km away
+                  </span>
+
+                  <span>
+                    🟢 {resource.availability}
+                  </span>
+
+                  <span>
+                    📋 {equipmentMode}
+                  </span>
+                </div>
+
+                <button
+                  className="connect-button"
+                  onClick={() => {
+                    setSelectedResource(resource);
+                    setRequestSent(false);
+                  }}
+                >
+                  🤝 Connect
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        {/* EQUIPMENT REQUEST POPUP */}
+{selectedResource && (
+  <div className="request-overlay">
+    <div className="request-modal">
+
+      <button
+        className="close-modal"
+        onClick={() => setSelectedResource(null)}
+      >
+        ✕
+      </button>
+
+      {!requestSent ? (
+        <>
+          <div className="modal-icon">
+            🦽
+          </div>
+
+          <h2>Request Equipment Assistance</h2>
+
+          <p>
+            Send a request to{" "}
+            <strong>{selectedResource.name}</strong>
+          </p>
+
+          <label>Patient Name</label>
+
+          <input
+            type="text"
+            placeholder="Enter patient name"
+            value={patientName}
+            onChange={(e) =>
+              setPatientName(e.target.value)
+            }
+          />
+
+          <label>Contact Number</label>
+
+          <input
+            type="tel"
+            placeholder="Enter contact number"
+            value={contactNumber}
+            onChange={(e) =>
+              setContactNumber(e.target.value)
+            }
+          />
+
+          <div className="modal-summary">
+            <p>
+              🦽 Equipment:{" "}
+              <strong>{equipmentName}</strong>
+            </p>
+
+            <p>
+              🔢 Quantity:{" "}
+              <strong>{equipmentQuantity}</strong>
+            </p>
+
+            <p>
+              📋 Request Type:{" "}
+              <strong>{equipmentMode}</strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{equipmentLocation}</strong>
+            </p>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!patientName || !contactNumber) {
+                alert(
+                  "Please enter patient name and contact number."
+                );
+                return;
+              }
+
+              setRequestSent(true);
+            }}
+          >
+            Send Equipment Request
+          </button>
+        </>
+      ) : (
+        <div className="success-message">
+
+          <div className="success-icon">
+            ✅
+          </div>
+
+          <h2>Request Sent Successfully!</h2>
+
+          <p>
+            Your equipment request has been sent to:
+          </p>
+
+          <strong>{selectedResource.name}</strong>
+
+          <div className="status-box">
+            🟡 <strong>Waiting for Response</strong>
+            <br />
+            <small>
+              The equipment provider can now review
+              your request.
+            </small>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setRequestSent(false);
+              setPage("equipment-dashboard");
+            }}
+          >
+            Continue
+          </button>
+
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
+      </main>
+    </div>
+  );
+}
+  // MEDICAL EQUIPMENT DASHBOARD
+if (page === "equipment-dashboard") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("equipment-results")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🦽 Equipment Request Dashboard</h1>
+          <p>
+            Manage incoming medical equipment requests.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>📋 Current Request</h2>
+
+          <div className="modal-summary">
+            <p>
+              👤 Patient:{" "}
+              <strong>{patientName || "Not provided"}</strong>
+            </p>
+
+            <p>
+              📞 Contact:{" "}
+              <strong>{contactNumber || "Not provided"}</strong>
+            </p>
+
+            <p>
+              🦽 Equipment:{" "}
+              <strong>{equipmentName}</strong>
+            </p>
+
+            <p>
+              🔢 Quantity:{" "}
+              <strong>{equipmentQuantity}</strong>
+            </p>
+
+            <p>
+              📋 Request Type:{" "}
+              <strong>{equipmentMode}</strong>
+            </p>
+
+            <p>
+              📍 Location:{" "}
+              <strong>{equipmentLocation}</strong>
+            </p>
+
+            <p>
+              🏪 Provider:{" "}
+              <strong>
+                {selectedResource?.name || "Equipment Provider"}
+              </strong>
+            </p>
+          </div>
+
+          <div className="status-box">
+            🟡 <strong>Request Received</strong>
+            <br />
+            <small>
+              Review the request and choose an action.
+            </small>
+          </div>
+
+          <div className="button-group">
+            <button
+              className="primary-button"
+              onClick={() => {
+                alert("Equipment request accepted successfully!");
+              }}
+            >
+              ✅ Accept Request
+            </button>
+
+            <button
+              className="back-button"
+              onClick={() => {
+                alert("Equipment request rejected.");
+              }}
+            >
+              ❌ Reject Request
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
 
   // BLOOD REQUEST PAGE
 
