@@ -384,18 +384,17 @@ const findMedicine = () => {
 
                   key={service.title}
 
-                  onClick={() =>
-service.title === "Blood Assistance"
-  ? setPage("blood")
-  : service.title === "Medicine"
-  ? setPage("medicine")
-  : service.title === "Medical Equipment"
-  ? setPage("equipment")
-  : alert(
-      service.title + " module coming next!"
-    )
-    )
-                  }
+                  onClick={() => {
+  if (service.title === "Blood Assistance") {
+    setPage("blood");
+  } else if (service.title === "Medicine") {
+    setPage("medicine");
+  } else if (service.title === "Medical Equipment") {
+    setPage("equipment");
+  } else {
+    alert(service.title + " module coming next!");
+  }
+}}
 
                 >
 
