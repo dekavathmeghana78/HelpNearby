@@ -892,9 +892,9 @@ if (page === "medicine-dashboard") {
             <button
               className="primary-button"
               onClick={() => {
-                alert("Medicine request accepted successfully!");
-                setPage("medicine-results");
-              }}
+  alert("Medicine request accepted successfully!");
+  setRequestStatus("Accepted");
+}}
             >
               ✅ Accept Request
             </button>
