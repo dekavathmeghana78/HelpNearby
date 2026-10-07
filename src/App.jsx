@@ -1234,7 +1234,6 @@ if (page === "hospital") {
           <button
             className="send-request-button"
             onClick={() => {
-              setSelectedResource(null);
               setRequestSent(false);
               setPage("hospital-dashboard");
             }}
@@ -1243,7 +1242,6 @@ if (page === "hospital") {
           </button>
         </div>
       )}
-
     </div>
   </div>
 )}
