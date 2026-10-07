@@ -545,6 +545,8 @@ const findMedicine = () => {
     ? setPage("equipment")
     :service.title === "Hospitals & Clinics"
     ? setPage("hospital")
+     :service.title === "Diagnostics"
+    ? setPage("diagnostics")
     : alert(
         service.title + " module coming next!"
       )
@@ -2671,9 +2673,8 @@ if (page === "equipment-dashboard") {
               <div>
 
                 <span>Contact</span>
-
+                
                 <strong>
-
                   {contactNumber || "Not provided"}
 
                 </strong>
