@@ -1566,7 +1566,6 @@ if (page === "hospital-results") {
           <button
             className="send-request-button"
             onClick={() => {
-              setSelectedResource(null);
               setRequestSent(false);
               setPage("hospital-results");
             }}
