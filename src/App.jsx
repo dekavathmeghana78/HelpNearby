@@ -1593,7 +1593,8 @@ if (page === "hospital-dashboard") {
 
         <button
           className="back-button"
-          onClick={() => setPage("hospital-results")}
+          onClick={() => 
+            setPage("hospital-results")}
         >
           ← Back
         </button>
@@ -1606,7 +1607,7 @@ if (page === "hospital-dashboard") {
         </div>
 
         <div className="request-card">
-          <h2>📋 Incoming Request</h2>
+          <h2>📋 Hospital Assistance Request</h2>
 
           <p>
             👤 Patient: <strong>{patientName}</strong>
@@ -1617,7 +1618,13 @@ if (page === "hospital-dashboard") {
           </p>
 
           <p>
-            🩺 Requirement: <strong>{hospitalRequirement}</strong>
+            🏥 Hospital:{" "}
+            <strong>{selectedResource?.name}</strong>
+          </p>
+
+          <p>
+            🩺 Requirement:{" "}
+            <strong>{hospitalRequirement}</strong>
           </p>
 
           <p>
@@ -1628,42 +1635,33 @@ if (page === "hospital-dashboard") {
             📍 Location: <strong>{hospitalLocation}</strong>
           </p>
 
-          <p>
-            🏥 Hospital:{" "}
-            <strong>
-              {selectedResource?.name || "Selected Hospital"}
-            </strong>
-          </p>
-
           <div className="status-box">
-            🟡 <strong>Waiting for Response</strong>
+            🟡 <strong>Request Status: Waiting for Response</strong>
           </div>
 
           <button
-            className="send-request-button"
+            className="primary-button"
             onClick={() => {
               setRequestStatus("Accepted");
             }}
           >
-            🟢 Accept Request
+            ✅ Accept Request
           </button>
 
           <button
-            className="connect-button"
+            className="primary-button"
             onClick={() => {
               setRequestStatus("Rejected");
             }}
           >
-            🔴 Reject Request
+            ❌ Reject Request
           </button>
 
           {requestStatus === "Accepted" && (
             <div className="status-box">
               🟢 <strong>Request Accepted</strong>
               <br />
-              <small>
-                The hospital has accepted the assistance request.
-              </small>
+              The hospital has accepted the assistance request.
             </div>
           )}
 
@@ -1671,9 +1669,7 @@ if (page === "hospital-dashboard") {
             <div className="status-box">
               🔴 <strong>Request Rejected</strong>
               <br />
-              <small>
-                The hospital has rejected the assistance request.
-              </small>
+              The hospital has rejected the assistance request.
             </div>
           )}
         </div>
