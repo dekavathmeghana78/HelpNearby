@@ -927,10 +927,6 @@ if (page === "medicine-results") {
     </div>
   );
 }
-          >
-            Continue
-          </button>
-
         </div>
       )}
 
