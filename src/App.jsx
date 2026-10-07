@@ -927,13 +927,7 @@ if (page === "medicine-results") {
     </div>
   );
 }
-        </div>
-      )}
 
-    </div>
-
-  </div>
-)}
 // MEDICINE RESOURCE DASHBOARD
 if (page === "medicine-dashboard") {
   return (
