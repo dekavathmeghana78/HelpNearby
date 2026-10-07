@@ -1567,7 +1567,7 @@ if (page === "hospital-results") {
             className="send-request-button"
             onClick={() => {
               setRequestSent(false);
-              setPage("hospital-results");
+              setPage("hospital-dashboard");
             }}
           >
             Continue
