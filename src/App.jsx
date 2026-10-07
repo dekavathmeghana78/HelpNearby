@@ -1236,7 +1236,7 @@ if (page === "hospital") {
             onClick={() => {
               setSelectedResource(null);
               setRequestSent(false);
-              setPage("hospital-results");
+              setPage("hospital-dashboard");
             }}
           >
             Continue
@@ -1582,6 +1582,103 @@ if (page === "hospital-results") {
     </div>
   </div>
 )}
+      </main>
+    </div>
+  );
+}
+  // HOSPITAL RESOURCE DASHBOARD
+if (page === "hospital-dashboard") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("hospital-results")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🏥 Hospital Resource Dashboard</h1>
+          <p>Manage incoming hospital assistance requests.</p>
+        </div>
+
+        <div className="request-card">
+          <h2>📋 Incoming Request</h2>
+
+          <p>
+            👤 Patient: <strong>{patientName}</strong>
+          </p>
+
+          <p>
+            📞 Contact: <strong>{contactNumber}</strong>
+          </p>
+
+          <p>
+            🩺 Requirement: <strong>{hospitalRequirement}</strong>
+          </p>
+
+          <p>
+            🚨 Urgency: <strong>{hospitalUrgency}</strong>
+          </p>
+
+          <p>
+            📍 Location: <strong>{hospitalLocation}</strong>
+          </p>
+
+          <p>
+            🏥 Hospital:{" "}
+            <strong>
+              {selectedResource?.name || "Selected Hospital"}
+            </strong>
+          </p>
+
+          <div className="status-box">
+            🟡 <strong>Waiting for Response</strong>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setRequestStatus("Accepted");
+            }}
+          >
+            🟢 Accept Request
+          </button>
+
+          <button
+            className="connect-button"
+            onClick={() => {
+              setRequestStatus("Rejected");
+            }}
+          >
+            🔴 Reject Request
+          </button>
+
+          {requestStatus === "Accepted" && (
+            <div className="status-box">
+              🟢 <strong>Request Accepted</strong>
+              <br />
+              <small>
+                The hospital has accepted the assistance request.
+              </small>
+            </div>
+          )}
+
+          {requestStatus === "Rejected" && (
+            <div className="status-box">
+              🔴 <strong>Request Rejected</strong>
+              <br />
+              <small>
+                The hospital has rejected the assistance request.
+              </small>
+            </div>
+          )}
+        </div>
       </main>
     </div>
   );
