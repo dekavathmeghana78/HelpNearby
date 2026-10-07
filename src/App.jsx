@@ -31,6 +31,10 @@ const [equipmentMode, setEquipmentMode] = useState("");
 const [hospitalRequirement, setHospitalRequirement] = useState("");
 const [hospitalLocation, setHospitalLocation] = useState("");
 const [hospitalUrgency, setHospitalUrgency] = useState("");
+  // Diagnostic request details
+const [diagnosticTest, setDiagnosticTest] = useState("");
+const [diagnosticLocation, setDiagnosticLocation] = useState("");
+const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 // Matching resources
   const [matches, setMatches] = useState([]);
 
@@ -260,6 +264,53 @@ const hospitalResources = [
     verified: true,
   },
 ];
+  // Prototype/demo diagnostic resources
+const diagnosticResources = [
+  {
+    name: "Apollo Diagnostics",
+    type: "Diagnostic Center",
+    tests: ["Blood Test", "X-Ray", "CT Scan", "MRI"],
+    distance: 1.9,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "Vijaya Diagnostic Centre",
+    type: "Diagnostic Center",
+    tests: ["Blood Test", "X-Ray", "Ultrasound"],
+    distance: 2.7,
+    availability: "Available",
+    verified: true,
+  },
+  {
+    name: "Lucid Diagnostics",
+    type: "Diagnostic Center",
+    tests: ["Blood Test", "CT Scan", "MRI"],
+    distance: 3.5,
+    availability: "Check Availability",
+    verified: true,
+  },
+  {
+    name: "Dr. Lal PathLabs",
+    type: "Diagnostic Center",
+    tests: ["Blood Test", "Urine Test", "X-Ray"],
+    distance: 4.2,
+    availability: "Available",
+    verified: true,
+  },
+];
+  // DIAGNOSTIC MATCHING
+const findDiagnostics = () => {
+  const filtered = diagnosticResources.filter((resource) =>
+    resource.tests.some(
+      (test) =>
+        test.toLowerCase() === diagnosticTest.toLowerCase()
+    )
+  );
+
+  setMatches(filtered);
+  setPage("diagnostic-results");
+};
   // HOSPITAL & CLINIC MATCHING
 const findHospitals = () => {
   const filtered = hospitalResources.filter((resource) =>
@@ -1245,6 +1296,75 @@ if (page === "hospital") {
     </div>
   </div>
 )}
+      </main>
+    </div>
+  );
+}
+  // DIAGNOSTIC SERVICES PAGE
+if (page === "diagnostic") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("home")}
+        >
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🧪 Diagnostic Services</h1>
+          <p>
+            Find nearby diagnostic centers for the tests you need.
+          </p>
+        </div>
+
+        <div className="request-card">
+          <h2>Find Diagnostic Services</h2>
+
+          <label>Diagnostic Test</label>
+          <input
+            type="text"
+            placeholder="Example: Blood Test"
+            value={diagnosticTest}
+            onChange={(e) => setDiagnosticTest(e.target.value)}
+          />
+
+          <label>Your Location</label>
+          <input
+            type="text"
+            placeholder="Example: Hyderabad"
+            value={diagnosticLocation}
+            onChange={(e) => setDiagnosticLocation(e.target.value)}
+          />
+
+          <label>Urgency</label>
+          <select
+            value={diagnosticUrgency}
+            onChange={(e) => setDiagnosticUrgency(e.target.value)}
+          >
+            <option value="">Select urgency</option>
+            <option value="Emergency">🚨 Emergency</option>
+            <option value="Urgent">🟠 Urgent</option>
+            <option value="Normal">🟢 Normal</option>
+          </select>
+
+          <button
+            className="primary-button"
+            onClick={findDiagnostics}
+            disabled={
+              !diagnosticTest ||
+              !diagnosticLocation ||
+              !diagnosticUrgency
+            }
+          >
+            🔎 Find Nearby Diagnostics
+          </button>
+        </div>
       </main>
     </div>
   );
