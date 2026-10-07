@@ -927,138 +927,6 @@ if (page === "medicine-results") {
     </div>
   );
 }
-  {/* HOSPITAL REQUEST POPUP */}
-{selectedResource && page === "hospital-results" && (
-  <div className="request-overlay">
-
-    <div className="request-modal">
-
-      <button
-        className="close-modal"
-        onClick={() => setSelectedResource(null)}
-      >
-        ✕
-      </button>
-
-      {!requestSent ? (
-        <>
-          <div className="modal-icon">
-            🏥
-          </div>
-
-          <h2>
-            Request Hospital Assistance
-          </h2>
-
-          <p>
-            Send a hospital assistance request to{" "}
-            <strong>{selectedResource.name}</strong>
-          </p>
-
-          <label>
-            Patient Name
-          </label>
-
-          <input
-            type="text"
-            placeholder="Enter patient name"
-            value={patientName}
-            onChange={(e) =>
-              setPatientName(e.target.value)
-            }
-          />
-
-          <label>
-            Contact Number
-          </label>
-
-          <input
-            type="tel"
-            placeholder="Enter contact number"
-            value={contactNumber}
-            onChange={(e) =>
-              setContactNumber(e.target.value)
-            }
-          />
-
-          <div className="modal-summary">
-
-            <p>
-              🏥 Hospital:{" "}
-              <strong>{selectedResource.name}</strong>
-            </p>
-
-            <p>
-              🩺 Services:{" "}
-              <strong>
-                {selectedResource.services?.join(", ")}
-              </strong>
-            </p>
-
-            <p>
-              📍 Location:{" "}
-              <strong>{location}</strong>
-            </p>
-
-          </div>
-
-          <button
-            className="send-request-button"
-            onClick={() => {
-              if (!patientName || !contactNumber) {
-                alert(
-                  "Please enter patient name and contact number."
-                );
-                return;
-              }
-
-              setRequestSent(true);
-            }}
-          >
-            Send Hospital Request
-          </button>
-        </>
-      ) : (
-        <div className="success-message">
-
-          <div className="success-icon">
-            ✅
-          </div>
-
-          <h2>
-            Request Sent Successfully!
-          </h2>
-
-          <p>
-            Your hospital assistance request has been sent to:
-          </p>
-
-          <strong>
-            {selectedResource.name}
-          </strong>
-
-          <div className="status-box">
-
-            🟡{" "}
-            <strong>
-              Waiting for Response
-            </strong>
-
-            <br />
-
-            <small>
-              The hospital can now review your request.
-            </small>
-
-          </div>
-
-          <button
-            className="send-request-button"
-            onClick={() => {
-              setSelectedResource(null);
-              setRequestSent(false);
-              setPage("hospital-results");
-            }}
           >
             Continue
           </button>
@@ -1617,6 +1485,113 @@ if (page === "hospital-results") {
             ))}
           </div>
         )}
+        {/* HOSPITAL REQUEST POPUP */}
+{selectedResource && (
+  <div className="request-overlay">
+    <div className="request-modal">
+
+      <button
+        className="close-modal"
+        onClick={() => setSelectedResource(null)}
+      >
+        ✕
+      </button>
+
+      {!requestSent ? (
+        <>
+          <div className="modal-icon">🏥</div>
+
+          <h2>Request Hospital Assistance</h2>
+
+          <p>
+            Send your request to{" "}
+            <strong>{selectedResource.name}</strong>
+          </p>
+
+          <label>Patient Name</label>
+          <input
+            type="text"
+            placeholder="Enter patient name"
+            value={patientName}
+            onChange={(e) => setPatientName(e.target.value)}
+          />
+
+          <label>Contact Number</label>
+          <input
+            type="tel"
+            placeholder="Enter contact number"
+            value={contactNumber}
+            onChange={(e) => setContactNumber(e.target.value)}
+          />
+
+          <div className="modal-summary">
+            <p>
+              🏥 Hospital: <strong>{selectedResource.name}</strong>
+            </p>
+
+            <p>
+              🩺 Requirement: <strong>{hospitalRequirement}</strong>
+            </p>
+
+            <p>
+              🚨 Urgency: <strong>{hospitalUrgency}</strong>
+            </p>
+
+            <p>
+              📍 Location: <strong>{hospitalLocation}</strong>
+            </p>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!patientName || !contactNumber) {
+                alert("Please enter patient name and contact number.");
+                return;
+              }
+
+              setRequestSent(true);
+            }}
+          >
+            Send Hospital Request
+          </button>
+        </>
+      ) : (
+        <div className="success-message">
+
+          <div className="success-icon">✅</div>
+
+          <h2>Request Sent Successfully!</h2>
+
+          <p>Your hospital assistance request has been sent to:</p>
+
+          <strong>{selectedResource.name}</strong>
+
+          <div className="status-box">
+            🟡 <strong>Waiting for Response</strong>
+            <br />
+            <small>
+              The hospital can now review your request.
+            </small>
+          </div>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              setSelectedResource(null);
+              setRequestSent(false);
+              setPage("hospital-results");
+            }}
+          >
+            Continue
+          </button>
+
+        </div>
+      )}
+
+    </div>
+  </div>
+)}
       </main>
     </div>
   );
