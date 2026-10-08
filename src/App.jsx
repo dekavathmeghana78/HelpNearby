@@ -1868,6 +1868,75 @@ if (page === "hospital-dashboard") {
     </div>
   );
 }
+  // DIAGNOSTIC PROVIDER DASHBOARD
+if (page === "diagnostic-dashboard") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("diagnostic-results")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🔬 Diagnostic Provider Dashboard</h1>
+          <p>Manage incoming diagnostic assistance requests.</p>
+        </div>
+
+        <div className="request-card">
+          <h2>Diagnostic Assistance Request</h2>
+
+          <p>
+            Request received from a patient in Hyderabad.
+          </p>
+
+          <div className="status-box">
+            <strong>Current Status:</strong>{" "}
+            {requestStatus || "Waiting for Response"}
+          </div>
+
+          <div style={{ display: "flex", gap: "15px", marginTop: "20px" }}>
+            <button
+              className="primary-button"
+              onClick={() => setRequestStatus("Accepted")}
+            >
+              ✅ Accept Request
+            </button>
+
+            <button
+              className="primary-button"
+              onClick={() => setRequestStatus("Rejected")}
+            >
+              ❌ Reject Request
+            </button>
+          </div>
+
+          {requestStatus === "Accepted" && (
+            <div className="status-box">
+              🟢 <strong>Request Accepted</strong>
+              <br />
+              The diagnostic center has accepted the assistance request.
+            </div>
+          )}
+
+          {requestStatus === "Rejected" && (
+            <div className="status-box">
+              🔴 <strong>Request Rejected</strong>
+              <br />
+              The diagnostic center has rejected the assistance request.
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
   
   // MEDICAL EQUIPMENT RESULTS PAGE
 if (page === "equipment-results") {
