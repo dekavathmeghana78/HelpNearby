@@ -678,6 +678,65 @@ const findMedicine = () => {
     );
 
   }
+  // DIAGNOSTIC SERVICES PAGE
+if (page === "diagnostics") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">
+          <span>✚</span>
+          HelpNearby
+        </div>
+
+        <button onClick={() => setPage("home")}>
+          ← Home
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🔬 Diagnostic Services</h1>
+          <p>Find nearby diagnostic centers for the tests you need.</p>
+        </div>
+
+        <div className="request-card">
+          <h2>Find Diagnostic Services</h2>
+
+          <label>Diagnostic Test</label>
+          <input
+            type="text"
+            placeholder="Example: Blood Test"
+            value={diagnosticTest}
+            onChange={(e) => setDiagnosticTest(e.target.value)}
+          />
+
+          <label>Location</label>
+          <input
+            type="text"
+            placeholder="Example: Hyderabad"
+            value={diagnosticLocation}
+            onChange={(e) => setDiagnosticLocation(e.target.value)}
+          />
+
+          <label>Urgency</label>
+          <select
+            value={diagnosticUrgency}
+            onChange={(e) => setDiagnosticUrgency(e.target.value)}
+          >
+            <option value="">Select urgency</option>
+            <option value="Normal">Normal</option>
+            <option value="Urgent">Urgent</option>
+            <option value="Emergency">Emergency</option>
+          </select>
+
+          <button onClick={findDiagnostics}>
+            Find Nearby Diagnostics →
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
       // MEDICINE REQUEST PAGE
 if (page === "medicine") {
   return (
