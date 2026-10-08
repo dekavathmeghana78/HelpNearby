@@ -1430,6 +1430,84 @@ if (page === "diagnostic") {
     </div>
   );
 }
+  // DIAGNOSTIC REQUEST PAGE
+if (page === "diagnostic-request") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">✚ HelpNearby</div>
+
+        <button
+          className="back-button"
+          onClick={() => setPage("diagnostic-results")}
+        >
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🔬 Diagnostic Assistance Request</h1>
+          <p>Send an assistance request to the selected diagnostic center.</p>
+        </div>
+
+        <div className="request-card">
+          <h2>{selectedResource?.name}</h2>
+
+          <p>
+            <strong>Service:</strong>{" "}
+            {selectedResource?.type}
+          </p>
+
+          <p>
+            <strong>Distance:</strong>{" "}
+            {selectedResource?.distance} km away
+          </p>
+
+          {!requestSent ? (
+            <>
+              <label>Patient Name</label>
+              <input
+                type="text"
+                placeholder="Enter patient name"
+                value={patientName}
+                onChange={(e) => setPatientName(e.target.value)}
+              />
+
+              <label>Contact Number</label>
+              <input
+                type="text"
+                placeholder="Enter contact number"
+                value={contactNumber}
+                onChange={(e) => setContactNumber(e.target.value)}
+              />
+
+              <button
+                className="primary-button"
+                onClick={() => {
+                  setRequestSent(true);
+                  setRequestStatus("Waiting for Response");
+                }}
+              >
+                📩 Send Request
+              </button>
+            </>
+          ) : (
+            <div className="status-box">
+              🟡 <strong>Request Sent Successfully!</strong>
+              <br />
+              Your diagnostic assistance request has been sent to:
+              <br />
+              <strong>{selectedResource?.name}</strong>
+              <br /><br />
+              Current Status: <strong>Waiting for Response</strong>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
   // MEDICAL EQUIPMENT PAGE
 if (page === "equipment") {
   return (
@@ -1646,7 +1724,7 @@ if (page === "hospital-results") {
   onClick={() => {
     setSelectedResource(resource);
     setRequestSent(false);
-    setPage("diagnostic-request");
+    setPage("diagnostic-results");
   }}
 >
   Request Assistance
