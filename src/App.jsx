@@ -1626,6 +1626,7 @@ if (page === "hospital-results") {
                     </span>
                   )}
                 </div>
+                
 
                 <div className="match-details">
                   <span>
@@ -1640,6 +1641,16 @@ if (page === "hospital-results") {
                     🟢 {resource.availability}
                   </span>
                 </div>
+                <button
+  className="primary-button"
+  onClick={() => {
+    setSelectedResource(resource);
+    setRequestSent(false);
+    setPage("diagnostic-request");
+  }}
+>
+  Request Assistance
+</button>
 
                 <button
                   className="connect-button"
@@ -1857,6 +1868,7 @@ if (page === "hospital-dashboard") {
     </div>
   );
 }
+  
   // MEDICAL EQUIPMENT RESULTS PAGE
 if (page === "equipment-results") {
   return (
