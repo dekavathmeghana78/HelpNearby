@@ -1181,25 +1181,7 @@ if (page === "medicine-dashboard") {
 
     {requestStatus === "" && (
   <div className="button-group">
-
-    <button
-      className="primary-button"
-      onClick={() => {
-        setRequestStatus("Accepted");
-      }}
-    >
-      ✅ Accept Request
-    </button>
-
-    <button
-      className="primary-button"
-      onClick={() => {
-        setRequestStatus("Rejected");
-      }}
-    >
-      ❌ Reject Request
-    </button>
-
+    
   </div>
 )}
     {requestStatus === "Accepted" && (
