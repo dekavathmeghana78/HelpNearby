@@ -559,21 +559,22 @@ const findMedicine = () => {
 
                   key={service.title}
 
-                 onClick={() =>
-  service.title === "Blood Assistance"
-    ? setPage("blood")
-    : service.title === "Medicine"
-    ? setPage("medicine")
-    : service.title === "Medical Equipment"
-    ? setPage("equipment")
-    :service.title === "Hospitals & Clinics"
-    ? setPage("hospital")
-     :service.title === "Diagnostics"
-    ? setPage("diagnostics")
-    : alert(
-        service.title + " module coming next!"
-      )
-}
+                 
+                  onClick={() =>
+                    service.title === "Blood Assistance"
+                      ? setPage("blood")
+                      : service.title === "Medicine"
+                      ? setPage("medicine")
+                      : service.title === "Medical Equipment"
+                      ? setPage("equipment")
+                      : service.title === "Hospitals & Clinics"
+                      ? setPage("hospital")
+                      : service.title === "Diagnostics"
+                      ? setPage("diagnostics")
+                      : service.title === "Volunteers"
+                      ? setPage("volunteers")
+                      : alert(service.title + " module coming next!")
+                  }
                 >
 
 
