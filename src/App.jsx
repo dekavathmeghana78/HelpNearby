@@ -2,10 +2,47 @@ import { useState } from "react";
 
 import "./App.css";
 
-
-
-
+const translations = {
+  English: {
+    home: "Home",
+    blood: "Blood Assistance",
+    medicine: "Medicine",
+    equipment: "Medical Equipment",
+    hospitals: "Hospitals & Clinics",
+    diagnostics: "Diagnostics",
+    send: "Send Assistance Request",
+    waiting: "Waiting for Response",
+    accept: "Accept Request",
+    reject: "Reject Request"
+  },
+  Telugu: {
+    home: "హోమ్",
+    blood: "రక్త సహాయం",
+    medicine: "మందులు",
+    equipment: "వైద్య పరికరాలు",
+    hospitals: "ఆసుపత్రులు & క్లినిక్‌లు",
+    diagnostics: "డయాగ్నస్టిక్స్",
+    send: "సహాయం కోసం అభ్యర్థన పంపండి",
+    waiting: "సమాధానం కోసం వేచి ఉంది",
+    accept: "అభ్యర్థనను అంగీకరించండి",
+    reject: "అభ్యర్థనను తిరస్కరించండి"
+  },
+  Hindi: {
+    home: "होम",
+    blood: "रक्त सहायता",
+    medicine: "दवाइयाँ",
+    equipment: "चिकित्सा उपकरण",
+    hospitals: "अस्पताल और क्लीनिक",
+    diagnostics: "डायग्नोस्टिक्स",
+    send: "सहायता अनुरोध भेजें",
+    waiting: "जवाब की प्रतीक्षा है",
+    accept: "अनुरोध स्वीकार करें",
+    reject: "अनुरोध अस्वीकार करें"
+  }
+};
 function App() {
+  const [language, setLanguage] = useState("English");
+const t = (key) => translations[language][key] || key;
   
   const [volunteerCategory, setVolunteerCategory] = useState("Any Help");
   const [volunteerLocation, setVolunteerLocation] = useState("");
@@ -401,61 +438,41 @@ const findMedicine = () => {
   if (page === "home") {
 
     return (
-
       <div className="app">
-
-
-
         <header className="navbar">
+          
+<div className="location">
+  📍 Your Location
+</div>
 
-
+<select
+  value={language}
+  onChange={(e) => setLanguage(e.target.value)}
+  aria-label="Choose language"
+>
+  <option value="English">English</option>
+  <option value="Telugu">తెలుగు</option>
+  <option value="Hindi">हिन्दी</option>
+</select>
+</header>
 
           <div className="logo">
-
             <span>✚</span>
-
             HelpNearby
-
           </div>
-
-
-
           <div className="location">
-
             📍 Your Location
-
           </div>
-
-
-
         </header>
-
-
-
         <main>
-
-
-
           <section className="hero">
-
-
-
             <p className="tagline">
-
               MEDICAL ASSISTANCE, NEARBY
-
             </p>
-
-
-
             <h1>
-
               Find the right help,
-
               <br />
-
               <span>when you need it.</span>
-
             </h1>
 
 
