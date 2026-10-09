@@ -2350,23 +2350,7 @@ if (page === "equipment-dashboard") {
           </div>
 
           <div className="button-group">
-            <button
-              className="primary-button"
-              onClick={() => {
-                alert("Equipment request accepted successfully!");
-              }}
-            >
-              ✅ Accept Request
-            </button>
-
-            <button
-              className="back-button"
-              onClick={() => {
-                alert("Equipment request rejected.");
-              }}
-            >
-              ❌ Reject Request
-            </button>
+          
           </div>
         </div>
       </main>
