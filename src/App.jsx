@@ -3,8 +3,14 @@ import { useState } from "react";
 import "./App.css";
 
 const translations = {
+  
+const translations = {
   English: {
     home: "Home",
+    tagline: "MEDICAL ASSISTANCE, NEARBY",
+    heading: "Find the right help,",
+    subtitle: "right when you need it.",
+    location: "Your Location",
     blood: "Blood Assistance",
     medicine: "Medicine",
     equipment: "Medical Equipment",
@@ -13,33 +19,48 @@ const translations = {
     send: "Send Assistance Request",
     waiting: "Waiting for Response",
     accept: "Accept Request",
-    reject: "Reject Request"
+    reject: "Reject Request",
+    search: "Search nearby help...",
+    chooseLanguage: "Choose language"
   },
   Telugu: {
     home: "హోమ్",
+    tagline: "వైద్య సహాయం, మీ సమీపంలో",
+    heading: "సరైన సహాయాన్ని కనుగొనండి,",
+    subtitle: "మీకు అవసరమైన సమయంలో.",
+    location: "మీ స్థానం",
     blood: "రక్త సహాయం",
     medicine: "మందులు",
     equipment: "వైద్య పరికరాలు",
     hospitals: "ఆసుపత్రులు & క్లినిక్‌లు",
-    diagnostics: "డయాగ్నస్టిక్స్",
+    diagnostics: "నిర్ధారణ పరీక్షలు",
     send: "సహాయం కోసం అభ్యర్థన పంపండి",
     waiting: "సమాధానం కోసం వేచి ఉంది",
     accept: "అభ్యర్థనను అంగీకరించండి",
-    reject: "అభ్యర్థనను తిరస్కరించండి"
+    reject: "అభ్యర్థనను తిరస్కరించండి",
+    search: "సమీపంలోని సహాయం కోసం వెతకండి...",
+    chooseLanguage: "భాషను ఎంచుకోండి"
   },
   Hindi: {
     home: "होम",
+    tagline: "चिकित्सा सहायता, आपके पास",
+    heading: "सही सहायता खोजें,",
+    subtitle: "जब आपको इसकी ज़रूरत हो।",
+    location: "आपकी लोकेशन",
     blood: "रक्त सहायता",
     medicine: "दवाइयाँ",
     equipment: "चिकित्सा उपकरण",
     hospitals: "अस्पताल और क्लीनिक",
-    diagnostics: "डायग्नोस्टिक्स",
+    diagnostics: "जाँच सेवाएँ",
     send: "सहायता अनुरोध भेजें",
     waiting: "जवाब की प्रतीक्षा है",
     accept: "अनुरोध स्वीकार करें",
-    reject: "अनुरोध अस्वीकार करें"
+    reject: "अनुरोध अस्वीकार करें",
+    search: "आस-पास सहायता खोजें...",
+    chooseLanguage: "भाषा चुनें"
   }
 };
+
 function App() {
   const [language, setLanguage] = useState("English");
 const t = (key) => translations[language][key] || key;
@@ -445,7 +466,7 @@ const findMedicine = () => {
             HelpNearby
           </div>
           <div className="location">
-            📍 Your Location
+            📍 {t("location")}
           </div>
            <select
     value={language}
@@ -460,18 +481,15 @@ const findMedicine = () => {
         <main>
           <section className="hero">
             <p className="tagline">
-              MEDICAL ASSISTANCE, NEARBY
+              {t("tagline")}
             </p>
             <h1>
-              Find the right help,
+              {t("heading")}
               <br />
-              <span>when you need it.</span>
+              <span>{t("subtitle")}</span>
             </h1>
             <p className="description">
-
-              HelpNearby connects you with nearby verified medical
-
-              resources, healthcare services and willing volunteers.
+              {t("description")}
             </p>
             <div className="search-box">
 
@@ -485,7 +503,7 @@ const findMedicine = () => {
 
                 type="text"
 
-                placeholder="What medical help do you need?"
+                placeholder={t("search")}
 
               />
 
