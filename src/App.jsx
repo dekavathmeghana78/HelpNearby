@@ -1,9 +1,6 @@
 import { useState } from "react";
 
-import "./App.css";
-
-const translations = {
-  
+import "./App.css";  
 const translations = {
   English: {
     home: "Home",
