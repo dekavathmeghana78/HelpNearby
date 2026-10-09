@@ -1103,3 +1103,62 @@ h5,
 h6 {
   color: #000000 !important;
 }
+
+/* ===== RESPONSIVE FIXES ===== */
+
+/* Pop-ups scroll instead of running off small screens */
+.request-modal {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Buttons in the top bar sit centered */
+.navbar .back-button {
+  margin-bottom: 0;
+}
+
+/* Dropdowns look like the text boxes */
+.request-card select {
+  width: 100%;
+  padding: 14px;
+  border: 1px solid #d9e0e6;
+  border-radius: 8px;
+  font-size: 15px;
+  box-sizing: border-box;
+}
+
+.dashboard-actions {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .navbar {
+    height: auto;
+    min-height: 64px;
+    padding: 10px 5%;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .logo { font-size: 21px; }
+  .hero h1 { font-size: 30px; }
+
+  .request-page,
+  .results-page { padding: 24px 5%; }
+
+  .request-container { padding: 24px 18px; }
+  .request-modal { padding: 24px 18px; }
+
+  .page-header h1,
+  .results-header h1,
+  .request-header h1 { font-size: 26px; }
+
+  .dashboard-page { padding: 24px 5% 60px; }
+  .dashboard-header h1 { font-size: 28px; }
+  .dashboard-card { padding: 20px; }
+  .service-page { padding: 16px 5%; }
+  .request-summary { gap: 12px; }
+
+  .connect-button,
+  .primary-button { min-height: 44px; }
+}

@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "./firebase";
+import { collection, addDoc, serverTimestamp, onSnapshot, doc, updateDoc, query, where } from "firebase/firestore";
 
 import "./App.css";  
 const translations = {
@@ -101,7 +103,7 @@ const t = (key) => translations[language][key] || key;
   const [registeredVolunteers, setRegisteredVolunteers] = useState([]);
   const [volunteerRequests, setVolunteerRequests] = useState({});
 
-  const [page, setPage] = useState("home");
+  const [page, setPage] = useState(window.location.hash === "#owner" ? "owner" : "home");
 
 
   // Blood request details
@@ -146,6 +148,7 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
   const [requestSent, setRequestSent] = useState(false);
 
   const [requestStatus, setRequestStatus] = useState("");
+  const [requestId, setRequestId] = useState(null);
 
 
 
@@ -475,7 +478,146 @@ const findMedicine = () => {
 
 
 
-  // HOME PAGE
+  // ---- PROVIDER PAGE + LIVE STATUS (Firebase) ----
+  const [ownerCode, setOwnerCode] = useState("");
+  const [ownerUnlocked, setOwnerUnlocked] = useState(false);
+  const [ownerRequests, setOwnerRequests] = useState([]);
+  const [liveStatus, setLiveStatus] = useState("Pending");
+
+  // Patient side: watch the status of the request just sent
+  useEffect(() => {
+    if (!requestId) return;
+    const unsubscribe = onSnapshot(doc(db, "requests", requestId), (snap) => {
+      if (snap.exists()) setLiveStatus(snap.data().status);
+    });
+    return () => unsubscribe();
+  }, [requestId]);
+
+  // Provider side: watch all medicine requests once unlocked
+  useEffect(() => {
+    if (!ownerUnlocked) return;
+    const q = query(collection(db, "requests"), where("service", "==", "medicine"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const list = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+      list.sort((a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0));
+      setOwnerRequests(list);
+    });
+    return () => unsubscribe();
+  }, [ownerUnlocked]);
+
+  async function updateRequestStatus(id, newStatus) {
+    try {
+      await updateDoc(doc(db, "requests", id), { status: newStatus });
+    } catch (error) {
+      console.error(error);
+      alert("Could not update the request. Please try again.");
+    }
+  }
+
+  // PROVIDER PAGE
+  if (page === "owner") {
+    return (
+      <div className="app">
+        <header className="navbar">
+          <div className="logo">HelpNearby</div>
+          <button className="back-button" onClick={() => setPage("home")}>
+            ← Home
+          </button>
+        </header>
+
+        <main className="container">
+          <div className="page-header">
+            <h1>🏪 Provider Page</h1>
+            <p>Review incoming medicine requests and respond.</p>
+          </div>
+
+          {!ownerUnlocked ? (
+            <div className="request-card">
+              <h2>Enter Provider Code</h2>
+              <label>Provider code</label>
+              <input
+                type="password"
+                placeholder="Enter code"
+                value={ownerCode}
+                onChange={(e) => setOwnerCode(e.target.value)}
+              />
+              <button
+                className="primary-button"
+                onClick={() => {
+                  if (ownerCode === "helpnearby-demo") {
+                    setOwnerUnlocked(true);
+                  } else {
+                    alert("Wrong code.");
+                  }
+                }}
+              >
+                Open Provider Page
+              </button>
+            </div>
+          ) : (
+            <div className="matches-list">
+              <div className="match-count">{ownerRequests.length} Requests</div>
+
+              {ownerRequests.length === 0 && (
+                <div className="no-results">
+                  <h2>No requests yet</h2>
+                  <p>New requests appear here automatically.</p>
+                </div>
+              )}
+
+              {ownerRequests.map((req) => (
+                <div className="match-card" key={req.id}>
+                  <div className="match-card-header">
+                    <div>
+                      <h2>💊 {req.medicineName} × {req.quantity}</h2>
+                      <p>Sent to: {req.providerName}</p>
+                    </div>
+                    <span className="verified-badge">
+                      {req.status === "Accepted"
+                        ? "🟢 Accepted"
+                        : req.status === "Rejected"
+                        ? "🔴 Rejected"
+                        : "🟡 Pending"}
+                    </span>
+                  </div>
+
+                  <div className="match-details">
+                    <span>👤 {req.patientName}</span>
+                    <span>📞 {req.contactNumber}</span>
+                    <span>📍 {req.location}</span>
+                  </div>
+
+                  <div className="dashboard-actions">
+                    <button
+                      className="accept-button"
+                      onClick={() => updateRequestStatus(req.id, "Accepted")}
+                    >
+                      ✓ Accept
+                    </button>
+                    <button
+                      className="reject-button"
+                      onClick={() => updateRequestStatus(req.id, "Rejected")}
+                    >
+                      ✕ Reject
+                    </button>
+                    <button
+                      className="accept-button"
+                      style={{ background: "#64748b" }}
+                      onClick={() => updateRequestStatus(req.id, "Pending")}
+                    >
+                      ⏳ Keep Pending
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </main>
+      </div>
+    );
+  }
+
+  // HOME PAGE
 
   if (page === "home") {
 
@@ -1021,15 +1163,31 @@ if (page === "medicine-results") {
 
           <button
             className="send-request-button"
-            onClick={() => {
+            onClick={async () => {
               if (!patientName || !contactNumber) {
-                alert(
-                  "Please enter patient name and contact number."
-                );
+                alert("Please enter patient name and contact number.");
                 return;
               }
 
-              setRequestSent(true);
+              try {
+                const ref = await addDoc(collection(db, "requests"), {
+                  service: "medicine",
+                  providerName: selectedResource.name,
+                  patientName: patientName,
+                  contactNumber: contactNumber,
+                  medicineName: medicineName,
+                  quantity: medicineQuantity,
+                  location: medicineLocation,
+                  status: "Pending",
+                  createdAt: serverTimestamp(),
+                });
+                setLiveStatus("Pending");
+                setRequestId(ref.id);
+                setRequestSent(true);
+              } catch (error) {
+                console.error(error);
+                alert("Sorry, the request could not be sent. Please try again.");
+              }
             }}
           >
             Send Medicine Request
@@ -1055,26 +1213,27 @@ if (page === "medicine-results") {
           </strong>
 
           <div className="status-box">
-
-            🟡{" "}
+            {liveStatus === "Accepted" ? "🟢" : liveStatus === "Rejected" ? "🔴" : "🟡"}{" "}
             <strong>
-              Waiting for Response
+              {liveStatus === "Accepted"
+                ? "Request Accepted"
+                : liveStatus === "Rejected"
+                ? "Request Rejected"
+                : "Waiting for Response"}
             </strong>
-
             <br />
-
             <small>
-              The pharmacy/resource can now review
-              your medicine request.
+              {liveStatus === "Pending"
+                ? "The pharmacy can now review your request. This updates automatically."
+                : "The pharmacy has responded. Please contact them directly to confirm availability."}
             </small>
-
           </div>
 
           <button
             className="send-request-button"
             onClick={() => {
               setRequestSent(false);
-              setPage("medicine-dashboard");
+              setSelectedResource(null);
             }}
           >
             Continue
