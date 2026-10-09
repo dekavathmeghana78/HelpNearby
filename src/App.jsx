@@ -3449,6 +3449,37 @@ if (page === "volunteer-register") {
         </div>
 
 
+onClick={async () => {
+  if (!patientName || !contactNumber) {
+    alert("Please enter patient name and contact number.");
+    return;
+  }
+
+  try {
+    const docRef = await addDoc(
+      collection(db, "bloodRequests"),
+      {
+        patientName,
+        contactNumber,
+        bloodGroup,
+        units,
+        urgency,
+        location,
+        resourceName: selectedResource?.name || "",
+        status: "Waiting for Response",
+        createdAt: serverTimestamp()
+      }
+    );
+
+    setRequestStatus("Waiting for Response");
+    setRequestSent(true);
+    console.log("Saved request ID:", docRef.id);
+  } catch (error) {
+    console.error("Could not save request:", error);
+    alert("Request could not be saved. Check Firebase rules and console.");
+  }
+}}
+
 
       </header>
 
