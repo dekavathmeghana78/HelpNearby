@@ -1076,3 +1076,21 @@ footer {
 .service-heading p {
   color: #64748b;
 }
+
+input,
+textarea,
+select {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #666666 !important;
+  opacity: 1;
+}
+
+select option {
+  color: #000000;
+  background-color: #ffffff;
+}
