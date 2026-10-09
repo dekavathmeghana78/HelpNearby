@@ -1,20 +1,7 @@
 import { useState } from "react";
 
 import "./App.css";
-import { db,auth } from "./firebase";
-import {
-  collection,
-  addDoc,
-  onSnapshot,
-  doc,
-  updateDoc,
-  serverTimestamp
-} from "firebase/firestore";
-import {
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged
-} from "firebase/auth";
+
 
 
 
