@@ -440,22 +440,6 @@ const findMedicine = () => {
     return (
       <div className="app">
         <header className="navbar">
-          
-<div className="location">
-  📍 Your Location
-</div>
-
-<select
-  value={language}
-  onChange={(e) => setLanguage(e.target.value)}
-  aria-label="Choose language"
->
-  <option value="English">English</option>
-  <option value="Telugu">తెలుగు</option>
-  <option value="Hindi">हिन्दी</option>
-</select>
-</header>
-
           <div className="logo">
             <span>✚</span>
             HelpNearby
@@ -463,7 +447,16 @@ const findMedicine = () => {
           <div className="location">
             📍 Your Location
           </div>
-        </header>
+           <select
+    value={language}
+    onChange={(e) => setLanguage(e.target.value)}
+    aria-label="Choose language"
+  >
+    <option value="English">English</option>
+    <option value="Telugu">తెలుగు</option>
+    <option value="Hindi">हिन्दी</option>
+  </select>
+</header>
         <main>
           <section className="hero">
             <p className="tagline">
@@ -474,19 +467,12 @@ const findMedicine = () => {
               <br />
               <span>when you need it.</span>
             </h1>
-
-
-
             <p className="description">
 
               HelpNearby connects you with nearby verified medical
 
               resources, healthcare services and willing volunteers.
-
             </p>
-
-
-
             <div className="search-box">
 
 
