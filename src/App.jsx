@@ -19,6 +19,16 @@ const translations = {
     reject: "Reject Request",
     search: "Search nearby help...",
     chooseLanguage: "Choose language"
+    serviceTitle: "What do you need help with?",
+serviceSubtitle: "Select a service to get started",
+bloodDesc: "Find blood banks and donor support",
+medicineDesc: "Find nearby medicine availability",
+equipmentDesc: "Find or request equipment",
+hospitalDesc: "Find nearby healthcare facilities",
+diagnosticsDesc: "Find nearby diagnostic services",
+volunteerTitle: "Volunteers",
+volunteerDesc: "Connect with people willing to help",
+findHelp: "Find Help"
   },
   Telugu: {
     home: "హోమ్",
@@ -37,6 +47,16 @@ const translations = {
     reject: "అభ్యర్థనను తిరస్కరించండి",
     search: "సమీపంలోని సహాయం కోసం వెతకండి...",
     chooseLanguage: "భాషను ఎంచుకోండి"
+    serviceTitle: "మీకు ఏ సహాయం కావాలి?",
+serviceSubtitle: "ప్రారంభించడానికి ఒక సేవను ఎంచుకోండి",
+bloodDesc: "రక్త బ్యాంకులు మరియు రక్తదాతల సహాయం కనుగొనండి",
+medicineDesc: "సమీపంలో మందుల లభ్యతను కనుగొనండి",
+equipmentDesc: "వైద్య పరికరాలను కనుగొనండి లేదా అభ్యర్థించండి",
+hospitalDesc: "సమీపంలోని ఆసుపత్రులను కనుగొనండి",
+diagnosticsDesc: "సమీపంలోని నిర్ధారణ పరీక్షల సేవలను కనుగొనండి",
+volunteerTitle: "స్వచ్ఛంద సేవకులు",
+volunteerDesc: "సహాయం చేయడానికి సిద్ధంగా ఉన్న వ్యక్తులతో కలవండి",
+findHelp: "సహాయం పొందండి"
   },
   Hindi: {
     home: "होम",
@@ -55,6 +75,16 @@ const translations = {
     reject: "अनुरोध अस्वीकार करें",
     search: "आस-पास सहायता खोजें...",
     chooseLanguage: "भाषा चुनें"
+    serviceTitle: "आपको किस चीज़ में मदद चाहिए?",
+serviceSubtitle: "शुरू करने के लिए एक सेवा चुनें",
+bloodDesc: "ब्लड बैंक और रक्तदाता सहायता खोजें",
+medicineDesc: "आस-पास दवाओं की उपलब्धता खोजें",
+equipmentDesc: "चिकित्सा उपकरण खोजें या अनुरोध करें",
+hospitalDesc: "आस-पास के अस्पताल खोजें",
+diagnosticsDesc: "आस-पास जाँच सेवाएँ खोजें",
+volunteerTitle: "स्वयंसेवक",
+volunteerDesc: "मदद करने के इच्छुक लोगों से जुड़ें",
+findHelp: "मदद पाएँ"
   }
 };
 
@@ -127,29 +157,25 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🩸",
 
-      title: "Blood Assistance",
-
-      text: "Find blood banks and donor support",
-
+title: t("blood"),
+text: t("bloodDesc"),
     },
 
     {
 
       icon: "💊",
 
-      title: "Medicine",
-
-      text: "Find nearby medicine availability",
-
+      title: t("medicine"),
+text: t("medicineDesc"),
     },
 
     {
 
       icon: "🦽",
 
-      title: "Medical Equipment",
+      title: t("equipment"),
 
-      text: "Find or request equipment",
+      text: t("equipmentDesc"),
 
     },
 
@@ -157,19 +183,17 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🏥",
 
-      title: "Hospitals & Clinics",
-
-      text: "Find nearby healthcare facilities",
-
+      title: t("hospitals"),
+      text: t("hospitalDesc"),
     },
 
     {
 
       icon: "🔬",
 
-      title: "Diagnostics",
+      title: t("diagnostics"),
 
-      text: "Find nearby diagnostic services",
+      text: t("diagnosticsDesc"),
 
     },
 
@@ -177,9 +201,9 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🤝",
 
-      title: "Volunteers",
+      title: t("volunteerTitle"),
 
-      text: "Connect with people willing to help",
+      text:t("volunteerDesc"),
 
     },
 
@@ -532,7 +556,7 @@ const findMedicine = () => {
 
               <h2>
 
-                What do you need help with?
+                {t("serviceTitle")}
 
               </h2>
 
@@ -540,8 +564,7 @@ const findMedicine = () => {
 
               <p>
 
-                Select a service to get started
-
+{t("serviceSubtitle")}
               </p>
 
 
@@ -610,7 +633,7 @@ const findMedicine = () => {
 
                   <button className="view-button">
 
-                    Find Help →
+{t("findHelp")} →
 
                   </button>
 
