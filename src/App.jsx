@@ -28,7 +28,7 @@ hospitalDesc: "Find nearby healthcare facilities",
 diagnosticsDesc: "Find nearby diagnostic services",
 volunteerTitle: "Volunteers",
 volunteerDesc: "Connect with people willing to help",
-findHelp: "Find Help"
+findHelp: "Find Help",
   },
   Telugu: {
     home: "హోమ్",
@@ -56,7 +56,7 @@ hospitalDesc: "సమీపంలోని ఆసుపత్రులను క
 diagnosticsDesc: "సమీపంలోని నిర్ధారణ పరీక్షల సేవలను కనుగొనండి",
 volunteerTitle: "స్వచ్ఛంద సేవకులు",
 volunteerDesc: "సహాయం చేయడానికి సిద్ధంగా ఉన్న వ్యక్తులతో కలవండి",
-findHelp: "సహాయం పొందండి"
+findHelp: "సహాయం పొందండి",  
   },
   Hindi: {
     home: "होम",
@@ -74,7 +74,7 @@ findHelp: "సహాయం పొందండి"
     accept: "अनुरोध स्वीकार करें",
     reject: "अनुरोध अस्वीकार करें",
     search: "आस-पास सहायता खोजें...",
-    chooseLanguage: "भाषा चुनें"
+    chooseLanguage: "भाषा चुनें",
     serviceTitle: "आपको किस चीज़ में मदद चाहिए?",
 serviceSubtitle: "शुरू करने के लिए एक सेवा चुनें",
 bloodDesc: "ब्लड बैंक और रक्तदाता सहायता खोजें",
@@ -84,7 +84,7 @@ hospitalDesc: "आस-पास के अस्पताल खोजें",
 diagnosticsDesc: "आस-पास जाँच सेवाएँ खोजें",
 volunteerTitle: "स्वयंसेवक",
 volunteerDesc: "मदद करने के इच्छुक लोगों से जुड़ें",
-findHelp: "मदद पाएँ"
+findHelp: "मदद पाएँ",
   }
 };
 
