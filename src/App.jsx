@@ -18,7 +18,7 @@ const translations = {
     accept: "Accept Request",
     reject: "Reject Request",
     search: "Search nearby help...",
-    chooseLanguage: "Choose language"
+    chooseLanguage: "Choose language",
     serviceTitle: "What do you need help with?",
 serviceSubtitle: "Select a service to get started",
 bloodDesc: "Find blood banks and donor support",
