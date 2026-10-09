@@ -19,6 +19,15 @@ import {
 
 
 function App() {
+  
+  const [volunteerCategory, setVolunteerCategory] = useState("Any Help");
+  const [volunteerLocation, setVolunteerLocation] = useState("");
+  const [volunteerName, setVolunteerName] = useState("");
+  const [volunteerPhone, setVolunteerPhone] = useState("");
+  const [volunteerSkills, setVolunteerSkills] = useState("");
+  const [volunteerAvailability, setVolunteerAvailability] = useState("Available");
+  const [registeredVolunteers, setRegisteredVolunteers] = useState([]);
+  const [volunteerRequests, setVolunteerRequests] = useState({});
 
   const [page, setPage] = useState("home");
 
@@ -3120,6 +3129,284 @@ if (page === "equipment-dashboard") {
     );
 
   }
+  
+if (page === "volunteers") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo" onClick={() => setPage("home")}>
+          <span>✚</span> HelpNearby
+        </div>
+      </header>
+
+      <main className="service-page">
+        <button className="back-button" onClick={() => setPage("home")}>
+          ← Back to Home
+        </button>
+
+        <div className="service-heading">
+          <h1>Volunteer Support 🤝</h1>
+          <p>Find people willing to help or join our volunteer community.</p>
+        </div>
+
+        <div className="dashboard-card volunteer-form">
+          <h2>Find Volunteers</h2>
+
+          <label>Type of Help Needed</label>
+          <select
+            value={volunteerCategory}
+            onChange={(e) => setVolunteerCategory(e.target.value)}
+          >
+            <option>Any Help</option>
+            <option>Hospital Support</option>
+            <option>Medical Transport</option>
+            <option>Medicine Pickup</option>
+          </select>
+
+          <label>Your Location</label>
+          <input
+            value={volunteerLocation}
+            onChange={(e) => setVolunteerLocation(e.target.value)}
+            placeholder="Enter your area"
+          />
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (!volunteerLocation.trim()) {
+                alert("Please enter your location.");
+                return;
+              }
+              setPage("volunteer-results");
+            }}
+          >
+            Find Volunteers
+          </button>
+
+          <button
+            className="volunteer-secondary-button"
+            onClick={() => setPage("volunteer-register")}
+          >
+            + Become a Volunteer
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
+  
+if (page === "volunteer-results") {
+  const matchingVolunteers = registeredVolunteers.filter((volunteer) => {
+    const categoryMatches =
+      volunteerCategory === "Any Help" ||
+      volunteer.category === volunteerCategory ||
+      volunteer.category === "Any Help";
+
+    const locationMatches = volunteer.location
+      .toLowerCase()
+      .includes(volunteerLocation.trim().toLowerCase());
+
+    return categoryMatches && locationMatches;
+  });
+
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo" onClick={() => setPage("home")}>
+          <span>✚</span> HelpNearby
+        </div>
+      </header>
+
+      <main className="results-page">
+        <button
+          className="back-button"
+          onClick={() => setPage("volunteers")}
+        >
+          ← Modify Search
+        </button>
+
+        <div className="results-header">
+          <div>
+            <h1>Nearby Volunteers</h1>
+            <p>Volunteers matching your search.</p>
+          </div>
+          <div className="match-count">
+            {matchingVolunteers.length} Matches
+          </div>
+        </div>
+
+        <div className="results-list">
+          {matchingVolunteers.length > 0 ? (
+            matchingVolunteers.map((volunteer) => (
+              <div className="result-card" key={volunteer.id}>
+                <div className="result-icon">🤝</div>
+
+                <div className="result-info">
+                  <h2>{volunteer.name}</h2>
+                  <p>{volunteer.category}</p>
+                  <p>📍 {volunteer.location}</p>
+                  <p>{volunteer.skills}</p>
+                  <span className="available">
+                    {volunteer.availability === "Currently Unavailable"
+                      ? "⚪ Currently Unavailable"
+                      : `🟢 ${volunteer.availability}`}
+                  </span>
+                </div>
+
+                <button
+                  className="connect-button"
+                  disabled={
+                    volunteer.availability === "Currently Unavailable" ||
+                    Boolean(volunteerRequests[volunteer.id])
+                  }
+                  onClick={() => {
+                    setVolunteerRequests((previous) => ({
+                      ...previous,
+                      [volunteer.id]: "Request Sent",
+                    }));
+                  }}
+                >
+                  {volunteerRequests[volunteer.id] || "Request Help"}
+                </button>
+              </div>
+            ))
+          ) : (
+            <div className="no-results">
+              <h2>No matching volunteers found</h2>
+              <p>Try another location or select Any Help.</p>
+              <button
+                className="send-request-button"
+                onClick={() => setPage("volunteer-register")}
+              >
+                Become a Volunteer
+              </button>
+            </div>
+          )}
+        </div>
+      </main>
+    </div>
+  );
+}
+  
+if (page === "volunteer-register") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo" onClick={() => setPage("home")}>
+          <span>✚</span> HelpNearby
+        </div>
+      </header>
+
+      <main className="service-page">
+        <button
+          className="back-button"
+          onClick={() => setPage("volunteers")}
+        >
+          ← Back
+        </button>
+
+        <div className="dashboard-card volunteer-form">
+          <h1>Become a Volunteer 🤝</h1>
+          <p>Register to help people in your community.</p>
+
+          <label>Full Name</label>
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={volunteerName}
+            onChange={(e) => setVolunteerName(e.target.value)}
+          />
+
+          <label>Contact Number</label>
+          <input
+            type="tel"
+            placeholder="10-digit mobile number"
+            value={volunteerPhone}
+            onChange={(e) => setVolunteerPhone(e.target.value)}
+          />
+
+          <label>Location</label>
+          <input
+            type="text"
+            placeholder="e.g. Ameerpet, Hyderabad"
+            value={volunteerLocation}
+            onChange={(e) => setVolunteerLocation(e.target.value)}
+          />
+
+          <label>Type of Help</label>
+          <select
+            value={volunteerCategory}
+            onChange={(e) => setVolunteerCategory(e.target.value)}
+          >
+            <option>Any Help</option>
+            <option>Hospital Support</option>
+            <option>Medical Transport</option>
+            <option>Medicine Pickup</option>
+          </select>
+
+          <label>Skills or Additional Details</label>
+          <textarea
+            placeholder="Describe how you can help"
+            value={volunteerSkills}
+            onChange={(e) => setVolunteerSkills(e.target.value)}
+          />
+
+          <label>Availability</label>
+          <select
+            value={volunteerAvailability}
+            onChange={(e) => setVolunteerAvailability(e.target.value)}
+          >
+            <option>Available</option>
+            <option>Available on Weekends</option>
+            <option>Currently Unavailable</option>
+          </select>
+
+          <button
+            className="send-request-button"
+            onClick={() => {
+              if (
+                !volunteerName.trim() ||
+                !volunteerPhone.trim() ||
+                !volunteerLocation.trim()
+              ) {
+                alert("Please fill in your name, phone number and location.");
+                return;
+              }
+
+              if (!/^[0-9]{10}$/.test(volunteerPhone.trim())) {
+                alert("Enter a valid 10-digit mobile number.");
+                return;
+              }
+
+              setRegisteredVolunteers((previous) => [
+                ...previous,
+                {
+                  id: Date.now(),
+                  name: volunteerName.trim(),
+                  phone: volunteerPhone.trim(),
+                  location: volunteerLocation.trim(),
+                  category: volunteerCategory,
+                  skills: volunteerSkills.trim() || "General assistance",
+                  availability: volunteerAvailability,
+                },
+              ]);
+
+              alert("Volunteer registered successfully!");
+
+              setVolunteerName("");
+              setVolunteerPhone("");
+              setVolunteerSkills("");
+              setVolunteerAvailability("Available");
+              setPage("volunteers");
+            }}
+          >
+            Register as Volunteer
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
 
 
 
