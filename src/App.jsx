@@ -1,10 +1,13 @@
 import { useState } from "react";
 
-import "./App.css";
-
+import "./App.css";  
 const translations = {
   English: {
     home: "Home",
+    tagline: "MEDICAL ASSISTANCE, NEARBY",
+    heading: "Find the right help,",
+    subtitle: "right when you need it.",
+    location: "Your Location",
     blood: "Blood Assistance",
     medicine: "Medicine",
     equipment: "Medical Equipment",
@@ -13,33 +16,78 @@ const translations = {
     send: "Send Assistance Request",
     waiting: "Waiting for Response",
     accept: "Accept Request",
-    reject: "Reject Request"
+    reject: "Reject Request",
+    search: "Search nearby help...",
+    chooseLanguage: "Choose language",
+    serviceTitle: "What do you need help with?",
+serviceSubtitle: "Select a service to get started",
+bloodDesc: "Find blood banks and donor support",
+medicineDesc: "Find nearby medicine availability",
+equipmentDesc: "Find or request equipment",
+hospitalDesc: "Find nearby healthcare facilities",
+diagnosticsDesc: "Find nearby diagnostic services",
+volunteerTitle: "Volunteers",
+volunteerDesc: "Connect with people willing to help",
+findHelp: "Find Help"
   },
   Telugu: {
     home: "హోమ్",
+    tagline: "వైద్య సహాయం, మీ సమీపంలో",
+    heading: "సరైన సహాయాన్ని కనుగొనండి,",
+    subtitle: "మీకు అవసరమైన సమయంలో.",
+    location: "మీ స్థానం",
     blood: "రక్త సహాయం",
     medicine: "మందులు",
     equipment: "వైద్య పరికరాలు",
     hospitals: "ఆసుపత్రులు & క్లినిక్‌లు",
-    diagnostics: "డయాగ్నస్టిక్స్",
+    diagnostics: "నిర్ధారణ పరీక్షలు",
     send: "సహాయం కోసం అభ్యర్థన పంపండి",
     waiting: "సమాధానం కోసం వేచి ఉంది",
     accept: "అభ్యర్థనను అంగీకరించండి",
-    reject: "అభ్యర్థనను తిరస్కరించండి"
+    reject: "అభ్యర్థనను తిరస్కరించండి",
+    search: "సమీపంలోని సహాయం కోసం వెతకండి...",
+    chooseLanguage: "భాషను ఎంచుకోండి"
+    serviceTitle: "మీకు ఏ సహాయం కావాలి?",
+serviceSubtitle: "ప్రారంభించడానికి ఒక సేవను ఎంచుకోండి",
+bloodDesc: "రక్త బ్యాంకులు మరియు రక్తదాతల సహాయం కనుగొనండి",
+medicineDesc: "సమీపంలో మందుల లభ్యతను కనుగొనండి",
+equipmentDesc: "వైద్య పరికరాలను కనుగొనండి లేదా అభ్యర్థించండి",
+hospitalDesc: "సమీపంలోని ఆసుపత్రులను కనుగొనండి",
+diagnosticsDesc: "సమీపంలోని నిర్ధారణ పరీక్షల సేవలను కనుగొనండి",
+volunteerTitle: "స్వచ్ఛంద సేవకులు",
+volunteerDesc: "సహాయం చేయడానికి సిద్ధంగా ఉన్న వ్యక్తులతో కలవండి",
+findHelp: "సహాయం పొందండి"
   },
   Hindi: {
     home: "होम",
+    tagline: "चिकित्सा सहायता, आपके पास",
+    heading: "सही सहायता खोजें,",
+    subtitle: "जब आपको इसकी ज़रूरत हो।",
+    location: "आपकी लोकेशन",
     blood: "रक्त सहायता",
     medicine: "दवाइयाँ",
     equipment: "चिकित्सा उपकरण",
     hospitals: "अस्पताल और क्लीनिक",
-    diagnostics: "डायग्नोस्टिक्स",
+    diagnostics: "जाँच सेवाएँ",
     send: "सहायता अनुरोध भेजें",
     waiting: "जवाब की प्रतीक्षा है",
     accept: "अनुरोध स्वीकार करें",
-    reject: "अनुरोध अस्वीकार करें"
+    reject: "अनुरोध अस्वीकार करें",
+    search: "आस-पास सहायता खोजें...",
+    chooseLanguage: "भाषा चुनें"
+    serviceTitle: "आपको किस चीज़ में मदद चाहिए?",
+serviceSubtitle: "शुरू करने के लिए एक सेवा चुनें",
+bloodDesc: "ब्लड बैंक और रक्तदाता सहायता खोजें",
+medicineDesc: "आस-पास दवाओं की उपलब्धता खोजें",
+equipmentDesc: "चिकित्सा उपकरण खोजें या अनुरोध करें",
+hospitalDesc: "आस-पास के अस्पताल खोजें",
+diagnosticsDesc: "आस-पास जाँच सेवाएँ खोजें",
+volunteerTitle: "स्वयंसेवक",
+volunteerDesc: "मदद करने के इच्छुक लोगों से जुड़ें",
+findHelp: "मदद पाएँ"
   }
 };
+
 function App() {
   const [language, setLanguage] = useState("English");
 const t = (key) => translations[language][key] || key;
@@ -109,29 +157,25 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🩸",
 
-      title: "Blood Assistance",
-
-      text: "Find blood banks and donor support",
-
+title: t("blood"),
+text: t("bloodDesc"),
     },
 
     {
 
       icon: "💊",
 
-      title: "Medicine",
-
-      text: "Find nearby medicine availability",
-
+      title: t("medicine"),
+text: t("medicineDesc"),
     },
 
     {
 
       icon: "🦽",
 
-      title: "Medical Equipment",
+      title: t("equipment"),
 
-      text: "Find or request equipment",
+      text: t("equipmentDesc"),
 
     },
 
@@ -139,19 +183,17 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🏥",
 
-      title: "Hospitals & Clinics",
-
-      text: "Find nearby healthcare facilities",
-
+      title: t("hospitals"),
+      text: t("hospitalDesc"),
     },
 
     {
 
       icon: "🔬",
 
-      title: "Diagnostics",
+      title: t("diagnostics"),
 
-      text: "Find nearby diagnostic services",
+      text: t("diagnosticsDesc"),
 
     },
 
@@ -159,9 +201,9 @@ const [diagnosticUrgency, setDiagnosticUrgency] = useState("");
 
       icon: "🤝",
 
-      title: "Volunteers",
+      title: t("volunteerTitle"),
 
-      text: "Connect with people willing to help",
+      text:t("volunteerDesc"),
 
     },
 
@@ -445,7 +487,7 @@ const findMedicine = () => {
             HelpNearby
           </div>
           <div className="location">
-            📍 Your Location
+            📍 {t("location")}
           </div>
            <select
     value={language}
@@ -460,18 +502,15 @@ const findMedicine = () => {
         <main>
           <section className="hero">
             <p className="tagline">
-              MEDICAL ASSISTANCE, NEARBY
+              {t("tagline")}
             </p>
             <h1>
-              Find the right help,
+              {t("heading")}
               <br />
-              <span>when you need it.</span>
+              <span>{t("subtitle")}</span>
             </h1>
             <p className="description">
-
-              HelpNearby connects you with nearby verified medical
-
-              resources, healthcare services and willing volunteers.
+              {t("description")}
             </p>
             <div className="search-box">
 
@@ -485,7 +524,7 @@ const findMedicine = () => {
 
                 type="text"
 
-                placeholder="What medical help do you need?"
+                placeholder={t("search")}
 
               />
 
@@ -517,7 +556,7 @@ const findMedicine = () => {
 
               <h2>
 
-                What do you need help with?
+                {t("serviceTitle")}
 
               </h2>
 
@@ -525,8 +564,7 @@ const findMedicine = () => {
 
               <p>
 
-                Select a service to get started
-
+{t("serviceSubtitle")}
               </p>
 
 
@@ -595,7 +633,7 @@ const findMedicine = () => {
 
                   <button className="view-button">
 
-                    Find Help →
+{t("findHelp")} →
 
                   </button>
 
