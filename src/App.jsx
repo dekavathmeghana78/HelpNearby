@@ -616,7 +616,89 @@ const findMedicine = () => {
       </div>
     );
   }
+  // PROVIDER PAGE (owner panel)
+  if (page === "owner-panel") {
+    return (
+      <div className="app">
+        <header className="navbar">
+          <div className="logo">HelpNearby</div>
+          <button className="back-button" onClick={() => setPage("home")}>
+            ← Home
+          </button>
+        </header>
 
+        <main className="container">
+          <div className="page-header">
+            <h1>🏪 Provider Panel</h1>
+            <p>Review incoming medicine requests and choose an action.</p>
+          </div>
+
+          {!ownerUnlocked ? (
+            <div className="request-card">
+              <h2>Enter provider code</h2>
+              <input
+                type="password"
+                placeholder="Provider code"
+                value={ownerCode}
+                onChange={(e) => setOwnerCode(e.target.value)}
+              />
+              <button
+                className="primary-button"
+                onClick={() => {
+                  if (ownerCode === "helpnearby123") {
+                    setOwnerUnlocked(true);
+                  } else {
+                    alert("Wrong code.");
+                  }
+                }}
+              >
+                Unlock
+              </button>
+            </div>
+          ) : ownerRequests.length === 0 ? (
+            <div className="request-card">
+              <p>No requests yet.</p>
+            </div>
+          ) : (
+            ownerRequests.map((r) => (
+              <div className="request-card" key={r.id}>
+                <h2>{r.medicineName} × {r.quantity}</h2>
+                <p>👤 {r.patientName} | 📞 {r.contactNumber}</p>
+                <p>🏪 {r.providerName} | 📍 {r.location}</p>
+                <div className="status-box">
+                  Status: <strong>{r.status}</strong>
+                </div>
+                <button
+                  className="primary-button"
+                  onClick={() =>
+                    updateDoc(doc(db, "requests", r.id), { status: "Accepted" })
+                  }
+                >
+                  ✅ Accept
+                </button>
+                <button
+                  className="primary-button"
+                  onClick={() =>
+                    updateDoc(doc(db, "requests", r.id), { status: "Rejected" })
+                  }
+                >
+                  ❌ Reject
+                </button>
+                <button
+                  className="primary-button"
+                  onClick={() =>
+                    updateDoc(doc(db, "requests", r.id), { status: "Pending" })
+                  }
+                >
+                  🟡 Keep Pending
+                </button>
+              </div>
+            ))
+          )}
+        </main>
+      </div>
+    );
+  }
   // HOME PAGE
 
   if (page === "home") {
@@ -861,7 +943,7 @@ const findMedicine = () => {
 
           </p>
 
-
+<button className="back-button" onClick={() => setPage("owner-panel")}>Provider login</button>
 
         </footer>
 
