@@ -730,6 +730,134 @@ const findMedicine = () => {
     );
 
   }
+  
+if (page === "diagnostics-dashboard") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">✚ HelpNearby</div>
+        <button onClick={() => setPage("diagnostic-results")}>
+          ← Back to Results
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🔬 Diagnostics Dashboard</h1>
+          <p>Selected diagnostic centre and request details.</p>
+        </div>
+
+        <div className="request-card">
+          <h2>
+            {selectedDiagnosticResource?.name || "Diagnostic Centre"}
+          </h2>
+
+          <p>
+            🧪 Test: <strong>{diagnosticTest}</strong>
+          </p>
+          <p>
+            📍 Your location: <strong>{diagnosticLocation}</strong>
+          </p>
+          <p>
+            🚨 Urgency: <strong>{diagnosticUrgency || "Not specified"}</strong>
+          </p>
+          <p>
+            📏 Distance:{" "}
+            <strong>
+              {selectedDiagnosticResource
+                ? `${selectedDiagnosticResource.distance} km`
+                : "Not available"}
+            </strong>
+          </p>
+          <p>
+            Availability:{" "}
+            <strong>
+              {selectedDiagnosticResource?.availability || "Not confirmed"}
+            </strong>
+          </p>
+
+          <div className="status-box">
+            🟡 <strong>Request not yet confirmed</strong>
+            <p>
+              This is a prototype. Centre availability and request
+              delivery have not been verified.
+            </p>
+          </div>
+
+          <button
+            className="connect-button"
+            onClick={() => setPage("diagnostics")}
+          >
+            ← Modify Search
+          </button>
+        </div>
+      </main>
+    </div>
+  );
+}
+  
+if (page === "diagnostic-results") {
+  return (
+    <div className="app">
+      <header className="navbar">
+        <div className="logo">✚ HelpNearby</div>
+        <button onClick={() => setPage("diagnostics")}>
+          ← Back
+        </button>
+      </header>
+
+      <main className="container">
+        <div className="page-header">
+          <h1>🔬 Nearby Diagnostic Centres</h1>
+          <p>Choose a centre for your required test.</p>
+          <p>
+            Test: <strong>{diagnosticTest}</strong>
+          </p>
+          <p>
+            Location: <strong>{diagnosticLocation}</strong>
+          </p>
+        </div>
+
+        {matches.length === 0 ? (
+          <div className="request-card">
+            <h2>No matching centres found</h2>
+            <p>Try another diagnostic test.</p>
+            <button onClick={() => setPage("diagnostics")}>
+              Modify Search
+            </button>
+          </div>
+        ) : (
+          matches.map((resource) => (
+            <div className="match-card" key={resource.name}>
+              <div className="match-card-header">
+                <h2>{resource.name}</h2>
+                {resource.verified && (
+                  <span className="verified-badge">
+                    ✓ Verified
+                  </span>
+                )}
+              </div>
+
+              <p>🧪 Tests: {resource.tests.join(", ")}</p>
+              <p>📍 {resource.distance} km away</p>
+              <p>🟢 {resource.availability}</p>
+
+              <button
+                className="connect-button"
+                onClick={() => {
+                  setSelectedDiagnosticResource(resource);
+                  setPage("diagnostics-dashboard");
+                }}
+              >
+                View Centre Dashboard →
+              </button>
+            </div>
+          ))
+        )}
+      </main>
+    </div>
+  );
+}
   // DIAGNOSTIC SERVICES PAGE
 if (page === "diagnostics") {
   return (
