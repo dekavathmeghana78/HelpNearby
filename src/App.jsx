@@ -922,61 +922,6 @@ if (page === "diagnostics") {
   );
 }
   
-if (page === "diagnostics-dashboard") {
-  return (
-    <div className="app">
-      <header className="navbar">
-        <div className="logo">✚ HelpNearby</div>
-        <button
-          className="back-button"
-          onClick={() => setPage("diagnostics-results")}
-        >
-          ← Back
-        </button>
-      </header>
-
-      <main className="container">
-        <div className="page-header">
-          <h1>🔬 Diagnostics Request Dashboard</h1>
-          <p>Review your diagnostic assistance request.</p>
-        </div>
-
-        <div className="request-card">
-          <h2>📋 Request Details</h2>
-
-          <p>
-            🧪 Test: <strong>{diagnosticTest || "Not provided"}</strong>
-          </p>
-
-          <p>
-            📍 Location:{" "}
-            <strong>{diagnosticLocation || "Not provided"}</strong>
-          </p>
-
-          <p>
-            🚨 Urgency:{" "}
-            <strong>{diagnosticUrgency || "Not specified"}</strong>
-          </p>
-
-          <div className="status-box">
-            🟡 <strong>Request Ready</strong>
-            <p>
-              These details are displayed for the prototype.
-              Diagnostic centre availability has not been verified.
-            </p>
-          </div>
-
-          <button
-            className="primary-button"
-            onClick={() => setPage("diagnostics")}
-          >
-            ← Modify Request
-          </button>
-        </div>
-      </main>
-    </div>
-  );
-}
       // MEDICINE REQUEST PAGE
 if (page === "medicine") {
   return (
