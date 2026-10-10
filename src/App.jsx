@@ -390,10 +390,15 @@ const diagnosticResources = [
 ];
   // DIAGNOSTIC MATCHING
 const findDiagnostics = () => {
+  if (!diagnosticTest.trim()) {
+    alert("Please enter a diagnostic test.");
+    return;
+  }
+
   const filtered = diagnosticResources.filter((resource) =>
     resource.tests.some(
       (test) =>
-        test.toLowerCase() === diagnosticTest.toLowerCase()
+        test.toLowerCase() === diagnosticTest.trim().toLowerCase()
     )
   );
 
@@ -908,11 +913,7 @@ if (page === "diagnostics") {
             <option value="Urgent">Urgent</option>
             <option value="Emergency">Emergency</option>
           </select>
-
-          
-<button
-  onClick={() => setPage("diagnostics-dashboard")}
->
+          <button onClick={findDiagnostics}>
   Find Nearby Diagnostics →
 </button>
         </div>
