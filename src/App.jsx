@@ -544,6 +544,7 @@ const findMedicine = () => {
 
 
             </div>
+            
 
 
 
@@ -852,13 +853,14 @@ if (page === "diagnostic-results") {
   type="button"
   className="connect-button"
   onClick={() => {
-    console.log("Diagnostic centre selected:", resource.name);
-    setSelectedDiagnosticResource(resource);
-    setPage("diagnostics-dashboard");
+    setSelectedResource(resource);
+    setRequestSent(false);
+    setPage("diagnostic-request");
   }}
 >
   View Centre Dashboard →
 </button>
+
             </div>
           ))
         )}
