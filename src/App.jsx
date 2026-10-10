@@ -847,13 +847,19 @@ if (page === "diagnostic-results") {
               <p>📍 {resource.distance} km away</p>
               <p>🟢 {resource.availability}</p>
 
-              <button
-                className="connect-button"
-                onClick={() => {
-                  setSelectedDiagnosticResource(resource);
-                  setPage("diagnostics-dashboard");
-                }}
-              >
+              
+<button
+  type="button"
+  className="connect-button"
+  onClick={() => {
+    console.log("Diagnostic centre selected:", resource.name);
+    setSelectedDiagnosticResource(resource);
+    setPage("diagnostics-dashboard");
+  }}
+>
+  View Centre Dashboard →
+</button>
+
                 View Centre Dashboard →
               </button>
             </div>
