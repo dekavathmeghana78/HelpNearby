@@ -859,9 +859,6 @@ if (page === "diagnostic-results") {
 >
   View Centre Dashboard →
 </button>
-
-                View Centre Dashboard →
-              </button>
             </div>
           ))
         )}
